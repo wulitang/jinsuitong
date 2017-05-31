@@ -84,6 +84,7 @@ body {
 .index-top {
     border-bottom: 1px solid #f0f0f0;
     background: #fff;
+    min-width: 1200px;
 }
 
 .index-banner {
@@ -277,6 +278,10 @@ body {
     font-size: 14px;
     color: #808080;
     float: right;
+    width: 80px;
+    display: block;
+    overflow: hidden;
+    height: 50px;
 }
 
 .aboout-tab .news-item.active {
@@ -605,6 +610,10 @@ body {
     color: #808080;
     font-size: 14px;
     float: right;
+    width: 75px;
+    height: 50px;
+    overflow: hidden;
+    text-align: right;
 }
 
 .page-number {

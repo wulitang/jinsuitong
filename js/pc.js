@@ -1,9 +1,4 @@
 $(function () {
-    //首页选项卡
-    $(".about-top li").hover(function () {
-            $(this).addClass("active").siblings().removeClass('active');
-            $(".aboout-tab .news-item").eq($(this).index()).addClass("active").siblings().removeClass('active');
-    });
     //下载页关闭弹窗
     $(".success span").click(function () {
         $(".windows").hide();
@@ -24,4 +19,43 @@ $(function () {
     $(".ems-way li").click(function () {
         $(this).addClass("active").siblings().removeClass('active');
     });
+    // var layer, laytpl;
+    // layui.use(['layer','laytpl'], function(){
+    //     layer = layui.layer;
+    //     laytpl = layui.laytpl;
+    // });
+    // $('#test1').on('click', function(){
+    //     layer.msg('Hello layer');
+    // });
+    // function getServerData(url,data,method){
+    //     var postData = {},ret;
+    //
+    //     method = method?method:'POST';
+    //     if(data){
+    //         postData = data;
+    //         postData['postUrl'] = 'http://192.168.0.100:8088'+url,
+    //             postData['method']  = method;
+    //     }else{
+    //         postData['postUrl'] = 'http://192.168.0.100:8088'+url,
+    //             postData['method']  = method;
+    //     }
+    //     $.ajax({
+    //         url:"http://192.168.0.102",
+    //         dataType: 'jsonp',
+    //         data:postData,
+    //         type: "post",
+    //         jsonp: 'callback',
+    //         async:false,    //或false,是否异步
+    //         timeout:5000,    //超时时间
+    //         success: function (retData) {
+    //             ret = retData;
+    //         },
+    //         error: function () {
+    //             //console.log('请求错误');
+    //         }
+    //     });
+    //     return ret;
+    // };
+    //
+
 });

@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <title>金税通主页</title>
     <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <link href="css/swiper-3.4.2.min.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/swiper-3.4.2.min.js"></script>
     <script type="text/javascript" src="js/pc.js"></script>
 </head>
 <body>
@@ -14,7 +18,7 @@
     <div class="ke-grid">
         <p class="over">欢迎光临金<em>穗通官网</em></p>
         <div class="index-right fr">
-            <a href="">登录</a>|<a href="">注册</a>
+            <a href="login.html">登录</a>|<a href="register.html">注册</a>
         </div>
     </div>
 </div>
@@ -26,13 +30,13 @@
         </div>
         <ul class="index-menu">
             <li class="active">
-                <a href="">首页</a>
+                <a href="index.html">首页</a>
             </li>
             <li>
-                <a href="">关于我们</a>
+                <a href="about.html?type=1">关于我们</a>
             </li>
             <li>
-                <a href="">新闻动态</a>
+                <a href="news.html?newType=0&pageNow=1&pageSize=10">新闻动态</a>
             </li>
             <li>
                 <a href="">下载中心</a>
@@ -50,212 +54,133 @@
         </div>
     </div>
 </div>
-<!--banner-login-->
-<div class="ke-grid index-banner clearfix">
-    <div class="banner-left">
-        <img src="img/banner.png">
-    </div>
-    <div class="index-login">
-        <div class="login-name">
-            <span>快捷登录</span>
-        </div>
-        <div class="login-form">
-            <input class="login-phone" placeholder="请输入用户名或手机号码">
-            <input class="login-pass" placeholder="请输入登录密码">
-            <p>还没有金税通账号?<a class="check-in" href="">立即注册</a><a class="fr" href="">忘记密码？</a>  </p>
-            <button class="login-now">立即登录</button>
-        </div>
-    </div>
-</div>
-<!--index-about-->
-<div class="clearfix ke-grid index-about">
-    <div class="about-us">
-        <img src="img/about.png">
-        <div class="about-min">
-            <div class="login-name about-title">
-                <span>关于我们</span>
+<script id="index" type="text/html">
+    <div class="ke-grid index-banner clearfix">
+        <div class="banner-left">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    {{#  layui.each(d.homeAd, function(index, item){ }}
+                    <div class="swiper-slide">
+                        <a href="{{item.adLink}}">
+                            <img src="http://file.serv.cq196.cn:10000/{{item.adImg}}" alt="{{item.adTitle}}">
+                        </a>
+                    </div>
+                    {{#  }); }}
+                </div>
+                <div class="swiper-pagination"></div>
             </div>
-            <p>重庆远见金税通信息系统技术有限公司以涉税项目为主业，
-                专注于为纳税人涉税应用系统 提供一站式服务平台，是重
-                庆市国、地税局指定的重庆市"营改增"项目、及网络(电子)
-                发票开票系统的服务商。</p>
-            <p>为进一步实现"为纳税人办好事，让纳税人好办事"，向
-                纳税人提供更加方便、快捷、 低成本、多渠道的服务，
-                满足纳税人个性化的用票需求，公司采用高技术手段，依
-                托Call Center、公司网站等信息平台， 在努力为客户提
-                供至诚至善服务的同时，建成了一支服务产品标准化、服
-                务人员专业化、服务行为规范化、服务管理职业化的优质
-                高效服务团队。</p>
+        </div>
+        <div class="index-login">
+            <div class="login-name">
+                <span>快捷登录</span>
+            </div>
+            <div class="login-form">
+                <input class="login-phone" placeholder="请输入用户名或手机号码">
+                <input class="login-pass" placeholder="请输入登录密码">
+                <p>还没有金税通账号?<a class="check-in" href="">立即注册</a><a class="fr" href="">忘记密码？</a></p>
+                <button class="login-now">立即登录</button>
+            </div>
         </div>
     </div>
-    <div class="aboout-tab">
-        <ul class="about-top">
-            <li class="active"><span>企业新闻</span></li>
-            <li class="center"><span>税务新闻</span></li>
-            <li><span>公司公告</span></li>
-        </ul>
-        <ul class="news-item active">
-            <li>
-                <a class="over" href="">1落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
+    <!--index-about-->
+    <div class="clearfix ke-grid index-about">
+        <div class="about-us">
+            <img src="http://file.serv.cq196.cn:10000/{{ d.enterpriseinfo.introduceLogo }}">
+            <div class="about-min">
+                <div class="login-name about-title">
+                    <span>关于我们</span>
+                </div>
+                <p>{{ d.enterpriseinfo.enterpriseIntroduce }}</p>
+            </div>
+        </div>
+        <div class="aboout-tab">
+            <ul class="about-top">
+                <li class="active"><span>企业新闻</span></li>
+                <li class="center"><span>税务新闻</span></li>
+                <li><span>公司公告</span></li>
+            </ul>
+            <ul class="news-item active">
+                {{#  layui.each(d.newstrandenter, function(index, item){ }}
+                <li>
+                    <a class="over" href="news-min.html?id={{item.id}}">{{item.newTitle}}</a>
+                    <span>{{item.newDate}}</span>
+                </li>
+                {{#  }); }}
+            </ul>
+            <ul class="news-item">
+                {{#  layui.each(d.newstrandsuiwu, function(index, item){ }}
+                <li>
+                    <a class="over" href="news-min.html?id={{item.id}}">{{item.newTitle}}</a>
+                    <span>{{item.newDate}}</span>
+                </li>
+                {{#  }); }}
+            </ul>
+            <ul class="news-item">
+                {{#  layui.each(d.noticeList, function(index, item){ }}
+                <li>
+                    <a class="over" href="news-min.html?id={{item.id}}">{{item.newTitle}}</a>
+                    <span>{{item.newDate}}</span>
+                </li>
+                {{#  }); }}
+            </ul>
+        </div>
+    </div>
+    <!--特色服务-->
+    <div class="server-top ke-grid">
+        <span>特色服务</span>
+        <div class="server-border ke-grid"></div>
+        <div></div>
+        <img src="img/server.png">
+    </div>
+    <div class="ke-grid clearfix">
+        <ul class="server-min">
+            <li class="server-item server-item-1">
+                <i></i>
+                <h3 class="over">软件下载</h3>
+                <p class="over">税务软件一应俱全</p>
             </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
+            <li class="server-item server-item-2">
+                <i></i>
+                <h3 class="over">自助缴费</h3>
+                <p class="over">在线自助缴费通道</p>
             </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
+            <li class="server-item server-item-3">
+                <i></i>
+                <h3 class="over">税务服务</h3>
+                <p class="over">各项税务服务说明</p>
             </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-        </ul>
-        <ul class="news-item">
-            <li>
-                <a class="over" href="">2落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-        </ul>
-        <ul class="news-item">
-            <li>
-                <a class="over" href="">3落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
-            </li>
-            <li>
-                <a class="over" href="">落实G20税改成果 迈向国际税收治</a>
-                <span>05/07</span>
+            <li class="server-item server-item-4">
+                <i></i>
+                <h3 class="over">帮助中心</h3>
+                <p class="over">帮助中心内容介绍</p>
             </li>
         </ul>
     </div>
-</div>
-<!--特色服务-->
-<div class="server-top ke-grid">
-    <span>特色服务</span>
-    <div class="server-border ke-grid"></div>
-    <div></div>
-    <img src="img/server.png">
-</div>
-<div class="ke-grid clearfix">
-    <ul class="server-min">
-        <li class="server-item server-item-1">
-            <i></i>
-            <h3 class="over">软件下载</h3>
-            <p class="over">税务软件一应俱全</p>
-        </li>
-        <li class="server-item server-item-2">
-            <i></i>
-            <h3 class="over">自助缴费</h3>
-            <p class="over">在线自助缴费通道</p>
-        </li>
-        <li class="server-item server-item-3">
-            <i></i>
-            <h3 class="over">税务服务</h3>
-            <p class="over">各项税务服务说明</p>
-        </li>
-        <li class="server-item server-item-4">
-            <i></i>
-            <h3 class="over">帮助中心</h3>
-            <p class="over">帮助中心内容介绍</p>
-        </li>
-    </ul>
-</div>
-<!--推荐商品-->
-<div class="server-top ke-grid">
-    <span>推荐商品</span>
-    <a href="">查看更多></a>
-    <div class="server-border ke-grid"></div>
-    <img src="img/commodity.png">
-</div>
-<div class="ke-grid">
-    <ul class="goods-list">
-        <li>
-            <a href="">
-                <div class="goods-image">
-                    <img src="img/dayinji.png">
-                </div>
-                <p class="over">国誉(KOKUYO)WCN-S6090 6x9寸</p>
-                <span class="over">￥99.9</span>
+    <!--推荐商品-->
+    <div class="server-top ke-grid">
+        <span>推荐商品</span>
+        <a href="">查看更多></a>
+        <div class="server-border ke-grid"></div>
+        <img src="img/commodity.png">
+    </div>
+    <div class="ke-grid">
+        <ul class="goods-list">
+            {{#  layui.each(d.indexproduct, function(index, item){ }}
+            <li>
+                <a href="{{item.id}}">
+                    <div class="goods-image">
+                        <img src="http://file.serv.cq196.cn:10000/{{item.picturetImg}}">
+                    </div>
+                    <p class="over">{{item.productName}}</p>
+                    <span class="over">￥{{item.productPrice}}</span>
 
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <div class="goods-image">
-                    <img src="img/dayinji.png">
-                </div>
-                <p class="over">国誉(KOKUYO)WCN-S6090 6x9寸</p>
-                <span class="over">￥99.9</span>
-
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <div class="goods-image">
-                    <img src="img/dayinji.png">
-                </div>
-                <p class="over">国誉(KOKUYO)WCN-S6090 6x9寸</p>
-                <span class="over">￥99.9</span>
-
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <div class="goods-image">
-                    <img src="img/dayinji.png">
-                </div>
-                <p class="over">国誉(KOKUYO)WCN-S6090 6x9寸</p>
-                <span class="over">￥99.9</span>
-
-            </a>
-        </li>
-    </ul>
-</div>
+                </a>
+            </li>
+            {{#  }); }}
+        </ul>
+    </div>
+</script>
+<div id="indexdata"></div>
 <!--foot-->
 <div class="foot">
     <div class="ke-grid clearfix">
@@ -307,9 +232,63 @@
     </div>
     <div class="foot-bottom">
         <p class="ke-grid">
-            Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539
+            Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6 渝公网备：50019002500539
         </p>
     </div>
 </div>
+<script>
+    //格式化时间
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/,' ');
+    };
+    var laytpl;
+    layui.use('laytpl', function () {
+        laytpl = layui.laytpl;
+
+    });
+    $.ajax({
+        url: "http://192.168.0.102/index/intdex_homepage.json",
+        dataType: 'jsonp',
+        method: '',
+        data:{
+            method:'post',
+        },
+        jsonp: 'callback',
+        async: false,    //或false,是否异步
+        timeout: 5000,    //超时时间
+        success: function (data) {
+            $(data.data.newstrandenter).each(function(index,item){
+                item.newDate =getLocalTime(item.newDate);
+                console.log(this.newDate);
+            });
+            $(data.data.newstrandsuiwu).each(function(index,item){
+                item.newDate =getLocalTime(item.newDate);
+                console.log(this.newDate);
+            });
+            $(data.data.noticeList).each(function(index,item){
+                item.newDate =getLocalTime(item.newDate);
+                console.log(this.newDate);
+            });
+            var getTpl = index.innerHTML;
+            laytpl(getTpl).render(data.data, function(html){
+                indexdata.innerHTML = html;
+                //首页轮播
+                var mySwiper = new Swiper('.swiper-container', {
+                    autoplay: 5000,//可选选项，自动滑动
+                    pagination: '.swiper-pagination',
+                    paginationClickable: true,
+                });
+                //首页选项卡
+                $(".about-top li").hover(function () {
+                    $(this).addClass("active").siblings().removeClass('active');
+                    $(".aboout-tab .news-item").eq($(this).index()).addClass("active").siblings().removeClass('active');
+                });
+            });
+        },
+        error: function () {
+            console.log('请求错误');
+        }
+    });
+</script>
 </body>
 </html>
