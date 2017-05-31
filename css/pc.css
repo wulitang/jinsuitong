@@ -8,6 +8,7 @@ body {
     width: 100%;
     border-bottom: 1px solid #f0f0f0;
     line-height: 35px;
+    min-width: 1200px;
 }
 
 .welcome p {
@@ -1049,53 +1050,61 @@ body {
 .register-form .password {
     background: url("../img/lock.png") 425px center no-repeat;
 }
-.payment-img .register-form{
+
+.payment-img .register-form {
     background: none;
     margin: 0 auto;
     padding-top: 0;
     padding-bottom: 70px;
 }
-.payment-img .four{
+
+.payment-img .four {
     display: block;
     margin: 56px auto;
 }
-.company-title{
+
+.company-title {
     background: #fafafa;
     height: 70px;
     line-height: 70px;
     border-bottom: 1px solid #f0f0f0;
 }
-.company-title span{
+
+.company-title span {
     color: #ee692c;
     font-size: 16px;
     margin-left: 30px;
     display: inline-block;
     border-bottom: 3px solid #ee692c;
 }
-.compant-list li{
+
+.compant-list li {
     padding: 0 20px;
     background: #fff;
     border-bottom: 1px dashed #ececec;
     height: 60px;
     line-height: 60px;
 }
-.compant-list li span{
+
+.compant-list li span {
     width: 100px;
     text-align: right;
     float: left;
     font-size: 14px;
     color: #4c4c4c;
 }
-.compant-list li p{
+
+.compant-list li p {
     font-size: 14px;
     color: #737373;
     float: left;
 }
 
-.company-bg{
-    background: #fcfcfc!important;
+.company-bg {
+    background: #fcfcfc !important;
 }
-.company-href{
+
+.company-href {
     display: block;
     width: 290px;
     height: 60px;
@@ -1107,10 +1116,12 @@ body {
     margin: 30px auto;
     background: #ee692c;
 }
-.choose-list li:nth-of-type(2n){
-    background: #fcfcfc!important;
+
+.choose-list li:nth-of-type(2n) {
+    background: #fcfcfc !important;
 }
-.choose-list li i{
+
+.choose-list li i {
     display: block;
     width: 20px;
     height: 20px;
@@ -1120,17 +1131,21 @@ body {
     margin-top: 20px;
     margin-right: 20px
 }
-.choose-list .active i{
+
+.choose-list .active i {
     background: url("../img/icon.png") no-repeat center;
 }
-.sure-list span{
-    text-align: left!important;
+
+.sure-list span {
+    text-align: left !important;
 }
-.sure-list li em{
+
+.sure-list li em {
     float: right;
     color: #ee692c;
 }
-.sure-title{
+
+.sure-title {
     height: 60px;
     background: #fafafa;
     padding: 0 30px;
@@ -1139,12 +1154,14 @@ body {
     color: #333333;
     border-bottom: 1px dashed #ececec;
 }
-.pay-way{
+
+.pay-way {
     padding: 30px;
     font-size: 0;
     border-bottom: 1px solid #ececec;
 }
-.pay-way div{
+
+.pay-way div {
     display: inline-block;
     width: 190px;
     height: 80px;
@@ -1153,22 +1170,28 @@ body {
     margin-right: 20px;
     position: relative;
 }
-.online{
+
+.online {
     background: url("../img/online.png") center no-repeat;
 }
-.alipay{
+
+.alipay {
     background: url("../img/alipay.png") center no-repeat;
 }
-.quick{
+
+.quick {
     background: url("../img/quick.png") center no-repeat;
 }
-.wepay{
+
+.wepay {
     background: url("../img/wepay.png") center no-repeat;
 }
-.pay-way .active{
-    border-color:#ee692c;
+
+.pay-way .active {
+    border-color: #ee692c;
 }
-.pay-way .active::after{
+
+.pay-way .active::after {
     display: block;
     width: 40px;
     height: 40px;
@@ -1179,7 +1202,8 @@ body {
     bottom: 0;
     background-size: 100%;
 }
-.pay-money a{
+
+.pay-money a {
     display: inline-block;
     height: 60px;
     line-height: 60px;
@@ -1191,70 +1215,84 @@ body {
     background: #ee692c;
     padding: 0 20px;
 }
-.pay-money a em{
+
+.pay-money a em {
     padding: 0 10px;
 }
-.pay-money{
+
+.pay-money {
     text-align: center;
 }
-.pay-success{
+
+.pay-success {
     text-align: center;
     border-bottom: 1px dashed #ececec;
 }
-.pay-success  img{
+
+.pay-success img {
     margin: 65px 0 20px 0;
 }
-.pay-success p{
+
+.pay-success p {
     color: #4c4c4c;
     font-size: 16px;
     margin-bottom: 80px;
 }
-.sure-message span{
+
+.sure-message span {
     width: 85px;
     float: left;
     color: #4c4c4c;
     font-size: 14px;
 }
-.sure-message p{
+
+.sure-message p {
     color: #737373;
     font-size: 14px;
 }
-.sure-message em{
+
+.sure-message em {
     font-size: 14px;
     color: #ee692c;
 }
-.sure-message  .message-item{
+
+.sure-message .message-item {
     height: 60px;
     line-height: 60px;
     padding: 0 30px;
     border-bottom: 1px dashed #ececec;
 }
-.ems-way li{
+
+.ems-way li {
     font-size: 14px;
     color: #666666;
     display: inline-block;
     margin-right: 25px;
 }
-.ems-way li i{
+
+.ems-way li i {
     display: inline-block;
     width: 20px;
     height: 20px;
     margin-right: 15px;
     border-radius: 50%;
     float: left;
-    border:1px solid #ececec;
+    border: 1px solid #ececec;
     margin-top: 20px;
 }
+
 .ems-way .active i {
     background: url("../img/check.png") no-repeat center;
 }
-.add-more{
+
+.add-more {
     display: block;
     float: right;
     color: #666666;
     font-size: 16px;
 }
-.add-more i{
+
+.add-more i {
     display: block;
     width: 40px;
     height: 40px;
@@ -1262,21 +1300,1285 @@ body {
     background: url("../img/add.png") no-repeat center;
     margin-top: 10px;
 }
-.get-people{
+
+.get-people {
     padding: 0 30px;
     height: 60px;
     line-height: 60px;
     border-bottom: 1px solid #ececec;
 }
-.get-people span{
+
+.get-people span {
     font-size: 16px;
     color: #666666;
 }
-.get-people i{
+
+.get-people i {
     display: block;
     float: left;
     width: 30px;
     height: 30px;
     margin-top: 15px;
     background: url("../img/icon.png") no-repeat center;
+}
+
+.index-right a {
+    margin: 0 5px;
+    color: #666666;
+    font-size: 12px;
+}
+
+.person-top {
+    background: #ffffff;
+    height: 130px;
+    border-bottom: 1px solid #f0f0f0;
+    min-width: 1200px;
+}
+
+.person-top img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    float: left;
+    margin: 25px;
+}
+
+.person-top .person-name {
+    font-size: 16px;
+    color: #333;
+    line-height: 75px;
+}
+
+.check-sever a {
+    display: inline-block;
+    width: 120px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    margin: 35px 0 0 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    background: #fafafa;
+    font-size: 16px;
+    color: #666;
+}
+
+.person-safe span {
+    font-size: 14px;
+    color: #666;
+    float: left;
+}
+
+.safe-grade {
+    width: 225px;
+    height: 15px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    border: 1px solid #f0f0f0;
+    position: relative;
+    margin-right: 10px;
+}
+
+.safe-grade em {
+    display: block;
+    height: 15px;
+    border-radius: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #fcbf04;
+}
+
+.person-center {
+    margin-top: 20px;
+}
+
+.person-left li {
+    line-height: 50px;
+    padding: 0 20px;
+    height: 50px;
+    border-bottom: 1px solid #f0f0f0;
+    background: url("../img/diandian.png") no-repeat 225px center #fff;
+}
+
+.person-left li a {
+    font-size: 14px;
+    color: #666;
+}
+
+.person-safe em {
+    font-size: 14px;
+    color: #fcbf04;
+    float: left;
+}
+
+.person-center-left {
+    width: 250px;
+    float: left;
+}
+
+.person-left {
+    width: 250px;
+    border: 1px solid #f0f0f0;
+    margin-bottom: 20px;
+}
+
+.person-left-title {
+    background: #fafafa !important;
+}
+
+.person-left-title span {
+    color: #ee692c;
+    border-bottom: 2px solid #ee692c;
+    line-height: 50px;
+    display: inline-block;
+}
+
+.person-left .active {
+    background: url("../img/activedian.png") no-repeat 225px center #fff;
+}
+
+.person-left .active a {
+    color: #ee692c;
+}
+
+.my-order {
+    width: 930px;
+    border: 1px solid #f0f0f0;
+}
+
+.my-order-title {
+    height: 50px;
+    line-height: 50px;
+    background: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0 20px;
+}
+
+.my-order-title span {
+    color: #ee692c;
+    border-bottom: 2px solid #ee692c;
+    line-height: 50px;
+    display: inline-block;
+}
+
+.order-type {
+    height: 75px;
+    line-height: 75px;
+    background: #ffffff;
+    padding: 0 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.order-type a {
+    color: #333333;
+    font-size: 14px;
+    margin-right: 30px;
+}
+
+.order-type .active {
+    color: #ee692c;
+}
+
+.order-time {
+    height: 80px;
+    padding: 0 20px;
+    background: #ffffff;
+    border-bottom: 1px dashed #f0f0f0;
+}
+
+.order-time span {
+    float: left;
+    color: #333333;
+    font-size: 14px;
+    line-height: 80px;
+}
+
+.person-start, .person-end {
+    width: 160px;
+    height: 40px;
+    line-height: 40px;
+    float: left;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    background: url("../img/date.png") no-repeat 130px center;
+    margin: 20px 10px 0 10px;
+}
+
+.person-search {
+    margin-top: 20px;
+    position: relative;
+}
+
+.person-search input {
+    width: 300px;
+    height: 40px;
+    padding: 0 20px;
+    line-height: 40px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+}
+
+.person-search button {
+    position: absolute;
+    right: 0;
+    height: 42px;
+    width: 50px;
+    background: url("../img/personsearch.png") center #f5f5f5 no-repeat;
+    border-radius: 0 4px 4px 0;
+    top: 0;
+    border-left: 1px solid #f0f0f0;
+}
+
+.order-message {
+    border-bottom: 1px dashed #f0f0f0;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 20px;
+}
+
+.order-message div {
+    font-size: 14px;
+    color: #333;
+    float: left;
+}
+
+.order-message .order-goods {
+    width: 335px;
+    text-align: left;
+}
+
+.order-message .order-pic {
+    width: 100px;
+    text-align: center;
+}
+
+.order-message .order-number {
+    width: 60px;
+    text-align: center;
+}
+
+.order-message .order-money {
+    width: 120px;
+    text-align: center;
+}
+
+.order-message .order-date {
+    width: 165px;
+    text-align: center;
+}
+
+.order-message .order-does {
+    width: 110px;
+    text-align: center;
+}
+
+.order-photo {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #f0f0f0;
+    margin-right: 15px;
+}
+
+.order-photo img {
+    width: 100%;
+    height: 100%;
+}
+
+.order-detail .order-title {
+    font-size: 14px;
+    color: #4c4c4c;
+    width: 240px;
+    margin-bottom: 20px;
+}
+
+.order-detail-item span {
+    display: block;
+    color: #808080;
+    font-size: 14px;
+    line-height: 20px;
+    width: 240px;
+}
+
+.order-item {
+    padding: 20px;
+    background: #fff;
+    border-bottom: 1px dashed #f0f0f0;
+}
+
+.order-order {
+    color: #666666;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.order-detail .order-pic, .order-detail .order-number, .order-detail .order-money, .order-detail .order-date {
+    color: #4c4c4c;
+    font-size: 14px;
+    line-height: 30px;
+    float: left;
+    text-align: center;
+}
+
+.order-detail .order-pic {
+    width: 100px;
+}
+
+.order-detail .order-number {
+    width: 60px;
+}
+
+.order-detail .order-money {
+    width: 120px;
+}
+
+.order-detail .order-date {
+    width: 164px;
+}
+
+.order-detail .order-does a {
+    display: block;
+    width: 90px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: #fafafa;
+    font-size: 14px;
+    color: #666;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+}
+
+.order-detail .order-does span {
+    font-size: 14px;
+    color: #ee692c;
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+}
+
+.order-page {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.order-page span {
+    display: block;
+    width: 38px;
+    height: 30px;
+    border: 1px solid #f0f0f0;
+    text-align: center;
+    line-height: 30px;
+    color: #666666;
+}
+
+.order-page li {
+    display: block;
+    float: left;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    border: 1px solid #f0f0f0;
+    margin: 0 5px;
+}
+
+.order-page li a {
+    color: #666666;
+    display: block;
+}
+
+.order-page .active {
+    background: #ee692c;
+}
+
+.order-page .active a {
+    color: #fff;
+}
+
+.person-foot {
+    background: #f2f2f2;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 30px;
+    min-width: 1200px;
+}
+
+.person-foot-bottom {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: #fff;
+    margin-top: 40px;
+}
+
+.person-foot {
+    text-align: center;
+    padding-top: 45px;
+}
+
+.person-foot ul {
+    height: 45px;
+    border-bottom: 1px solid #e6e6e6;
+    width: 490px;
+    margin: 0 auto 35px auto;
+}
+
+.person-foot li {
+    display: inline-block;
+    width: 90px;
+}
+
+.person-foot li a {
+    color: #333333;
+    font-size: 16px;
+}
+
+.person-foot p {
+    color: #666;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+.person-person {
+    padding: 30px;
+    background: #fff;
+}
+
+.person-person .up-photo {
+    width: 80px;
+}
+
+.person-person .up-photo img {
+    width: 80px;
+    height: 80px;
+}
+
+.person-person .up-photo button {
+    font-size: 14px;
+    color: #666666;
+    display: block;
+    width: 78px;
+    border: 1px solid #f0f0f0;
+    line-height: 30px;
+    text-align: center;
+    margin-top: 10px;
+    background: #fafafa;
+    border-radius: 4px;
+}
+
+.person-person li {
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+
+.person-person li span {
+    display: inline-block;
+    width: 100px;
+    line-height: 40px;
+    color: #333;
+    font-size: 14px;
+    text-align: right;
+}
+
+.person-person li input {
+    width: 240px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+}
+
+.person-person li label {
+    line-height: 40px;
+    color: #666666;
+    font-size: 14px;
+    display: inline-block;
+    height: 40px;
+}
+
+.person-person li label i {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 50%;
+    float: left;
+    margin-top: 10px;
+}
+
+.person-person li label em {
+    margin: 0 10px;
+}
+
+.choose-men .active i {
+    background: url("../img/check.png") no-repeat center;
+}
+
+.birthday select {
+    height: 38px;
+    border: 1px solid #f0f0f0;
+    line-height: 40px;
+    color: #a6a6a6;
+    font-size: 14px;
+    float: left;
+    outline: none;
+    background: #fff;
+}
+
+.birthday-year {
+    width: 258px;
+}
+
+.birthday-moon, .birthday-day {
+    width: 110px;
+}
+
+.birthday em {
+    font-size: 14px;
+    color: #666666;
+    margin: 0 10px;
+    float: left;
+    line-height: 40px;
+}
+
+.choose-other li label {
+    line-height: 40px;
+    color: #666666;
+    font-size: 14px;
+    display: inline-block;
+    height: 40px;
+}
+
+.choose-other li label i {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 50%;
+    float: left;
+    margin-top: 10px;
+}
+
+.choose-other li label em {
+    margin: 0 10px;
+}
+
+.choose-other .active i {
+    background: url("../img/check.png") no-repeat center;
+}
+
+.write-love textarea {
+    display: inline-block;
+    width: 565px;
+    height: 196px;
+    padding: 10px;
+    font-size: 14px;
+    color: #a6a6a6;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+
+}
+
+.person-person ul {
+    width: 790px;
+}
+
+.message-sure {
+    margin-top: 20px;
+}
+
+.message-sure a {
+    width: 90px;
+    height: 40px;
+    background: #ee692c;
+    line-height: 40px;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    display: block;
+    margin-left: 130px;
+}
+
+.download-history img {
+    width: 70px;
+    height: 70px;
+    border-radius: 4px;
+    float: left;
+}
+
+.download-history .software-name {
+    float: left;
+    margin-left: 20px;
+    height: 70px;
+    line-height: 35px;
+    width: 420px
+}
+
+.download-history .software-type {
+    float: left;
+    margin-left: 20px;
+    height: 70px;
+    line-height: 35px;
+    width: 205px;
+    font-size: 14px;
+    color: #666;
+}
+
+.download-history .software-time {
+    float: left;
+    font-size: 14px;
+    color: #666;
+    height: 70px;
+    line-height: 35px;
+}
+
+.software-name p {
+    font-size: 14px;
+    color: #666;
+    display: block;
+    width: 385px;
+}
+
+.software-type em {
+    color: #51aed9;
+}
+
+.download-history li {
+    padding: 20px;
+    background: #fff;
+    border-bottom: 1px dashed #f0f0f0;
+}
+
+.buy-history li {
+    padding: 20px;
+    background: #fff;
+    border-bottom: 1px dashed #f0f0f0;
+}
+
+.buy-history img {
+    width: 80px;
+    height: 80px;
+    float: left;
+    margin-right: 20px;
+    border: 1px solid #f0f0f0;
+}
+
+.buy-name {
+    width: 215px;
+}
+
+.buy-name h3 {
+    font-size: 14px;
+    color: #4c4c4c;
+    display: block;
+    margin-bottom: 30px;
+}
+
+.buy-name p {
+    font-size: 14px;
+    color: #808080;
+    display: block;
+}
+
+.buy-pic, .buy-number, .buy-money, .buy-time {
+    font-size: 14px;
+    color: #4c4c4c;
+    line-height: 20px;
+}
+
+.buy-pic {
+    width: 150px;
+}
+
+.buy-number {
+    width: 85px;
+}
+
+.buy-money {
+    width: 135px;
+}
+
+.buy-time {
+    width: 200px;
+}
+
+.my-goods-photo {
+    width: 500px;
+    height: 500px;
+    border: 1px solid #f0f0f0;
+    margin-right: 30px;
+}
+
+.my-goods-center {
+    margin-top: 20px;
+}
+
+.my-goods-message p {
+    font-size: 14px;
+    color: #4c4c4c;
+    line-height: 35px;
+}
+
+.my-goods-message p em {
+    font-size: 22px;
+    color: #ee692c;
+}
+
+.my-goods-message p span {
+    color: #333333;
+}
+
+.my-goods-message p i {
+    display: inline-block;
+    width: 20px;
+    height: 31px;
+    background: url("../img/start.png") no-repeat center;
+    float: left;
+    margin-right: 5px;
+}
+
+.my-goods-message p .blue {
+    color: #009ae1;
+}
+
+.my-goods-message h3 {
+    display: block;
+    font-size: 22px;
+    color: #4c4c4c;
+    margin-bottom: 30px;
+    border-bottom: 1px dotted #e6e6e6;
+    line-height: 60px;
+}
+
+.goods-stra .fl {
+    color: #333333;
+}
+
+.my-goods-message p a {
+    background: #fff;
+    padding: 10px 15px;
+    border: 1px solid #f0f0f0;
+    margin-right: 5px;
+    border-radius: 4px;
+    color: #333333;
+}
+
+.border-dubble {
+    padding-bottom: 30px;
+    margin-bottom: 20px;
+    border-bottom: 1px dotted #e6e6e6;
+}
+
+.goods-detail {
+    padding: 30px;
+    background: #f2f2f2;
+    border: 1px solid #ebebeb;
+    height: 155px;
+}
+
+.goods-detail p {
+    font-size: 14px;
+    color: #808080;
+}
+
+.my-logistics {
+    background: #fafafa;
+    border: 1px solid #ebebeb;
+    margin-top: 20px;
+}
+
+.logistics-title {
+    line-height: 50px;
+    background: #fafafa;
+    padding: 0 20px;
+}
+
+.logistics-title span {
+    color: #ee692c;
+    border-bottom: 2px solid #ee692c;
+    display: inline-block;
+}
+
+.my-logistics ul {
+    background: #fff;
+    padding: 30px;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.my-logistics a {
+    width: 110px;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    background: #ee692c;
+    text-align: center;
+    display: block;
+    border-radius: 4px;
+    margin: 15px;
+    float: right;
+}
+
+.my-logistics li span {
+    font-size: 14px;
+    color: #4c4c4c;
+    margin-right: 30px;
+}
+
+.my-logistics li span em {
+    color: #ee692c;
+}
+
+.my-logistics li {
+    position: relative;
+    line-height: 40px;
+    padding-left: 25px;
+    border-left: 1px solid #d9d9d9;
+}
+
+.my-logistics li i {
+    display: block;
+    position: absolute;
+    background: #d9d9d9;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    left: -11px;
+    top: 10px;
+}
+
+.my-logistics li:nth-of-type(1)::before {
+    display: block;
+    width: 20px;
+    height: 20px;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -10px;
+    background: white;
+}
+
+.my-logistics li:nth-last-child(1)::before {
+    display: block;
+    width: 20px;
+    height: 20px;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: -10px;
+    background: white;
+}
+
+.pingjia {
+    background: #fff;
+    padding: 30px;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.pingjia textarea {
+    border-radius: 4px;
+    border: 1px solid #e6e6e6;
+    color: #999999;
+    font-size: 14px;
+    padding: 30px;
+    height: 80px;
+    width: 780px;
+    float: left;
+}
+
+.pingjia-star span {
+    font-size: 14px;
+    color: #4c4c4c;
+    margin-left: 30px;
+    height: 45px;
+    line-height: 45px;
+    float: left;
+}
+
+.pingjia-star i {
+    display: inline-block;
+    width: 29px;
+    height: 45px;
+    float: left;
+    margin-right: 5px;
+    background: url("../img/blackstart.png") no-repeat center;
+}
+
+.login-password, .login-email, .login-tel {
+    height: 90px;
+    line-height: 90px;
+    background: #fff;
+    padding: 0 30px;
+}
+
+.login-password, .login-email {
+    border-bottom: 1px dotted #e6e6e6;
+}
+
+.login-detail div span {
+    font-size: 16px;
+    color: #333333;
+    float: left;
+    padding: 0 25px;
+    border-right: 1px solid #f0f0f0;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 35px;
+    margin-right: 25px;
+}
+
+.login-detail i {
+    display: block;
+    width: 35px;
+    height: 90px;
+    float: left;
+}
+
+.login-detail p {
+    color: #666666;
+    font-size: 14px;
+    float: left;
+}
+
+.login-detail .sure-change {
+    display: block;
+    float: right;
+    font-size: 14px;
+    color: #666666;
+    width: 90px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    background: #fafafa;
+    margin: 20px;
+}
+
+.login-detail .safe {
+    background: url("../img/loginright.png") center no-repeat;
+}
+
+.login-detail .warm {
+    background: url("../img/loginwarm.png") center no-repeat;
+}
+
+.warm-message {
+    padding: 25px;
+    margin-top: 18px;
+    border: 1px solid #ececec;
+    background-color: #f2f2f2;
+}
+
+.warm-message h3 {
+    color: #ee692c;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.warm-message p {
+    font-size: 14px;
+    color: #4c4c4c;
+    line-height: 30px;
+}
+
+.my-safe {
+    border: 1px solid #ececec;
+}
+
+.change-password {
+    background: #fff;
+    padding: 25px;
+}
+
+.change-password div {
+    margin-bottom: 10px;
+}
+
+.change-password em {
+    font-size: 14px;
+    color: #333333;
+    display: inline-block;
+    width: 85px;
+    text-align: right;
+}
+
+.change-password input {
+    width: 240px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #ececec;
+    border-radius: 4px;
+    color: #a6a6a6;
+    font-size: 14px;
+    padding: 0 10px;
+}
+
+.change-password .save-psaaword {
+    display: block;
+    width: 90px;
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 4px;
+    background: #ee692c;
+    float: left;
+    margin: 11px 0 11px 79px;
+}
+
+.change-code p {
+    line-height: 40px;
+    display: inline-block;
+}
+
+.change-code em {
+    line-height: 40px;
+    margin-right: 5px;
+}
+
+.change-code p a {
+    color: #67a1ce;
+}
+
+.change-code img {
+    width: 74px;
+    height: 33px;
+    margin: 5px 10px;
+}
+
+.get-phone-code {
+    color: #4c4c4c;
+    padding: 12px;
+    border: 1px solid #ececec;
+    border-radius: 4px;
+    background: #fafafa;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.send-phone {
+    display: block !important;
+    float: none !important;
+    color: #333333 !important;
+    font-size: 14px !important;
+    line-height: 50px !important;
+    margin-bottom: 10px !important;
+}
+
+.message-title {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 20px;
+    color: #333333;
+    font-size: 14px;
+}
+
+.message-title div {
+    display: inline-block;
+    text-indent: 20px;
+    height: 50px;
+}
+
+.message-title i {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    background: #fff;
+}
+
+.my-message-title {
+    width: 560px;
+}
+
+.my-message-time {
+    width: 187px;
+}
+
+.choose-icon i {
+    margin-top: 15px;
+    float: left;
+}
+
+.my-message li {
+    background: #fff;
+    padding: 0 20px;
+    border-top: 1px dashed #ececec;
+    height: 50px;
+    line-height: 50px;
+}
+
+.my-message li div a {
+    font-size: 14px;
+    color: #666;
+    margin: 0 20px;
+    display: block;
+    width: 485px;
+}
+
+.my-message li div {
+    font-size: 14px;
+    color: #666;
+    float: left;
+}
+
+.my-message ul .choose-icon i {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    background: #fff;
+}
+
+.my-message ul .choose-time {
+    width: 150px;
+    text-align: center;
+}
+
+.my-message ul li button {
+    color: #666666;
+    font-size: 14px;
+    background: #fff;
+    outline: none;
+    width: 150px;
+    float: right;
+}
+
+.delete-all i {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    background: #fff;
+}
+
+.delete-all a {
+    display: inline-block;
+    width: 90px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    color: #666666;
+    text-align: center;
+    background: #f7f7f7;
+    border-radius: 4px;
+    border: 1px solid #ececec;
+    margin-left: 15px;
+}
+
+.delete-all {
+    margin: 20px 20px 40px 20px;
+}
+
+.my-address ul {
+    padding: 20px 20px 0 20px;
+}
+
+.my-address .set-list li {
+    line-height: 50px;
+    margin-bottom: 20px;
+}
+
+.my-address .set-list li select {
+    width: 170px;
+    height: 40px;
+    line-height: 40px;
+    color: #666666;
+    font-size: 14px;
+    margin-right: 10px;
+    background: #fff;
+    border: 1px solid #ececec;
+    outline: none;
+}
+
+.my-address {
+    background: #fff;
+}
+
+.my-address .set-list li span {
+    width: 70px;
+    text-align: right;
+    font-size: 14px;
+    color: #333333;
+    display: inline-block;
+}
+
+.my-address .set-list li input {
+    width: 300px;
+    height: 40px;
+    padding: 0 10px;
+    line-height: 40px;
+    color: #666666;
+    font-size: 14px;
+    border: 1px solid #ececec;
+    border-radius: 4px;
+}
+
+.set-address {
+    padding: 0 20px 20px 20px;
+}
+
+.set-address div {
+    display: block;
+    padding-left: 75px;
+}
+
+.set-address div p {
+    display: inline-block;
+    color: #4c4c4c;
+    font-size: 14px;
+}
+
+.set-address div i {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #f0f0f0;
+    background: #fff;
+    float: left;
+    margin-right: 15px;
+}
+
+.set-address button {
+    display: block;
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    color: #fff;
+    border-radius: 4px;
+    margin-top: 20px;
+    background: #ee692c;
+}
+
+.tbl-main tr{
+    height: 40px;
+    line-height: 40px;
+    border-top: 1px dashed #ececec;
+    background: #fff;
+    padding: 0 20px;
+    font-size: 14px;
+    color: #666666;
+}
+.tbl-main tr a{
+    font-size: 14px;
+    color: #666666;
+}
+.address-bg {
+    background: #fafafa!important;
+    color: #333333!important;
+}
+.my-order table{
+    width: 100%;
+}
+.tbl-main tr td {
+    padding: 5px;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
+    position: relative;
+    text-align: center;
 }
