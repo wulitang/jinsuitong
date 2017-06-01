@@ -37,7 +37,7 @@
                 <a href="news.html?newType=0&pageNow=1&pageSize=10">新闻动态</a>
             </li>
             <li>
-                <a href="">下载中心</a>
+                <a href="download.html?dowcateId=&keyword=&pageNow=1&pageSize=10">下载中心</a>
             </li>
             <li>
                 <a href="">商城</a>
@@ -80,7 +80,7 @@
                 <script id="index" type="text/html">
                     {{#  layui.each(d, function(index, item){ }}
                     <li>
-                        <a class="over" href="">{{item.newTitle}}</a>
+                        <a class="over" href="news-min.html?type={{item.newType}}&new_id={{item.id}}">{{item.newTitle}}</a>
                         <span>{{item.newDate}}</span>
                     </li>
                     {{#  }); }}
@@ -199,7 +199,7 @@
         dataType: 'jsonp',
         method: '',
         data:{
-            method:'get',
+            method:'post',
             newType:newType,
             pageNow:pageNow,
             pageSize:pageSize,

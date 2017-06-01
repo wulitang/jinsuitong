@@ -33,10 +33,10 @@
                 <a href="about.html?type=1">关于我们</a>
             </li>
             <li>
-                <a href="">新闻动态</a>
+                <a href="news.html?newType=0&pageNow=1&pageSize=10">新闻动态</a>
             </li>
             <li>
-                <a href="">下载中心</a>
+                <a href="download.html?dowcateId=&keyword=&pageNow=1&pageSize=10">下载中心</a>
             </li>
             <li>
                 <a href="">商城</a>
@@ -56,7 +56,7 @@
     <div class="about-img">
         <div class="about-word">
             <ul class="menu-center">
-                <li class="active">
+                <li>
                     <a href="about.html?type=1">关于我们</a>
                     <em></em>
                 </li>
@@ -73,19 +73,26 @@
                 </li>
             </ul>
 
-        <div class="about-page clearfix">
-            <div id="indexdata"></div>
-            <script id="index" type="text/html">
-                <img src="img/us.png">
-                <div class="page-word">
-                <p>{{}}</p>
-                <div class="page-address">
-                    <p>电话：023-888-12366</p>
-                <p>地址：重庆北部新区人和街道镜泊中路5号 (401121)</p>
-                </div>
-                </div>
-            </script>
-        </div>
+            <div class="about-page clearfix">
+                <div id="indexdata"></div>
+                <script id="index" type="text/html">
+                    {{#  if(d.introduceLogo){ }}
+                    <img src="http://file.serv.cq196.cn:10000/{{d.introduceLogo}}">
+                    {{#  } }}
+                    <div class="page-word">
+                        {{#  if(d.enterpriseIntroduce){ }}
+                        <p>{{d.enterpriseIntroduce}}</p>
+                        {{#  } }}
+                        {{#  if(d.enterpriseDesc){ }}
+                        <p>{{d.enterpriseDesc}}</p>
+                        {{#  } }}
+                        <div class="page-address">
+                            <p>电话：{{d.enterpriseTelephone}}</p>
+                            <p>地址：{{d.enterpriseAddress}}</p>
+                        </div>
+                    </div>
+                </script>
+            </div>
         </div>
     </div>
 </div>
@@ -140,13 +147,13 @@
     </div>
     <div class="foot-bottom">
         <p class="ke-grid">
-            Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539
+            Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6 渝公网备：50019002500539
         </p>
     </div>
 </div>
 <script>
     //获取url上面的参数，有类似方法getQueryString
-    function getPar (par) {
+    function getPar(par) {
         //获取当前URL
         var local_url = document.location.href;
         //获取要取得的get参数位置
@@ -165,6 +172,8 @@
     };
     var type = getPar("type");
     var laytpl;
+    var num = type - 1;
+    $(".menu-center li").eq(num).addClass("active").siblings().removeClass('active');
     layui.use('laytpl', function () {
         laytpl = layui.laytpl;
 
@@ -173,16 +182,16 @@
         url: "http://192.168.0.102/index/about_us.json",
         dataType: 'jsonp',
         method: '',
-        data:{
-            method:'post',
-            type:type,
+        data: {
+            method: 'get',
+            type: type,
         },
         jsonp: 'callback',
         async: false,    //或false,是否异步
         timeout: 5000,    //超时时间
         success: function (data) {
             var getTpl = index.innerHTML;
-            laytpl(getTpl).render(data.data, function(html){
+            laytpl(getTpl).render(data.data, function (html) {
                 indexdata.innerHTML = html;
             });
         },

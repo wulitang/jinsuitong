@@ -424,6 +424,7 @@ body {
     background: #f2f2f2;
     border-top: 1px solid #e6e6e6;
     padding: 30px 0 0 0;
+    min-width: 1200px;
 }
 
 .foot-left {
@@ -927,11 +928,11 @@ body {
     min-width: 1200px;
     max-width: 1920px;
     padding-top: 400px;
-    min-height: 600px;
+    /*min-height: 800px;*/
 }
 
 .register-foot {
-    position: fixed;
+    /*position: fixed;*/
     width: 100%;
     min-width: 1200px;
     max-width: 1920px;
@@ -945,9 +946,9 @@ body {
 
 .register-form {
     width: 700px;
-    height: 425px;
+    /*height: 425px;*/
     background: url("../img/bg.png") no-repeat;
-    margin: -62px auto;
+    margin: -62px auto 60px auto;
     border-radius: 4px;
     padding-top: 80px;
     background-size: 100%;
@@ -998,6 +999,7 @@ body {
     background: #f4f4f4;
     border-radius: 6px;
     border: 1px solid #ececec;
+    cursor: pointer;
 }
 
 .detail {
@@ -2590,4 +2592,19 @@ body {
     word-break: break-all;
     position: relative;
     text-align: center;
+}
+.shar-button{
+    float: right;
+    margin-right: 30px;
+}
+.no-data{
+    text-align: center;
+    line-height: 150px;
+    margin: 150px;
+    font-size: 18px;
+    color: #ee692c;
+}
+.pass{
+    background: url("../img/right.png") no-repeat 430px center #fff;
+    background-size: 20px ;
 }
