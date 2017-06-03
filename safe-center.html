@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>个人中心</title>
     <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
     <script type="text/javascript" src="js/pc.js"></script>
 </head>
 <body>
@@ -60,10 +63,10 @@
                 <span>账户管理</span>
             </li>
             <li>
-                <a href="">个人信息</a>
+                <a href="person-message.html">个人信息</a>
             </li>
             <li class="active">
-                <a href="">安全中心</a>
+                <a href="safe-center.html">安全中心</a>
             </li>
             <li>
                 <a href="">收货地址</a>
@@ -79,29 +82,46 @@
                 <span>安全中心</span>
             </div>
             <div class="login-detail">
-                <div class="login-password clearfix">
-                    <i class="safe"></i>
-                    <span>登陆密码</span>
-                    <p>互联网账号存在被盗风险，建议您定期更改密码以保护账户安全。</p>
-                    <a href="">修改</a>
-                </div>
-                <div class="login-email clearfix">
-                    <i class="warm"></i>
-                    <span>邮箱验证</span>
-                    <p>验证后，可用于快速找回登录密码，接收账户余额变动提醒。</p>
-                    <a href="">验证</a>
-                </div>
-                <div class="login-tel clearfix">
-                    <i class="safe"></i>
-                    <span>手机验证</span>
-                    <p>验证后，可用于快速找回登录密码及支付密码，接收账户余额变动提醒。。</p>
-                    <a class="sure-change" href="">修改</a>
-                </div>
+                <div id="safeBox"></div>
+                <script id="safeData" type="text/html">
+                    <div class="login-password clearfix">
+                        <i class="safe"></i>
+                        <span>登陆密码</span>
+                        <p>互联网账号存在被盗风险，建议您定期更改密码以保护账户安全。</p>
+                        <a class="sure-change" href="change-password.html">修改</a>
+                    </div>
+                    <div class="login-email clearfix">
+                        {{# if(d.data.mailboxver === 1){ }}
+                        <i class="safe"></i>
+                        <span>邮箱验证</span>
+                        <p>验证后，可用于快速找回登录密码，接收账户余额变动提醒。</p>
+                        <a class="sure-change" href="change-email.html">修改</a>
+                        {{# } else { }}
+                        <i class="warm"></i>
+                        <span>邮箱验证</span>
+                        <p>验证后，可用于快速找回登录密码，接收账户余额变动提醒。</p>
+                        <a class="sure-change" href="change-email.html">验证</a>
+                        {{# } }}
+                    </div>
+                    <div class="login-tel clearfix">
+                        {{# if(d.data.bindPhone){ }}
+                        <i class="safe"></i>
+                        <span>手机验证</span>
+                        <p>验证后，可用于快速找回登录密码及支付密码，接收账户余额变动提醒。</p>
+                        <a class="sure-change" href="change-phone.html">修改</a>
+                        {{# } else { }}
+                        <i class="warm"></i>
+                        <span>手机验证</span>
+                        <p>验证后，可用于快速找回登录密码及支付密码，接收账户余额变动提醒。</p>
+                        <a class="sure-change" href="change-tel.html">验证</a>
+                        {{# } }}
+                    </div>
+                </script>
             </div>
         </div>
         <div class="warm-message">
             <h3>安全服务提示:</h3>
-            <p>1.请确认您是登陆的是金税通官网www.xxxxx.com,注意防范进入钓鱼网站，不要轻信各种即时通讯工具发送的商品或支付链接，谨防诈骗。</p>
+            <p>1.请确认您是登陆的是金税通官网www.02312366.cn,注意防范进入钓鱼网站，不要轻信各种即时通讯工具发送的商品或支付链接，谨防诈骗。</p>
             <p>2.建议您安装杀毒软件，并定期更新操作系统等软件补丁，确保账户及交易安全。</p>
         </div>
     </div>
@@ -124,5 +144,39 @@
         <div class="ke-grid">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6 渝公网备：50019002500539</div>
     </div>
 </div>
+<script>
+    layui.use(['laytpl', 'layer'], function () {
+        var laytpl = layui.laytpl;
+        var layer = layui.layer;
+        var memberId;
+        if ($.cookie('usermessage')) {
+            var data = JSON.parse($.cookie('usermessage'));
+            memberId = data.USER_ID;
+            accountGrade = data.accountGrade
+        };
+        $.ajax({
+            url: "http://192.168.0.102/persion/securityCenter.json",
+            dataType: 'jsonp',
+            method: '',
+            data: {
+                method: 'post',
+                memberId: memberId,
+            },
+            jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+                $.cookie('memberPhone', data.data.memberPhone);
+                var getTpl = safeData.innerHTML;
+                laytpl(getTpl).render(data, function (html) {
+                    safeBox.innerHTML = html;
+                });
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+    });
+</script>
 </body>
 </html>

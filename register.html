@@ -123,6 +123,7 @@
         });
         $(".pass-two").blur(function(){
             memberPwdt = $(this).val();
+            memberPwdo = $(".pass-one").val();
             if (memberPwdt =="" || memberPwdt != memberPwdo){
                 layer.msg('请输入正确的密码');
             }else{
@@ -133,7 +134,7 @@
         //验证电话号码
         $(".user-phone").blur(function(){
             memberPhone =$(this).val();
-            if ( memberPwdo=="" || !myreg.test(memberPhone) ){
+            if ( memberPhone=="" || !myreg.test(memberPhone) ){
                 layer.msg('请输入正确的手机号码');
                 pass =false;
             }else{

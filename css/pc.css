@@ -2565,7 +2565,7 @@ body {
     background: #ee692c;
 }
 
-.tbl-main tr{
+.tbl-main tr {
     height: 40px;
     line-height: 40px;
     border-top: 1px dashed #ececec;
@@ -2574,17 +2574,21 @@ body {
     font-size: 14px;
     color: #666666;
 }
-.tbl-main tr a{
+
+.tbl-main tr a {
     font-size: 14px;
     color: #666666;
 }
+
 .address-bg {
-    background: #fafafa!important;
-    color: #333333!important;
+    background: #fafafa !important;
+    color: #333333 !important;
 }
-.my-order table{
+
+.my-order table {
     width: 100%;
 }
+
 .tbl-main tr td {
     padding: 5px;
     white-space: normal;
@@ -2593,45 +2597,61 @@ body {
     position: relative;
     text-align: center;
 }
-.shar-button{
+
+.shar-button {
     float: right;
     margin-right: 30px;
 }
-.no-data{
+
+.no-data {
     text-align: center;
     line-height: 150px;
     margin: 150px;
     font-size: 18px;
     color: #ee692c;
 }
-.pass{
+
+.pass {
     background: url("../img/right.png") no-repeat 430px center #fff;
-    background-size: 20px ;
+    background-size: 20px;
 }
-.reader-min{
+.person-person-right .pass {
+    background: url("../img/right.png") no-repeat 230px center #fff;
+    background-size: 20px;
+}
+.change-password .pass {
+    background: url("../img/right.png") no-repeat 230px center #fff;
+    background-size: 20px;
+}
+.reader-min {
     padding: 30px;
 }
-.reader-min .reader-top{
+
+.reader-min .reader-top {
     height: 50px;
     line-height: 50px;
     border-bottom: 1px solid #f0f0f0;
 }
-.reader-min .reader-top i{
+
+.reader-min .reader-top i {
     float: right;
 }
-.reader-min .reader-top span{
+
+.reader-min .reader-top span {
     font-size: 16px;
     color: #fe5f01;
     line-height: 46px;
     display: inline-block;
     border-bottom: 3px solid #fe5f01;
 }
-.reader-reader{
+
+.reader-reader {
     height: 440px;
     overflow: auto;
     padding: 20px 0 0 0;
 }
-.readered{
+
+.readered {
     line-height: 50px;
     width: 100px;
     margin: 20px auto;
@@ -2640,19 +2660,13 @@ body {
     color: #fff;
     border-radius: 4px;
 }
-.person-photo{
-    text-align: center;
+.person-person-right .layui-input-block{
+    display: inline-block;
+    margin-left: 0;
 }
-.person-photo img{
-    margin: 30px auto 0 auto;
-    display: block;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+.person-person-right .layui-input-block span{
+    width: 20px;
 }
-.user-name{
-    text-align: center;
-    font-size: 16px;
-    color: #333333;
-    margin: 10px;
+.person-person-right .layui-form-radioed i {
+    color: #0499ff;
 }

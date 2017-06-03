@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>个人中心</title>
     <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
     <script type="text/javascript" src="js/pc.js"></script>
 </head>
 <body>
@@ -19,142 +22,309 @@
     </div>
 </div>
 <!--个人中心顶部-->
-<div class="person-top">
-    <div class="ke-grid">
-        <img src="img/person.png">
-        <div class="person-message fl">
-            <div class="person-name">用户昵称</div>
-            <div class="person-safe">
-                <span>账户安全：</span>
-                <div class="safe-grade fl">
-                    <em style="width: 50%"></em>
-                </div>
-                <em>中级</em>
-            </div>
-        </div>
-        <div class="check-sever fr">
-            <a href="">服务费查询</a>
-            <a href="">续费缴费</a>
-        </div>
-    </div>
-</div>
-<!--个人中心min-->
-<div class="ke-grid clearfix person-center">
-    <div class="person-center-left fl">
-    <ul class="person-left fl">
-        <li class="person-left-title">
-            <span>交易管理</span>
-        </li>
-        <li>
-            <a href="">我的订单</a>
-        </li>
-        <li>
-            <a href="">下载记录</a>
-        </li>
-        <li>
-            <a href="">购买记录</a>
-        </li>
-    </ul>
-    <ul class="person-left fl">
-        <li class="person-left-title">
-            <span>账户管理</span>
-        </li>
-        <li class="active">
-            <a href="">个人信息</a>
-        </li>
-        <li>
-            <a href="">安全中心</a>
-        </li>
-        <li>
-            <a href="">收货地址</a>
-        </li>
-        <li>
-            <a href="">我的消息</a>
-        </li>
-    </ul>
-    </div>
-    <div class="my-order fr">
-        <div class="my-order-title">
-            <span>个人信息</span>
-        </div>
-        <div class="person-person clearfix">
-            <div class="up-photo fl">
-                <img src="img/person.png">
-                <button>上传头像</button>
-            </div>
-            <div class="person-person-right fl clearfix">
-                <ul>
-                    <li>
-                        <span>纳税人识别号：</span>
-                        <input placeholder="请输入昵称">
-                    </li>
-                    <li>
-                        <span>昵称：</span>
-                        <input placeholder="请输入昵称">
-                    </li>
-                    <li>
-                        <span>姓名：</span>
-                        <input placeholder="请输入姓名">
-                    </li>
-                    <li>
-                        <span>手机：</span>
-                        <input placeholder="请输入手机">
-                    </li>
-                    <li class="choose-men">
-                        <span>性别：</span>
-                        <label class="active"> <i></i> <em>男</em></label>
-                        <label> <i></i> <em>女</em></label>
-                    </li>
-                    <li class="birthday clearfix">
-                        <span class="fl">生日：</span>
-                        <select class="birthday-year">
-                            <option>2017</option>
-                        </select>
-                        <em>年</em>
-                        <select class="birthday-moon">
-                            <option>2017</option>
-                        </select>
-                        <em>月</em>
-                        <select class="birthday-day">
-                            <option>2017</option>
-                        </select>
-                        <em>日</em>
-                    </li>
-                    <li class="choose-other">
-                        <span>婚姻：</span>
-                        <label class="active"> <i></i> <em>未婚</em></label>
-                        <label> <i></i> <em>已婚</em></label>
-                        <label> <i></i> <em>保密</em></label>
-                    </li>
-                    <li class="write-love clearfix">
-                        <span class="fl">爱好：</span>
-                        <textarea class="fl" placeholder="请输入兴趣好爱"></textarea>
-                    </li>
-                </ul>
-                <div class="message-sure">
-                    <a href="javascript:;">保存</a>
+
+<div id="personBox"></div>
+<script id="personData" type="text/html">
+    <div class="person-top">
+        <div class="ke-grid">
+            {{# if(d.data.memberHeadimg){ }}
+            <img src="http://file.serv.cq196.cn:10000/{{d.data.memberHeadimg}}">
+            {{# } else { }}
+            <img src="img/person.png">
+            {{# } }}
+            <div class="person-message fl">
+                <div class="person-name">{{d.data.nickName}}</div>
+                <div class="person-safe">
+                    <span>账户安全：</span>
+                    <div class="safe-grade fl">
+                        <em style="width: {{d.data.accountGrade}}%"></em>
+                    </div>
+                    <!--<em>中级</em>-->
                 </div>
             </div>
+            <div class="check-sever fr">
+                <a href="">服务费查询</a>
+                <a href="">续费缴费</a>
+            </div>
         </div>
     </div>
-</div>
+    <!--个人中心min-->
+    <div class="ke-grid clearfix person-center">
+        <div class="person-center-left fl">
+            <ul class="person-left fl">
+                <li class="person-left-title">
+                    <span>交易管理</span>
+                </li>
+                <li>
+                    <a href="">我的订单</a>
+                </li>
+                <li>
+                    <a href="">下载记录</a>
+                </li>
+                <li>
+                    <a href="">购买记录</a>
+                </li>
+            </ul>
+            <ul class="person-left fl">
+                <li class="person-left-title">
+                    <span>账户管理</span>
+                </li>
+                <li class="active">
+                    <a href="person-message.html">个人信息</a>
+                </li>
+                <li>
+                    <a href="safe-center.html">安全中心</a>
+                </li>
+                <li>
+                    <a href="">收货地址</a>
+                </li>
+                <li>
+                    <a href="">我的消息</a>
+                </li>
+            </ul>
+        </div>
+        <div class="my-order fr">
+            <div class="my-order-title">
+                <span>个人信息</span>
+            </div>
+            <div class="person-person clearfix layui-form">
+                <div class="up-photo fl">
+                    {{# if(d.data.memberHeadimg){ }}
+                    <img src="http://file.serv.cq196.cn:10000/{{d.data.memberHeadimg}}">
+                    {{# } else { }}
+                    <img src="img/person.png">
+                    {{# } }}
+                    <button>上传头像</button>
+                </div>
+                <div class="person-person-right fl clearfix">
+                    <ul>
+                        <li>
+                            <span>纳税人识别号：</span>
+                            {{# if(d.data.taxidenNumber){ }}
+                            <input class="personNumber" value="{{d.data.taxidenNumber}}" placeholder="请输入纳税人识别号">
+                            {{# } else { }}
+                            <input class="personNumber" placeholder="请输入纳税人识别号">
+                            {{# } }}
+                        </li>
+                        <li>
+                            <span>昵称：</span>
+                            {{# if(d.data.nickName){ }}
+                            <input class="personNick" value="{{d.data.nickName}}" placeholder="请输入昵称">
+                            {{# } else { }}
+                            <input class="personNick" placeholder="请输入昵称">
+                            {{# } }}
+                        </li>
+                        <li>
+                            <span>用户名：</span>
+                            {{# if(d.data.nickName){ }}
+                            <input class="personName" value="{{d.data.userName}}" placeholder="请输入用户名">
+                            {{# } else { }}
+                            <input class="personName" placeholder="请输入用户名">
+                            {{# } }}
+                        </li>
+                        <li>
+                            <span>手机：</span>
+                            <input class="personPhone" value="{{d.data.memberPhone}}" disabled="disabled">
+                        </li>
+                        <li class="choose-men personSex">
+                            <span>性别：</span>
+                            {{# if(d.data.memberSex === 0){ }}
+                            <label class="active"> <i></i> <em>男</em></label>
+                            <label> <i></i> <em>女</em></label>
+                            {{# } else if (d.data.memberSex === 1) { }}
+                            <label> <i></i> <em>男</em></label>
+                            <label class="active"> <i></i> <em>女</em></label>
+                            {{# } else { }}
+                            <label> <i></i> <em>男</em></label>
+                            <label> <i></i> <em>女</em></label>
+                            {{# } }}
+                            <!--<div class="layui-input-block">-->
+                            <!--<input type="radio" name="sex" value="男" title="男" checked>-->
+                            <!--<input type="radio" name="sex" value="女" title="女">-->
+                            <!--</div>-->
+                        </li>
+                        <li class="birthday clearfix">
+                            <span class="fl">生日：</span>
+                            <div class="layui-inline">
+                                {{# if(d.data.memberBirth){ }}
+                                <input class="layui-input personBirthday" placeholder="{{d.data.memberBirth}}"
+                                       onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD'})">
+                                {{# } else { }}
+                                <input class="layui-input personBirthday" placeholder="请选择您的出生日期"
+                                       onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD'})">
+                                {{# } }}
+                            </div>
+                        </li>
+                        <!--<li class="choose-other">-->
+                        <!--<span>婚姻：</span>-->
+                        <!--<label class="active"> <i></i> <em>未婚</em></label>-->
+                        <!--<label> <i></i> <em>已婚</em></label>-->
+                        <!--<label> <i></i> <em>保密</em></label>-->
+                        <!--</li>-->
+                        <li class="write-love clearfix">
+                            <span class="fl">爱好：</span>
+                            {{# if(d.data.memberAutograph){ }}
+                            <textarea class="fl personLike" placeholder="请输入兴趣好爱">{{d.data.memberAutograph}}</textarea>
+                            {{# } else { }}
+                            <textarea class="fl personLike" placeholder="请输入兴趣好爱"></textarea>
+                            {{# } }}
+                        </li>
+                    </ul>
+                    <div class="message-sure">
+                        <a class="upMessage" href="javascript:;">保存</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
 <!--foot-->
 <div class="person-foot clearfix">
     <div class="ke-grid">
         <ul>
-            <li> <a href="">关于我们</a> </li>
-            <li> <a href="">服务介绍</a> </li>
-            <li> <a href="">新闻动态</a> </li>
-            <li> <a href="">招聘信息</a> </li>
-            <li> <a href="">税务服务</a> </li>
+            <li><a href="">关于我们</a></li>
+            <li><a href="">服务介绍</a></li>
+            <li><a href="">新闻动态</a></li>
+            <li><a href="">招聘信息</a></li>
+            <li><a href="">税务服务</a></li>
         </ul>
         <p>重庆远见金税通信息系统技术有限公司</p>
         <p>邮箱：123456789@qq.com</p>
         <p>地址：重庆北部新区人和街道镜泊中路5号 </p>
     </div>
     <div class="person-foot-bottom">
-        <div class="ke-grid">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539</div>
+        <div class="ke-grid">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6 渝公网备：50019002500539</div>
     </div>
 </div>
+<script>
+    //格式化时间
+    function getLocalTime(nS) {
+        var date = new Date(nS);
+        return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+    };
+    layui.use(['laytpl', 'layer', 'laydate', 'form'], function () {
+        var laydate = layui.laydate;
+        var laytpl = layui.laytpl;
+        var layer = layui.layer;
+        var form = layui.form();
+        var pass =3;
+        var memberId,accountGrade;
+        if ($.cookie('usermessage')) {
+            var data = JSON.parse($.cookie('usermessage'));
+            memberId = data.USER_ID;
+            accountGrade = data.accountGrade
+        };
+        $.ajax({
+            url: "http://192.168.0.102/persion/personals_info.json",
+            dataType: 'jsonp',
+            method: '',
+            data: {
+                method: 'post',
+                memberId: memberId,
+            },
+            jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+                console.log(data);
+                data.data.memberBirth= getLocalTime(data.data.memberBirth);
+                data.data.accountGrade = accountGrade;
+                console.log(data.data.memberBirth);
+                var getTpl = personData.innerHTML;
+                laytpl(getTpl).render(data, function (html) {
+                    personBox.innerHTML = html;
+                });
+                //选择性别
+                $("#personBox").on('click','label',function () {
+                    $(this).addClass("active").siblings().removeClass('active');
+                })
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+        //验证基本信息
+        function message(memberVerificationInfo,type,classname) {
+            $.ajax({
+                url: "http://192.168.0.102/persion/member_verificationinfo.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'get',
+                    memberVerificationInfo:memberVerificationInfo,
+                    type:type,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    if (data.code == 200){
+                        $(classname).addClass("pass");
+                        pass =true;
+                        //layer.msg(data.msg);
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        };
+        //验证用户名
+        $("#personBox").on('blur','.personName',function () {
+            userName = $(this).val();
+            pass = false;
+            message(userName,3,".personName");
+        });
+        //验证纳税人识别号
+        $("#personBox").on('blur','.personNumber',function () {
+            userName = $(this).val();
+            pass = false;
+            message(userName,1,".personNumber");
+        });
+        //提交信息
+        $("#personBox").on('click','.upMessage',function () {
+            var nickName = $(".personNick").val();
+            var userName = $(".personName").val();
+            var memberBrith = $(".personBirthday").val();
+            var memberSex = $(".personSex").find('.active').index()-1;
+            var memberHeadimg = 1;
+            var memberAutograph = $(".personLike").val();
+            var taxidenNumber = $(".personNumber").val();
+            if (pass){
+                $.ajax({
+                    url: "http://192.168.0.102/persion/modify_info.json",
+                    dataType: 'jsonp',
+                    method: '',
+                    data: {
+                        method: 'post',
+                        memberId: memberId,
+                        nickName:nickName,
+                        userName:userName,
+                        memberBrith:memberBrith,
+                        memberSex:memberSex,
+                        memberHeadimg:memberHeadimg,
+                        memberAutograph:memberAutograph,
+                        taxidenNumber:taxidenNumber,
+                    },
+                    jsonp: 'callback',
+                    async: false,    //或false,是否异步
+                    timeout: 5000,    //超时时间
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function () {
+                        console.log('请求错误');
+                    }
+                });
+            }else{
+                layer.msg("请填写正确的信息");
+            }
+
+        })
+    });
+</script>
 </body>
 </html>
