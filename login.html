@@ -51,7 +51,7 @@
                     timeout: 5000,    //超时时间
                     success: function (data) {
                         if(data.code==200){
-                            var user = JSON.stringify(data);
+                            var user = JSON.stringify(data.data);
                             $.cookie('usermessage',user);
 //                            $.cookie("user","uservalue",{
 //                                expires: 10,//有效日期

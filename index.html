@@ -60,7 +60,7 @@
         <div class="banner-left">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    {{# layui.each(d.homeAd, function(index, item){ }}
+                    {{# layui.each(d.data.homeAd, function(index, item){ }}
                     <div class="swiper-slide">
                         <a href="{{item.adLink}}">
                             <img src="http://file.serv.cq196.cn:10000/{{item.adImg}}" alt="{{item.adTitle}}">
@@ -71,7 +71,7 @@
                 <div class="swiper-pagination"></div>
             </div>
         </div>
-        {{# if(d.usermessage.length == 0){ }}
+        {{# if(d.usermessage === ''){ }}
         <div class="index-login">
             <div class="login-name">
                 <span>快捷登录</span>
@@ -84,37 +84,42 @@
                 <button class="login-now">立即登录</button>
             </div>
         </div>
-        {{# } }}
-
-        <!--<div class="person-center fr clearfix">-->
-            <!--<div class="person-title">-->
-                <!--<span>个人中心</span>-->
-            <!--</div>-->
-            <!--<div class="person-photo">-->
-                <!--<img src="img/person.png">-->
-                <!--<p class="user-name">用户昵称</p>-->
-            <!--</div>-->
-            <!--<div class="user-safe">-->
-                <!--<div class="safe-tiao">-->
-                    <!--<span></span>-->
-                <!--</div>-->
-                <!--<em>中级</em>-->
-            <!--</div>-->
-            <!--<div class="user-sever">-->
-                <!--<a href="">服务费查询</a>-->
-                <!--<a href="">缴费续费</a>-->
-            <!--</div>-->
-        <!--</div>-->
+         {{# } else { }}
+        <div class="person-center index-login fr clearfix">
+            <div class="person-title login-name">
+                <span>个人中心</span>
+            </div>
+            <div class="person-photo">
+                {{#  if(d.usermessage.memberHeadimg){ }}
+                <img src="http://file.serv.cq196.cn:10000/{{d.usermessage.memberHeadimg}}">
+                {{# } else { }}
+                <img src="./img/person.png">
+                {{#  } }}
+                <p class="user-name">{{d.usermessage.userName}}</p>
+            </div>
+            <div class="user-safe">
+                <div class="safe-tiao">
+                    <span></span>
+                </div>
+                <em>中级</em>
+            </div>
+            <div class="user-sever">
+                <a href="">服务费查询</a>
+                <a href="">缴费续费</a>
+            </div>
+        </div>
+        {{#  } }}
+    </div>
     </div>
     <!--index-about-->
     <div class="clearfix ke-grid index-about">
         <div class="about-us">
-            <img src="http://file.serv.cq196.cn:10000/{{ d.enterpriseinfo.introduceLogo }}">
+            <img src="http://file.serv.cq196.cn:10000/{{ d.data.enterpriseinfo.introduceLogo }}">
             <div class="about-min">
                 <div class="login-name about-title">
                     <span>关于我们</span>
                 </div>
-                <p>{{ d.enterpriseinfo.enterpriseIntroduce }}</p>
+                <p>{{ d.data.enterpriseinfo.enterpriseIntroduce }}</p>
             </div>
         </div>
         <div class="aboout-tab">
@@ -124,7 +129,7 @@
                 <li><span>公司公告</span></li>
             </ul>
             <ul class="news-item active">
-                {{# layui.each(d.newstrandenter, function(index, item){ }}
+                {{# layui.each(d.data.newstrandenter, function(index, item){ }}
                 <li>
                     <a class="over" href="news-min.html?id={{item.id}}">{{item.newTitle}}</a>
                     <span>{{item.newDate}}</span>
@@ -132,7 +137,7 @@
                 {{# }); }}
             </ul>
             <ul class="news-item">
-                {{# layui.each(d.newstrandsuiwu, function(index, item){ }}
+                {{# layui.each(d.data.newstrandsuiwu, function(index, item){ }}
                 <li>
                     <a class="over" href="news-min.html?id={{item.id}}">{{item.newTitle}}</a>
                     <span>{{item.newDate}}</span>
@@ -140,7 +145,7 @@
                 {{# }); }}
             </ul>
             <ul class="news-item">
-                {{# layui.each(d.noticeList, function(index, item){ }}
+                {{# layui.each(d.data.noticeList, function(index, item){ }}
                 <li>
                     <a class="over" href="news-min.html?id={{item.id}}">{{item.newTitle}}</a>
                     <span>{{item.newDate}}</span>
@@ -189,7 +194,7 @@
     </div>
     <div class="ke-grid">
         <ul class="goods-list">
-            {{# layui.each(d.indexproduct, function(index, item){ }}
+            {{# layui.each(d.data.indexproduct, function(index, item){ }}
             <li>
                 <a href="{{item.id}}">
                     <div class="goods-image">
@@ -290,14 +295,16 @@
                 $(data.data.noticeList).each(function (index, item) {
                     item.newDate = getLocalTime(item.newDate);
                 });
-                var usermessage = 0;
+                data['usermessage'] = '';
                 if ($.cookie('usermessage')){
+                    var usermessage;
                     usermessage = JSON.parse($.cookie('usermessage'));
+                    data['usermessage'] = usermessage;
                 }
-                data['usermessage'] = usermessage;
+
                 console.log(data);
                 var getTpl = index.innerHTML;
-                laytpl(getTpl).render(data.data, function (html) {
+                laytpl(getTpl).render(data, function (html) {
                     indexdata.innerHTML = html;
                     //首页轮播
                     var mySwiper = new Swiper('.swiper-container', {
@@ -334,7 +341,7 @@
                     timeout: 5000,    //超时时间
                     success: function (data) {
                         if (data.code == 200) {
-                            var user = JSON.stringify(data);
+                            var user = JSON.stringify(data.data);
                             $.cookie('usermessage', user);
                             console.log("登陆成功");
                             location.reload();
