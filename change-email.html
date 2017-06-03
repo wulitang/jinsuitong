@@ -135,6 +135,24 @@
             memberId = data.USER_ID;
             accountGrade = data.accountGrade
         };
+        //倒计时
+        var dian = true;
+        // var intDiff = parseInt(60);//倒计时总秒数量
+        function setTime(time){
+            setInterval(function(){
+                if(time<=0){
+                    clearInterval(setTime);
+                    return;
+                }
+                time--;
+                if(time ==0){
+                    $(".get-phone-code").text('获取验证码');
+                    dian=true;
+                }else {
+                    $(".get-phone-code").text('剩余'+time+'s');
+                }
+            },1000);
+        }
         //验证密码
         $(".email").blur(function(){
             memberMailbox =$(this).val();
@@ -147,6 +165,9 @@
             }
         });
         $(".get-phone-code").click(function () {
+            if(dian==false){
+                return ;
+            }
             if(myreg.test(memberMailbox)){
                 $.ajax({
                     url: "http://192.168.0.102/api/common/getSMSCaptcha.json",
@@ -163,6 +184,10 @@
                     timeout: 5000,    //超时时间
                     success: function (data) {
                         layer.msg(data.msg);
+                        if(data.code == 200){
+                            dian = false;
+                            setTime(100);
+                        }
                     },
                     error: function () {
                         console.log('请求错误');

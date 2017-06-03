@@ -124,6 +124,24 @@
         var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
         var layer = layui.layer;
         var memberId, pass,memberPhone,canuser;
+        //倒计时
+        var dian = true;
+        // var intDiff = parseInt(60);//倒计时总秒数量
+        function setTime(time){
+            setInterval(function(){
+                if(time<=0){
+                    clearInterval(setTime);
+                    return;
+                }
+                time--;
+                if(time ==0){
+                    $(".get-phone-code").text('获取验证码');
+                    dian=true;
+                }else {
+                    $(".get-phone-code").text('剩余'+time+'s');
+                }
+            },1000);
+        }
         //验证基本信息
         function message(memberVerificationInfo,type,classname) {
             $.ajax({
@@ -170,26 +188,37 @@
             }
         });
         $(".get-phone-code").click(function () {
-            $.ajax({
-                url: "http://192.168.0.102/api/common/getSMSCaptcha.json",
-                dataType: 'jsonp',
-                method: '',
-                data: {
-                    method: 'post',
-                    memberPhone: memberPhone,
-                    smsType:'1',
-                    codeType:'2',
-                },
-                jsonp: 'callback',
-                async: false,    //或false,是否异步
-                timeout: 5000,    //超时时间
-                success: function (data) {
-                    layer.msg(data.msg);
-                },
-                error: function () {
-                    console.log('请求错误');
-                }
-            });
+            if(dian==false){
+                return ;
+            }
+            if(memberPhone && pass ){
+                $.ajax({
+                    url: "http://192.168.0.102/api/common/getSMSCaptcha.json",
+                    dataType: 'jsonp',
+                    method: '',
+                    data: {
+                        method: 'post',
+                        memberPhone: memberPhone,
+                        smsType:'1',
+                        codeType:'2',
+                    },
+                    jsonp: 'callback',
+                    async: false,    //或false,是否异步
+                    timeout: 5000,    //超时时间
+                    success: function (data) {
+                        layer.msg(data.msg);
+                        if(data.code == 200){
+                            dian = false;
+                            setTime(100);
+                        }
+                    },
+                    error: function () {
+                        console.log('请求错误');
+                    }
+                });
+            }else {
+                layer.msg('请输入正确的电话号码');
+            }
         });
         $(".save-psaaword").click(function () {
             var captchaCode = $(".captchaCode").val();
