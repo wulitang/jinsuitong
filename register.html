@@ -24,12 +24,19 @@
         <div class="detail">
             <i class="active"></i>
             <p>我已经阅读并同意</p>
-            <a href="">《金税通注册协议》</a>
+            <a class="reader" href="javascript:;">《金税通注册协议》</a>
         </div>
         <a class="pass-button register-submit" href="javascript:;">确定</a>
         <div class="have">
             <p>已经有金税通账号？</p>
-            <a href="">直接登陆</a>
+            <a href="login.html">直接登陆</a>
+        </div>
+    </div>
+    <div class="reader-detail windows">
+        <div class="reader-min window-min">
+            <h3 class="reader-top"><span>金税通注册协议</span> <i><img src="img/x.png"></i></h3>
+            <div class="reader-reader"></div>
+            <div class="readered">同意并继续</div>
         </div>
     </div>
     <div class="register-foot">
@@ -42,6 +49,8 @@
 </div>
 <script>
     var userName, nickName,memberPwdo,memberPwdt,memberPhone,captchaCode;
+    var pass = false;
+    var canuser =false;
     var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
 
     layui.use('layer', function(){
@@ -62,8 +71,11 @@
                 timeout: 5000,    //超时时间
                 success: function (data) {
                     if (data.code == 200){
+                        if(type == 2){
+                            canuser =true;
+                        }
                         $(classname).addClass("pass");
-                        $(classname).removeClass("no");
+                        pass =true;
                         //layer.msg(data.msg);
                     }else{
                         layer.msg(data.msg);
@@ -92,9 +104,10 @@
             nickName = $(this).val();
             if ( nickName =="" ){
                 layer.msg('请输入您的昵称');
+                pass =false;
             }else{
                 $(this).addClass("pass");
-                $(this).removeClass("no");
+                pass =true;
             }
         });
         //验证密码
@@ -102,9 +115,10 @@
             memberPwdo =$(this).val();
             if ( memberPwdo==""|| memberPwdo.length<6 ){
                 layer.msg('请输入长度大于6位的密码');
+                pass =false;
             }else{
                 $(this).addClass("pass");
-                $(this).removeClass("no");
+                pass =true;
             }
         });
         $(".pass-two").blur(function(){
@@ -113,7 +127,7 @@
                 layer.msg('请输入正确的密码');
             }else{
                 $(this).addClass("pass");
-                $(this).removeClass("no");
+                pass =true;
             }
         });
         //验证电话号码
@@ -121,6 +135,7 @@
             memberPhone =$(this).val();
             if ( memberPwdo=="" || !myreg.test(memberPhone) ){
                 layer.msg('请输入正确的手机号码');
+                pass =false;
             }else{
                 message(memberPhone,2,".user-phone");
             }
@@ -129,9 +144,10 @@
         $(".phone-code").blur(function(){
             captchaCode =$(this).val();
             if ( captchaCode.length == 6  ){
-                $(this).removeClass("no");
+                pass =true;
             }else{
                 layer.msg('请输入正确的验证码');
+                pass =false;
             }
         });
         //倒计时
@@ -156,32 +172,106 @@
             if(dian==false){
                 return ;
             }
+            if(myreg.test(memberPhone) && canuser){
+                $.ajax({
+                    url: "http://192.168.0.102/api/common/getSMSCaptcha.json",
+                    dataType: 'jsonp',
+                    method: '',
+                    data: {
+                        method: 'post',
+                        memberPhone:memberPhone,
+                        smsType:1,
+                        codeType:1,
+                    },
+                    jsonp: 'callback',
+                    async: false,    //或false,是否异步
+                    timeout: 5000,    //超时时间
+                    success: function (data) {
+                        dian = false;
+                        setTime(100);
+                    },
+                    error: function () {
+                        console.log('请求错误');
+                    }
+                });
+            }else {
+                layer.msg('请输入正确的电话号码');
+            }
+
+
+        });
+        var reader = true;
+        //阅读协议
+        $(".detail i").click(function () {
+            $(this).toggleClass("active");
+            reader = !reader
+        });
+        //关闭协议弹窗
+        $(".reader-min h3 i").click(function () {
+            $(".windows").hide();
+        });
+        //确认并关闭弹窗
+        $(".readered").click(function () {
+            $(".windows").hide();
+            $(".detail i").addClass("active");
+            reader=true;
+        });
+        $(".reader").click(function () {
             $.ajax({
-                url: "http://192.168.0.102/api/common/getSMSCaptcha.json",
+                url: "http://192.168.0.102/api/common/getSysConfigerInfo.json",
                 dataType: 'jsonp',
                 method: '',
                 data: {
-                    method: 'post',
-                    memberPhone:memberPhone,
-                    smsType:1,
-                    codeType:1,
+                    method: 'get',
+                    type:'USER_BOND',
                 },
                 jsonp: 'callback',
                 async: false,    //或false,是否异步
                 timeout: 5000,    //超时时间
                 success: function (data) {
-                    dian = false;
-                    setTime(100);
+                    $(".reader-reader").html(data.data.value);
+                    $(".windows").show();
                 },
                 error: function () {
                     console.log('请求错误');
                 }
             });
-
         });
         //注册
         $(".register-submit").click(function () {
-
+            if(pass && reader && userName && nickName && memberPwdt && memberPhone && captchaCode){
+                $.ajax({
+                    url: "http://192.168.0.102/persion/member_register.json",
+                    dataType: 'jsonp',
+                    method: '',
+                    data: {
+                        method: 'get',
+                        userName:userName,
+                        nickName:nickName,
+                        memberPwd:memberPwdt,
+                        memberPhone:memberPhone,
+                        captchaCode:captchaCode,
+                    },
+                    jsonp: 'callback',
+                    async: false,    //或false,是否异步
+                    timeout: 5000,    //超时时间
+                    success: function (data) {
+                        dian = false;
+                        layer.msg('信息提交成功');
+                        setTimeout(function () {
+                            location.href="login.html";
+                        }, 1000)
+                    },
+                    error: function () {
+                        console.log('请求错误');
+                    }
+                });
+            }else if(reader !== true){
+                layer.msg('请同意注册协议');
+            }
+            else {
+                layer.msg('请填写完整信息');
+            }
         });
 
     });

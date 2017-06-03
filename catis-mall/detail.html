@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情页</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+</head>
+<body>
+<!--顶部-->
+<div class="top clearfix">
+    <div class="con top-con">
+        <span class="fl">欢迎光临<em>金税通官网</em></span>
+        <span class="fr"><a href="">登录</a>|<a href="">注册</a></span>
+    </div>
+</div>
+<!--商城头部-->
+<div class="mall-top">
+    <div class="con clearfix">
+        <img src="img/logo.png" class="logo fl">
+        <div class="fr logo-right">
+            <input type="text" placeholder="请输入关键词" class="search-input">
+            <input type="submit" class="search-btn" value="">
+            <a class="shop-cart" href="">我的购物车（0）</a>
+        </div>
+    </div>
+    <div class="two-block con">
+        <span class="all-classify">全部分类</span>
+        <a href="">商城首页</a>
+    </div>
+</div>
+<!--详情页-->
+<div class="con clearfix">
+    <!--缩略图轮播-->
+    <div class="ban fl" id="demo1">
+        <div class="ban2" id="ban_pic1">
+            <ul>
+                <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+                <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+                <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+                <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+                <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+            </ul>
+        </div>
+        <div class="min_pic">
+            <div class="prev_btn1" id="prev_btn1"><img src="img/slt-left.png" width="30" height="74"  alt=""/></div>
+            <div class="num clearfix" id="ban_num1">
+                <ul>
+                    <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+                    <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+                    <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+                    <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+                    <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+                </ul>
+            </div>
+            <div class="next_btn1" id="next_btn1"><img src="img/slt-right.png" width="30" height="74"  alt=""/></div>
+        </div>
+    </div>
+    <div class="detail-r fr">
+        <h4>惠普（HP） LaserJet Pro M1213nf 黑白多功能激光一体机</h4>
+        <div class="goods-info">
+            <span class="info-titile">商品价格：<em class="price">￥259.00</em></span>
+            <span class="info-titile">商品评分：
+                <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+                <em class="star-info">5分（累计评价：56人）</em>
+            </span>
+            <span class="info-titile">商品配送：<em class="place">中国  重庆</em> 有货  免运费</span>
+            <span class="info-titile">商品服务：<em>由 金税通商城 发货并提供售后服务</em></span>
+        </div>
+        <div class="goods-info option">
+            <span class="info-titile choose-xh">商品型号：<em class="choose active">i70023</em><em class="choose">i70023</em><em class="choose">i70023</em></span>
+            <span class="info-titile choose-ys">商品颜色：<em class="choose active">黑色</em><em class="choose">磨砂黑</em></span>
+            <span class="info-titile">选择数量：
+                <em class="number"><i class="reduce"></i><input type="text" class="num-input" value="1"><i class="add"></i></em>
+                库存：99件
+            </span>
+            <span class="info-titile t-color">已选择：“<em class="xinghao">i70023</em>”,“<em class="yanse">深灰色</em>”</span>
+        </div>
+        <a class="ljgm" href="">立即购买</a>
+        <a class="jrgwc" href="">加入购物车</a>
+    </div>
+</div>
+<div class="con clearfix">
+    <div class="relate-goods fl">
+        <h4 class="con-title"><span>相关产品</span></h4>
+        <ul>
+            <li>
+                <img src="img/groom-goods.png">
+                <p class="goods-name">中控智慧K28 考勤机 打卡机</p>
+                <span class="price">￥259.00</span>
+            </li>
+            <li>
+                <img src="img/groom-goods.png">
+                <p class="goods-name">中控智慧K28 考勤机 打卡机</p>
+                <span class="price">￥259.00</span>
+            </li>
+            <li>
+                <img src="img/groom-goods.png">
+                <p class="goods-name">中控智慧K28 考勤机 打卡机</p>
+                <span class="price">￥259.00</span>
+            </li>
+        </ul>
+    </div>
+    <div class="detail-tab fr">
+        <div class="tab">
+            <span class="active">商品详情</span>
+            <span>商品评价</span>
+        </div>
+        <div class="tab-con">
+            <img class="detail-img" src="img/spxq.png">
+        </div>
+        <div class="tab-con">
+            <div class="evaluate-l">
+                <span class="l-title">商品评分</span>
+                <span class="grades">
+                    5分
+                    <i class="big-star"></i>
+                    <i class="big-star"></i>
+                    <i class="big-star"></i>
+                    <i class="big-star"></i>
+                    <i class="big-star"></i>
+                </span>
+                <span class="summary">100%好评率 56人评价</span>
+            </div>
+            <div class="evaluate-r">
+                <span>满意：<i class="active"></i> 100%</span>
+                <span>一般：<i></i> 0%</span>
+                <span>差评：<i></i> 0%</span>
+            </div>
+            <p class="all-evaluate">全部评价（56）</p>
+            <ul class="evaluate-list">
+                <li>
+                    <img class="fl" src="img/touxiang.png">
+                    <div class="eva-detail fl">
+                        <span class="user-name">用户昵称</span>
+                        <span class="star-box"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></span>
+                        <span>商品的质量都是一样的，买的是金税通的服务！</span>
+                    </div>
+                    <span class="eva-time fr">评价时间：2017-05-05</span>
+                </li>
+                <li>
+                    <img class="fl" src="img/touxiang.png">
+                    <div class="eva-detail fl">
+                        <span class="user-name">用户昵称</span>
+                        <span class="star-box"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></span>
+                        <span>商品的质量都是一样的，买的是金税通的服务！</span>
+                    </div>
+                    <span class="eva-time fr">评价时间：2017-05-05</span>
+                </li>
+                <li>
+                    <img class="fl" src="img/touxiang.png">
+                    <div class="eva-detail fl">
+                        <span class="user-name">用户昵称</span>
+                        <span class="star-box"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></span>
+                        <span>商品的质量都是一样的，买的是金税通的服务！</span>
+                    </div>
+                    <span class="eva-time fr">评价时间：2017-05-05</span>
+                </li>
+                <li>
+                    <img class="fl" src="img/touxiang.png">
+                    <div class="eva-detail fl">
+                        <span class="user-name">用户昵称</span>
+                        <span class="star-box"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></span>
+                        <span>商品的质量都是一样的，买的是金税通的服务！</span>
+                    </div>
+                    <span class="eva-time fr">评价时间：2017-05-05</span>
+                </li>
+                <li>
+                    <img class="fl" src="img/touxiang.png">
+                    <div class="eva-detail fl">
+                        <span class="user-name">用户昵称</span>
+                        <span class="star-box"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></span>
+                        <span>商品的质量都是一样的，买的是金税通的服务！</span>
+                    </div>
+                    <span class="eva-time fr">评价时间：2017-05-05</span>
+                </li>
+            </ul>
+            <p class="eva-more">加载更多…</p>
+        </div>
+        <div class="state">
+            <h4>服务承诺：</h4>
+            <p>
+                金税通商城向您保证所售商品均为正品行货，金税通商城自营商品自带机打发票，与商品一起寄送。凭质保证书及商城发票，可享受全国联保服
+                务（奢侈品、钟表除外奢侈品、钟表由联系保修，享受法定三包售后服务），与您亲临商场选购的商品享受相同的质量保证。商城还为您提供具
+                有竞争力的商品价格和运费政策，请您放心购买！<br><br>
+                注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本公司不能确保客户收到的货物与商城图片、产地、附件说明完
+                全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！
+            </p>
+            <h4>权利声明：</h4>
+            <p>
+                金税通商城上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是商城重要的经营资源，未经许可，禁止非法转载使用。<br><br>
+                注：本站商品信息均来自于厂商，其真实性、准确性和合法性由信息拥有者（厂商）负责。本站不提供任何保证，并不承担任何法律责任。
+            </p>
+        </div>
+    </div>
+</div>
+<!--footer-->
+<div class="con con-bottom">
+    <ul class="clearfix ensure">
+        <li class="fl">
+            <img class="fl" src="img/zpbz-footer.png">
+            <div class="fl">
+                <h4>正品保障</h4>
+                <p>正品行货，100%质量保证</p>
+            </div>
+        </li>
+        <li class="fl">
+            <img class="fl" src="img/jsps-footer.png">
+            <div class="fl">
+                <h4>极速配送</h4>
+                <p>下单24小时内立即发货</p>
+            </div>
+        </li>
+        <li class="fl">
+            <img class="fl" src="img/wyth-footer.png">
+            <div class="fl">
+                <h4>无忧退货</h4>
+                <p>无忧售后，7日无理由退换</p>
+            </div>
+        </li>
+        <li class="fl">
+            <img class="fl" src="img/wxbz-footer.png">
+            <div class="fl">
+                <h4>维修保障</h4>
+                <p>官方授权，全国联保</p>
+            </div>
+        </li>
+    </ul>
+    <ul class="bottom-link">
+        <li class="fl">
+            <h4>购物指南</h4>
+            <a href="">购物流程</a>
+            <a href="">会员制度</a>
+            <a href="">常见问题</a>
+        </li>
+        <li class="fl">
+            <h4>支付方式</h4>
+            <a href="">购物流程</a>
+            <a href="">会员制度</a>
+        </li>
+        <li class="fl">
+            <h4>配送方式</h4>
+            <a href="">购物流程</a>
+            <a href="">会员制度</a>
+        </li>
+        <li class="fl">
+            <h4>售后服务</h4>
+            <a href="">购物流程</a>
+            <a href="">会员制度</a>
+            <a href="">常见问题</a>
+        </li>
+    </ul>
+    <div class="contact fl">
+        <span class="tel">400-123-1234</span>
+        <span class="work-time">周一至周五 09:00-18:00</span>
+        <img src="img/wx.png">
+        <img src="img/qq.png">
+        <img src="img/wb.png">
+    </div>
+    <div class="ewm fl">
+        <img src="img/ewm.png">
+        <p>微信二维码</p>
+    </div>
+</div>
+<div class="footer">
+    <div class="link-box">
+        <div class="footer-link">
+            <a href="">关于我们</a>
+            <a href="">服务介绍</a>
+            <a href="">新闻动态</a>
+            <a href="">招聘信息</a>
+            <a href="">税务服务</a>
+        </div>
+    </div>
+    <div class="company-info">
+        <p>重庆远见金税通信息系统技术有限公司</p>
+        <p>邮箱：123456789@qq.com</p>
+        <p>地址：重庆北部新区人和街道镜泊中路5号 </p>
+    </div>
+    <p class="filing">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539</p>
+</div>
+<script type="text/javascript">
+    $('#demo1').banqh({
+        box:"#demo1",//总框架
+        pic:"#ban_pic1",//大图框架
+        pnum:"#ban_num1",//小图框架
+        prev_btn:"#prev_btn1",//小图左箭头
+        next_btn:"#next_btn1",//小图右箭头
+        pop_prev:"#prev2",//弹出框左箭头
+        pop_next:"#next2",//弹出框右箭头
+        prev:"#prev1",//大图左箭头
+        next:"#next1",//大图右箭头
+        pop_div:"#demo2",//弹出框框架
+        pop_pic:"#ban_pic2",//弹出框图片框架
+        pop_xx:".pop_up_xx",//关闭弹出框按钮
+        mhc:".mhc",//朦灰层
+        autoplay:true,//是否自动播放
+        interTime:5000,//图片自动切换间隔
+        delayTime:400,//切换一张图片时间
+        pop_delayTime:400,//弹出框切换一张图片时间
+        order:0,//当前显示的图片（从0开始）
+        picdire:true,//大图滚动方向（true为水平方向滚动）
+        mindire:true,//小图滚动方向（true为水平方向滚动）
+        min_picnum:5,//小图显示数量
+        pop_up:false//大图是否有弹出框
+    })
+</script>
+</body>
+</html>

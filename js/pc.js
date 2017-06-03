@@ -1,4 +1,12 @@
 $(function () {
+    //获取用户信息JSON.stringify(obj)将JSON转为字符串。JSON.parse(string)将字符串转为JSON格式；
+    if($.cookie('usermessage')){
+        var data = JSON.parse($.cookie('usermessage'));
+        console.log(data);
+    }else {
+
+    }
+
     //下载页关闭弹窗
     $(".success span").click(function () {
         $(".windows").hide();

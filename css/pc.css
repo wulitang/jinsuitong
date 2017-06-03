@@ -2608,3 +2608,35 @@ body {
     background: url("../img/right.png") no-repeat 430px center #fff;
     background-size: 20px ;
 }
+.reader-min{
+    padding: 30px;
+}
+.reader-min .reader-top{
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.reader-min .reader-top i{
+    float: right;
+}
+.reader-min .reader-top span{
+    font-size: 16px;
+    color: #fe5f01;
+    line-height: 46px;
+    display: inline-block;
+    border-bottom: 3px solid #fe5f01;
+}
+.reader-reader{
+    height: 440px;
+    overflow: auto;
+    padding: 20px 0 0 0;
+}
+.readered{
+    line-height: 50px;
+    width: 100px;
+    margin: 20px auto;
+    background: #fb8f4f;
+    text-align: center;
+    color: #fff;
+    border-radius: 4px;
+}
