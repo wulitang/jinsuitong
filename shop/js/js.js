@@ -61,9 +61,9 @@ $(function(){
         $('.tab-con').eq(index).show().siblings('.tab-con').hide();
     });
     //评价加载更多
-    $(".eva-more").click(function(){
+    /*$(".eva-more").click(function(){
         $(".evaluate-list").css("height","auto");
-    });
+    });*/
 });
 
 //缩略图轮播

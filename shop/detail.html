@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <title>详情页</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link href="/layui/css/layui.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquerysession.js"></script>
     <script type="text/javascript" src="js/js.js"></script>
+    <script type="text/javascript" src="/layui/layui.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
+    <style>
+    	.attr-name{display: initial !important;}
+    </style>
 </head>
 <body>
 <!--顶部-->
@@ -33,150 +40,127 @@
 <!--详情页-->
 <div class="con clearfix">
     <!--缩略图轮播-->
-    <div class="ban fl" id="demo1">
-        <div class="ban2" id="ban_pic1">
+    <div class="ban fl" id="carouselView">
+        
+    </div>
+    <script id="carousel" type="text/html">
+    <div class="ban2" id="ban_pic1">
+        <ul>
+			{{#  layui.each(d, function(index, item){ }}
+            <li><a href="javascript:;"><img src="{{imgUrl+item.picturetImg}}" alt=""/></a></li>
+			{{#  }); }}
+        </ul>
+    </div>
+    <div class="min_pic">
+        <div class="prev_btn1" id="prev_btn1"><img src="img/slt-left.png" width="30" height="74"  alt=""/></div>
+        <div class="num clearfix" id="ban_num1">
             <ul>
-                <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
-                <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
-                <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
-                <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
-                <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
+				{{#  layui.each(d, function(index, item){ }}
+                <li><a href="javascript:;"><img src="{{imgUrl+item.picturetImg}}" alt=""/></a></li>
+				{{#  }); }}
             </ul>
         </div>
-        <div class="min_pic">
-            <div class="prev_btn1" id="prev_btn1"><img src="img/slt-left.png" width="30" height="74"  alt=""/></div>
-            <div class="num clearfix" id="ban_num1">
-                <ul>
-                    <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
-                    <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
-                    <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
-                    <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
-                    <li><a href="javascript:;"><img src="img/groom-goods.png" alt=""/></a></li>
-                </ul>
-            </div>
-            <div class="next_btn1" id="next_btn1"><img src="img/slt-right.png" width="30" height="74"  alt=""/></div>
-        </div>
+        <div class="next_btn1" id="next_btn1"><img src="img/slt-right.png" width="30" height="74"  alt=""/></div>
     </div>
-    <div class="detail-r fr">
-        <h4>惠普（HP） LaserJet Pro M1213nf 黑白多功能激光一体机</h4>
+     </script> 
+    <div class="detail-r fr" id="tplDetailView"></div>
+    <script id="tplDetailHtml" type="text/html">
+    	<h4>{{d.productName}}</h4>
         <div class="goods-info">
-            <span class="info-titile">商品价格：<em class="price">￥259.00</em></span>
+            <span class="info-titile">商品价格：<em class="price">￥{{d.productPrice}}</em></span>
             <span class="info-titile">商品评分：
-                <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
-                <em class="star-info">5分（累计评价：56人）</em>
+                {{# for(var i=0;i<parseInt(d.ProductComments);i++){ }}
+				<i class="star"></i>
+	            {{# };}}  
+				<em class="star-info">{{parseInt(d.ProductComments)}}分（累计评价：{{d.reviewTimes}}人）</em>
             </span>
-            <span class="info-titile">商品配送：<em class="place">中国  重庆</em> 有货  免运费</span>
+            <span class="info-titile">商品配送：
+				<em class="place">中国  重庆</em> 
+				{{d.productStock>0?'有货':'没货' }}
+				{{(d.isPost==2 && d.prPostage>0) ? ('运费：￥'+d.d.prPostage):'免运费'}}  
+			</span>
             <span class="info-titile">商品服务：<em>由 金税通商城 发货并提供售后服务</em></span>
         </div>
         <div class="goods-info option">
-            <span class="info-titile choose-xh">商品型号：<em class="choose active">i70023</em><em class="choose">i70023</em><em class="choose">i70023</em></span>
-            <span class="info-titile choose-ys">商品颜色：<em class="choose active">黑色</em><em class="choose">磨砂黑</em></span>
-            <span class="info-titile">选择数量：
+			{{#  layui.each(d.list, function(index, item){ }}
+            <span class="info-titile choose-xh"><span class="attr-name">{{item.attrName}}</span>：
+				{{#  layui.each(item.prouductSalesattrValue, function(k, v){ }}
+				<em class="choose" data-name="{{item.attrName}}:{{v.attrvalueName}}" data-id="{{item.attrId}}:{{v.attrvalueId}}">{{v.attrvalueName}}</em>
+				{{#  }); }}
+			</span>
+            {{#  }); }}
+			<span class="info-titile">选择数量：
                 <em class="number"><i class="reduce"></i><input type="text" class="num-input" value="1"><i class="add"></i></em>
-                库存：99件
+                库存：{{d.productStock}}件
             </span>
-            <span class="info-titile t-color">已选择：“<em class="xinghao">i70023</em>”,“<em class="yanse">深灰色</em>”</span>
+            <span class="info-titile t-color"></span>
         </div>
-        <a class="ljgm" href="">立即购买</a>
-        <a class="jrgwc" href="">加入购物车</a>
-    </div>
+        <a class="ljgm">立即购买</a>
+        <a class="jrgwc">加入购物车</a>
+	</script> 
 </div>
 <div class="con clearfix">
     <div class="relate-goods fl">
         <h4 class="con-title"><span>相关产品</span></h4>
-        <ul>
-            <li>
-                <img src="img/groom-goods.png">
-                <p class="goods-name">中控智慧K28 考勤机 打卡机</p>
-                <span class="price">￥259.00</span>
-            </li>
-            <li>
-                <img src="img/groom-goods.png">
-                <p class="goods-name">中控智慧K28 考勤机 打卡机</p>
-                <span class="price">￥259.00</span>
-            </li>
-            <li>
-                <img src="img/groom-goods.png">
-                <p class="goods-name">中控智慧K28 考勤机 打卡机</p>
-                <span class="price">￥259.00</span>
-            </li>
-        </ul>
+        <ul id="relevantShopView"></ul>
+        <script id="relevantShop" type="text/html">
+		{{#  layui.each(d, function(index, item){ }}
+        <a href="detail.html?shopId={{item.id}}"><li>
+            <img src="{{imgUrl+item.picturetImg}}">
+            <p class="goods-name">{{item.productName}}</p>
+            <span class="price">￥{{item.productPrice}}</span>
+        </li></a>
+		{{# }) }}  
+		</script>
     </div>
     <div class="detail-tab fr">
         <div class="tab">
             <span class="active">商品详情</span>
             <span>商品评价</span>
         </div>
-        <div class="tab-con">
-            <img class="detail-img" src="img/spxq.png">
+        <div class="tab-con" id="shopInfView">
+            <script id="shopInf" type="text/html">{{d}}</script>
         </div>
         <div class="tab-con">
-            <div class="evaluate-l">
-                <span class="l-title">商品评分</span>
-                <span class="grades">
-                    5分
-                    <i class="big-star"></i>
-                    <i class="big-star"></i>
-                    <i class="big-star"></i>
-                    <i class="big-star"></i>
-                    <i class="big-star"></i>
-                </span>
-                <span class="summary">100%好评率 56人评价</span>
+        	<div id="commentInfShopView">
+        		<script id="commentInfShop" type="text/html">
+	            <div class="evaluate-l">
+	                <span class="l-title">商品评分</span>
+	                <span class="grades">{{parseInt(d.ProductComments)}}分
+					{{# for(var i=0;i<parseInt(d.ProductComments);i++){ }}
+						<i class="big-star"></i>
+	            	{{# };}}  
+	                </span>
+	                <span class="summary">{{d.getProductComments.hpComment}}%好评率 {{d.reviewTimes}}人评价</span>
+	            </div>
+	            <div class="evaluate-r">
+	                <span>满意：<i><b style="width: {{d.getProductComments.hpComment}}%;background: #02c969;height: 12px;display: block;border-radius: 5px;"></b></i> {{d.getProductComments.hpComment}}%</span>
+	                <span>一般：<i><b style="width: {{d.getProductComments.zpComment}}%;background: #02c969;height: 12px;display: block;border-radius: 5px;"></b></i> {{d.getProductComments.zpComment}}%</span>
+	                <span>差评：<i><b style="width: {{d.getProductComments.cpComment}}%;background: #02c969;height: 12px;display: block;border-radius: 5px;"></b></i> {{d.getProductComments.cpComment}}%</span>
+	            </div>
+	            <p class="all-evaluate">全部评价（{{d.reviewTimes}}）</p>
+				</script>
             </div>
-            <div class="evaluate-r">
-                <span>满意：<i class="active"></i> 100%</span>
-                <span>一般：<i></i> 0%</span>
-                <span>差评：<i></i> 0%</span>
-            </div>
-            <p class="all-evaluate">全部评价（56）</p>
-            <ul class="evaluate-list">
+            <ul class="evaluate-list" id="commentListView">
+            	<script id="commentList" type="text/html">
+				{{#  layui.each(d, function(index, item){ }}
                 <li>
-                    <img class="fl" src="img/touxiang.png">
+                    <img class="fl" src="{{item.memberHeadimg?item.memberHeadimg:'img/touxiang.png'}}">
                     <div class="eva-detail fl">
-                        <span class="user-name">用户昵称</span>
-                        <span class="star-box"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></span>
-                        <span>商品的质量都是一样的，买的是金税通的服务！</span>
+                        <span class="user-name">{{item.nickName}}</span>
+                        <span class="star-box">
+							{{# for(var i=0;i<parseInt(item.connentNumber);i++){ }}
+								<i class="star"></i>
+	            			{{# };}} 
+						</span>
+                        <span>{{item.commentContent}}</span>
                     </div>
-                    <span class="eva-time fr">评价时间：2017-05-05</span>
+                    <span class="eva-time fr">评价时间：{{formatDate(item.createDate)}}</span>
                 </li>
-                <li>
-                    <img class="fl" src="img/touxiang.png">
-                    <div class="eva-detail fl">
-                        <span class="user-name">用户昵称</span>
-                        <span class="star-box"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></span>
-                        <span>商品的质量都是一样的，买的是金税通的服务！</span>
-                    </div>
-                    <span class="eva-time fr">评价时间：2017-05-05</span>
-                </li>
-                <li>
-                    <img class="fl" src="img/touxiang.png">
-                    <div class="eva-detail fl">
-                        <span class="user-name">用户昵称</span>
-                        <span class="star-box"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></span>
-                        <span>商品的质量都是一样的，买的是金税通的服务！</span>
-                    </div>
-                    <span class="eva-time fr">评价时间：2017-05-05</span>
-                </li>
-                <li>
-                    <img class="fl" src="img/touxiang.png">
-                    <div class="eva-detail fl">
-                        <span class="user-name">用户昵称</span>
-                        <span class="star-box"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></span>
-                        <span>商品的质量都是一样的，买的是金税通的服务！</span>
-                    </div>
-                    <span class="eva-time fr">评价时间：2017-05-05</span>
-                </li>
-                <li>
-                    <img class="fl" src="img/touxiang.png">
-                    <div class="eva-detail fl">
-                        <span class="user-name">用户昵称</span>
-                        <span class="star-box"><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i></span>
-                        <span>商品的质量都是一样的，买的是金税通的服务！</span>
-                    </div>
-                    <span class="eva-time fr">评价时间：2017-05-05</span>
-                </li>
+				{{#  }); }}
+                </script>
             </ul>
-            <p class="eva-more">加载更多…</p>
+           	<p class="eva-more" data-page="1" id="page">加载更多…</p>
         </div>
         <div class="state">
             <h4>服务承诺：</h4>
@@ -280,31 +264,6 @@
     </div>
     <p class="filing">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539</p>
 </div>
-<script type="text/javascript">
-    $('#demo1').banqh({
-        box:"#demo1",//总框架
-        pic:"#ban_pic1",//大图框架
-        pnum:"#ban_num1",//小图框架
-        prev_btn:"#prev_btn1",//小图左箭头
-        next_btn:"#next_btn1",//小图右箭头
-        pop_prev:"#prev2",//弹出框左箭头
-        pop_next:"#next2",//弹出框右箭头
-        prev:"#prev1",//大图左箭头
-        next:"#next1",//大图右箭头
-        pop_div:"#demo2",//弹出框框架
-        pop_pic:"#ban_pic2",//弹出框图片框架
-        pop_xx:".pop_up_xx",//关闭弹出框按钮
-        mhc:".mhc",//朦灰层
-        autoplay:true,//是否自动播放
-        interTime:5000,//图片自动切换间隔
-        delayTime:400,//切换一张图片时间
-        pop_delayTime:400,//弹出框切换一张图片时间
-        order:0,//当前显示的图片（从0开始）
-        picdire:true,//大图滚动方向（true为水平方向滚动）
-        mindire:true,//小图滚动方向（true为水平方向滚动）
-        min_picnum:5,//小图显示数量
-        pop_up:false//大图是否有弹出框
-    })
-</script>
+<script type="text/javascript" src="js/pageJs/detail.js"></script>
 </body>
 </html>

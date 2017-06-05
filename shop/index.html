@@ -131,7 +131,7 @@
  		 <ul class="clearfix">
 			{{#  layui.each(d, function(index, item){ }}
          	<li class="shop-box fl">
-               <a href="{{item.id}}">
+               <a href="detail.html?shopId={{item.id}}">
                    <img src="{{imgUrl+item.picturetImg}}">
                    <p class="goods-name">{{item.productName}}</p>
                    <span class="price">￥{{item.productPrice}}</span>
@@ -155,12 +155,12 @@
         <a class="more fr" href="classlist.html?shopType={{item.cId}}">查看更多 ></a>
     </p>
     <div class="fenlei-con clearfix">
-        <a class="left-yd fl" href=""><img src="{{imgUrl+item.adImg}}"></a>
+        <a class="left-yd fl" href="{{item.adLink}}"><img src="{{imgUrl+item.adImg}}"></a>
         <div class="over-box fl">
         	<ul class="mall-goods">
 				{{#  layui.each(item.productList, function(key, val){ }}
             	<li class="fl">
-               		<a href="{{val.id}}"><img src="{{imgUrl+val.picturetImg}}"><p>{{val.productName}}</p><span class="price">￥{{val.productPrice}}</span></a>
+               		<a href="detail.html?shopId={{val.id}}"><img src="{{imgUrl+val.picturetImg}}"><p>{{val.productName}}</p><span class="price">￥{{val.productPrice}}</span></a>
             	</li>
 				{{#  }); }}
         	</ul>

@@ -11,6 +11,7 @@ em{
     margin:0;
     padding:0;
 }
+a{cursor: pointer;}
 .fl{
     float: left;
 }
@@ -1226,6 +1227,7 @@ body{
     width: 35px;
     height: 35px;
     display: inline-block;
+    cursor: pointer;
 }
 .number .reduce {
     background: url(../img/reduce.png) no-repeat;
@@ -1247,6 +1249,9 @@ body{
     text-align: center;
     margin-top: 30px;
     margin-right: 15px;
+}
+.detail-r a:hover{
+	color: #fff;
 }
 .ljgm{
     background: #ee692c;
@@ -1355,7 +1360,7 @@ body{
     padding-left: 30px;
 }
 .evaluate-list{
-    height: 453px;
+    /* height: 453px; */
     overflow: hidden;
 }
 .evaluate-list li{
