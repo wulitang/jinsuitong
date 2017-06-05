@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>个人中心</title>
     <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/pc.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
 </head>
 <body>
 <!--welcome-->
@@ -77,51 +79,103 @@
         <div class="my-order-title">
             <span>收货地址</span>
         </div>
-        <div class="my-address">
-            <ul class="set-list">
-                <li>
-                    <span>所在区域：</span>
-                    <select>
-                        <option>重庆</option>
-                    </select>
-                    <select>
-                        <option>重庆市</option>
-                    </select>
-                    <select>
-                        <option>南岸区</option>
-                    </select>
-                </li>
-                <li class="detail-address">
-                    <span>详细地址：</span>
-                    <input placeholder="请输入详细地址" style="width: 520px;">
-                </li>
-                <li class="detail-address">
-                    <span>邮政编码：</span>
-                    <input placeholder="请输入邮政编码">
-                </li>
-                <li class="detail-address">
-                    <span>收货人：</span>
-                    <input placeholder="请输入收货人姓名">
-                </li>
-                <li class="detail-address">
-                    <span>手机号码：</span>
-                    <input placeholder="请输入手机号码">
-                </li>
-                <li class="detail-address">
-                    <span>固定电话：</span>
-                    <input placeholder="请输入固定电话">
-                </li>
-            </ul>
-            <div class="set-address">
-                <div class="clearfix">
-                    <i></i>
-                    <p>设为默认收货地址</p>
-                </div>
-                <div>
-                    <button>保存</button>
+        <script id="cityOneData" type="text/html">
+            {{#  layui.each(d.data, function(index, item){ }}
+            {{# if(item.cityId == item.cityId){ }}
+            <option value="{{item.cityCode}}" selected id="{{item.cityId}}">
+                {{# } else { }}
+            <option value="{{item.cityCode}}" id="{{item.cityId}}">
+                {{# } }}
+                {{item.cityName}}
+            </option>
+            {{#  }); }}
+        </script>
+        <script id="cityTwoData" type="text/html">
+            {{#  layui.each(d.data, function(index, item){ }}
+            {{# if(item.cityId == item.cityId){ }}
+            <option value="{{item.cityCode}}" selected id="{{item.cityId}}">
+                {{# } else { }}
+            <option value="{{item.cityCode}}" id="{{item.cityId}}">
+                {{# } }}
+                {{item.cityName}}
+            </option>
+            {{#  }); }}
+        </script>
+        <script id="cityThreeData" type="text/html">
+            {{#  layui.each(d.data, function(index, item){ }}
+            {{# if(item.cityId == item.cityId){ }}
+            <option value="{{item.cityCode}}" selected id="{{item.cityId}}">
+                {{# } else { }}
+            <option value="{{item.cityCode}}" id="{{item.cityId}}">
+                {{# } }}
+                {{item.cityName}}
+            </option>
+            {{#  }); }}
+        </script>
+        <div id="addressBox"></div>
+        <script id="addressData" type="text/html">
+            <div class="my-address">
+                <ul class="set-list">
+                    <li>
+                        <span>所在区域：</span>
+                        <select id="cityOneBox" class="stateId"></select>
+                        <select id="cityTwoBox" class="cityId" style="display: none"></select>
+                        <select id="cityThreeBox" class="districtId" style="display: none"></select>
+                    </li>
+                    <li class="detail-address">
+                        <span>详细地址：</span>
+                        {{# if(d.receivingAddress){ }}
+                        <input class="receivingAddress" value="{{d.receivingAddress}}" placeholder="请输入详细地址"
+                               style="width: 520px;">
+                        {{# } else { }}
+                        <input class="receivingAddress" placeholder="请输入详细地址" style="width: 520px;">
+                        {{# } }}
+                    </li>
+                    <li class="detail-address">
+                        <span>邮政编码：</span>
+                        {{# if(d.receivingAddress){ }}
+                        <input class="receivingZip" value="{{d.receivingZip}}" placeholder="请输入邮政编码">
+                        {{# } else { }}
+                        <input class="receivingZip" placeholder="请输入邮政编码">
+                        {{# } }}
+                    </li>
+                    <li class="detail-address">
+                        <span>收货人：</span>
+                        {{# if(d.receivingAddress){ }}
+                        <input class="receivingName" value="{{d.receivingName}}" placeholder="请输入收货人姓名">
+                        {{# } else { }}
+                        <input class="receivingName" placeholder="请输入收货人姓名">
+                        {{# } }}
+                    </li>
+                    <li class="detail-address">
+                        <span>手机号码：</span>
+                        {{# if(d.receivingAddress){ }}
+                        <input class="receivingMobile" value="{{d.receivingMobile}}" placeholder="请输入手机号码">
+                        {{# } else { }}
+                        <input class="receivingMobile" placeholder="请输入手机号码">
+                        {{# } }}
+
+                    </li>
+                    <li class="detail-address">
+                        <span>固定电话：</span>
+                        {{# if(d.receivingAddress){ }}
+                        <input class="receivingPhone" value="{{d.receivingPhone}}" placeholder="请输入固定电话">
+                        {{# } else { }}
+                        <input class="receivingPhone" placeholder="请输入固定电话">
+                        {{# } }}
+                    </li>
+                </ul>
+                <div class="set-address">
+                    <div class="clearfix">
+                        <i></i>
+                        <p>设为默认收货地址</p>
+                    </div>
+                    <div>
+                        <button class="save-button">保存</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </script>
         <!--<ul class="address-list">-->
         <!--<li class="address-bg">-->
         <!--<span class="address-name">收货人</span>-->
@@ -143,35 +197,337 @@
                     <th>手机/电话</th>
                     <th>操作</th>
                 </tr>
-                <tr>
-                    <td>林道云</td>
-                    <td>重庆-重庆市-南岸区</td>
-                    <td>协信星光40楼协信星光40楼协信星光40楼协信星光40楼</td>
-                    <td>460000</td>
-                    <td>186****4244/-</td>
-                    <td><a href="javascript:;">修改</a> | <a href="javascript:;">删除</a></td>
-                </tr>
-                <tr>
-                    <td>林道云</td>
-                    <td>重庆-重庆市-南岸区</td>
-                    <td>协信星光40楼协信星光40楼协信星光40楼协信星光40楼</td>
-                    <td>460000</td>
-                    <td>186****4244/-</td>
-                    <td><a href="javascript:;">修改</a> | <a href="javascript:;">删除</a></td>
-                </tr>
-                <tr>
-                    <td>林道云</td>
-                    <td>重庆-重庆市-南岸区</td>
-                    <td>协信星光40楼协信星光40楼协信星光40楼协信星光40楼</td>
-                    <td>460000</td>
-                    <td>186****4244/-</td>
-                    <td><a href="javascript:;">修改</a> | <a href="javascript:;">删除</a></td>
-                </tr>
+                <tbody id="listBox"></tbody>
+                <script id="listData" type="text/html">
+                    {{#  layui.each(d.data, function(index, item){ }}
+                    <tr>
+                        <td>{{item.receivingName}}</td>
+                        <td>{{item.city3Name}}</td>
+                        <td>{{item.receivingAddress}}</td>
+                        <td>{{item.receivingZip}}</td>
+                        <td>{{item.receivingMobile}}</td>
+                        <td><a href="my-address.html?addressId={{item.addressId}}">修改</a> | <a class="delete"
+                                                                                               data-address="{{item.addressId}}"
+                                                                                               href="javascript:;">删除</a>
+                        </td>
+                    </tr>
+                    {{#  }); }}
+                </script>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script>
+    layui.use(['layer', 'laytpl', 'form'], function () {
+        var layer = layui.layer;
+        var laytpl = layui.laytpl;
+        var form = layui.form();
+        form.on('select(stateId)', function (data) {
+            console.log(data.elem); //得到select原始DOM对象
+            console.log(data.value); //得到被选中的值
+            console.log(data.othis); //得到美化后的DOM对象
+        });
+        var member_id, receivingName, receivingMobile, stateId, cityId, receivingPhone, districtId, receivingAddress,
+            receivingZip, isDefault = 0;
+        //获取url上面的参数，有类似方法getQueryString
+        function getPar(par) {
+            //获取当前URL
+            var local_url = document.location.href;
+            //获取要取得的get参数位置
+            var get = local_url.indexOf(par + '=');
+            if (get == -1) {
+                return false;
+            }
+            //截取字符串
+            var get_par = local_url.slice(par.length + get + 1);
+            //判断截取后的字符串是否还有其他get参数
+            var nextPar = get_par.indexOf('&');
+            if (nextPar != -1) {
+                get_par = get_par.slice(0, nextPar);
+            }
+            return get_par;
+        };
+        //获取一级城市列表
+        $.ajax({
+            url: "http://192.168.0.102/address/provCityOne.json",
+            dataType: 'jsonp',
+            method: '',
+            data: {
+                method: 'post',
+            },
+            jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+                var data = {
+                    'data': data.data,
+                    'id': data.data.cityId
+                }
+                var getTpl = cityOneData.innerHTML;
+                laytpl(getTpl).render(data, function (html) {
+                    cityOneBox.innerHTML = html;
+                });
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+        //选择城市
+        //getcityTwoBox
+        function getTwo(cityCode) {
+            $("#cityTwoBox").show();
+            $.ajax({
+                url: "http://192.168.0.102/address/cityTwo.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                    cityCode: cityCode,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    var getTpl = cityTwoData.innerHTML;
+                    laytpl(getTpl).render(data, function (html) {
+                        cityTwoBox.innerHTML = html;
+                    });
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        }
+
+        //getThree
+        function getThree(cityCode) {
+            $("#cityThreeBox").show();
+            $.ajax({
+                url: "http://192.168.0.102/address/cityTwo.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                    cityCode: cityCode,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    var getTpl = cityThreeData.innerHTML;
+                    laytpl(getTpl).render(data, function (html) {
+                        cityThreeBox.innerHTML = html;
+                    });
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        }
+
+        $("#addressBox").on('change', '#cityOneBox', function () {
+            var cityCode = $("#cityOneBox").val();
+            getTwo(cityCode);
+        });
+        $("#addressBox").on('change', '#cityTwoBox', function () {
+            var cityCode = $("#cityTwoBox").val();
+            getThree(cityCode);
+
+        });
+        //获取用户地址
+        member_id = JSON.parse($.cookie("usermessage")).USER_ID;
+        $.ajax({
+            url: "http://192.168.0.102/address/getEasyBuyList.json",
+            dataType: 'jsonp',
+            method: '',
+            data: {
+                method: 'post',
+                member_id: member_id,
+            },
+            jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+                var getTpl = listData.innerHTML;
+                laytpl(getTpl).render(data, function (html) {
+                    listBox.innerHTML = html;
+                });
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+        $("#addressBox").on('click', '.set-address i', function () {
+            $(this).toggleClass("active");
+            if(isDefault){
+                isDefault = 0;
+            }else {
+                isDefault = 1;
+            }
+        });
+        //增加收货地址
+        function add() {
+            $.ajax({
+                url: "http://192.168.0.102/address/addDisAddress.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                    member_id: member_id,
+                    receivingName: receivingName,
+                    receivingMobile: receivingMobile,
+                    stateId: stateId,
+                    cityId: cityId,
+                    districtId: districtId,
+                    receivingAddress: receivingAddress,
+                    receivingZip: receivingZip,
+                    isDefault: isDefault,
+                    receivingPhone: receivingPhone,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    if (data.code == 200) {
+                        layer.msg(data.msg);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000)
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        }
+
+        //修改收货地址
+        function change(addressId) {
+            $.ajax({
+                url: "http://192.168.0.102/address/updateDisAddress.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                    addressId: addressId,
+                    member_id: member_id,
+                    receivingName: receivingName,
+                    receivingMobile: receivingMobile,
+                    stateId: stateId,
+                    cityId: cityId,
+                    districtId: districtId,
+                    receivingAddress: receivingAddress,
+                    receivingZip: receivingZip,
+                    isDefault: isDefault,
+                    receivingPhone: receivingPhone,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    if (data.code == 200) {
+                        layer.msg(data.msg);
+                        setTimeout(function () {
+                            location.href = 'my-address.html';
+                        }, 1000)
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        }
+
+        var addressId = getPar("addressId");
+        if (addressId) {
+            //获取一级城市列表
+            $.ajax({
+                url: "http://192.168.0.102/address/getDisAddress.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                    addressId: addressId,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    var getTpl = addressData.innerHTML;
+                    laytpl(getTpl).render(data.data, function (html) {
+                        addressBox.innerHTML = html;
+                        getTwo(data.data.stateId);
+                        getThree(data.data.cityId);
+                    });
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        } else {
+            var getTpl = addressData.innerHTML;
+            data = [];
+            laytpl(getTpl).render(data, function (html) {
+                addressBox.innerHTML = html;
+            });
+        }
+        //delete
+        $(".address-list").on('click', '.delete', function () {
+            addressId = $(this).attr("data-address");
+            $.ajax({
+                url: "http://192.168.0.102/address/deleteEasyBuyInfo.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                    addressId: addressId,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    if (data.code == 200) {
+                        layer.msg(data.msg);
+                        setTimeout(function () {
+                            location.href = 'my-address.html';
+                        }, 1000)
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        });
+        //提交用户信息
+        $("#addressBox").on('click', '.save-button', function () {
+            receivingName = $(".receivingName").val();
+            receivingMobile = $(".receivingMobile").val();
+            stateId = $(".stateId option:selected").attr('id');
+            cityId = $(".cityId option:selected").attr('id');
+            districtId = $(".districtId option:selected").attr('id');
+            receivingAddress = $(".receivingAddress").val();
+            receivingZip = $(".receivingZip").val();
+            receivingPhone = $(".receivingPhone").val();
+            if (receivingName && receivingMobile && districtId) {
+                if (addressId) {
+                    change(addressId);
+                } else {
+                    add();
+                }
+            } else {
+                layer.msg("请填写完整的收货地址");
+            }
+
+        });
+    });
+</script>
 <!--foot-->
 <div class="person-foot clearfix">
     <div class="ke-grid">

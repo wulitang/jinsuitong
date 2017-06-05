@@ -2670,3 +2670,6 @@ body {
 .person-person-right .layui-form-radioed i {
     color: #0499ff;
 }
+.set-address .active{
+    background: url("../img/icon.png") no-repeat center;
+}
