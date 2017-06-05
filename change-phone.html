@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>个人中心</title>
     <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
     <script type="text/javascript" src="js/pc.js"></script>
 </head>
 <body>
@@ -81,12 +84,12 @@
             <div class="login-detail change-password clearfix">
                 <div>
                     <em>新手机号码：</em>
-                    <input placeholder="请输入短信验证码">
+                    <input class="user-phone" placeholder="请输入新手机号码">
                     <button class="get-phone-code">获取短信验证码</button>
                 </div>
                 <div class="">
                     <em>短信验证码：</em>
-                    <input placeholder="请输入短信验证码">
+                    <input class="captchaCode" placeholder="请输入短信验证码">
                 </div>
                 <a href="javascript:;" class="save-psaaword" style="margin: 20px 0 57px 90px;">确认</a>
             </div>
@@ -116,5 +119,139 @@
         <div class="ke-grid">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6 渝公网备：50019002500539</div>
     </div>
 </div>
+<script>
+    layui.use('layer', function () {
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        var layer = layui.layer;
+        var memberId, pass,memberPhone,canuser;
+        //倒计时
+        var dian = true;
+        // var intDiff = parseInt(60);//倒计时总秒数量
+        function setTime(time){
+            setInterval(function(){
+                if(time<=0){
+                    clearInterval(setTime);
+                    return;
+                }
+                time--;
+                if(time ==0){
+                    $(".get-phone-code").text('获取验证码');
+                    dian=true;
+                }else {
+                    $(".get-phone-code").text('剩余'+time+'s');
+                }
+            },1000);
+        }
+        //验证基本信息
+        function message(memberVerificationInfo,type,classname) {
+            $.ajax({
+                url: "http://192.168.0.102/persion/member_verificationinfo.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'get',
+                    memberVerificationInfo:memberVerificationInfo,
+                    type:type,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    if (data.code == 200){
+                        if(type == 2){
+                            canuser =true;
+                        }
+                        $(classname).addClass("pass");
+                        pass =true;
+                        //layer.msg(data.msg);
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        }
+        if ($.cookie('usermessage')) {
+            var data = JSON.parse($.cookie('usermessage'));
+            memberId = data.USER_ID;
+        };
+        //验证电话号码
+        $(".user-phone").blur(function(){
+            memberPhone =$(this).val();
+            if ( memberPhone=="" || !myreg.test(memberPhone) ){
+                layer.msg('请输入正确的手机号码');
+                pass =false;
+            }else{
+                message(memberPhone,2,".user-phone");
+            }
+        });
+        $(".get-phone-code").click(function () {
+            if(dian==false){
+                return ;
+            }
+            if(memberPhone && pass ){
+                $.ajax({
+                    url: "http://192.168.0.102/api/common/getSMSCaptcha.json",
+                    dataType: 'jsonp',
+                    method: '',
+                    data: {
+                        method: 'post',
+                        memberPhone: memberPhone,
+                        smsType:'1',
+                        codeType:'2',
+                    },
+                    jsonp: 'callback',
+                    async: false,    //或false,是否异步
+                    timeout: 5000,    //超时时间
+                    success: function (data) {
+                        layer.msg(data.msg);
+                        if(data.code == 200){
+                            dian = false;
+                            setTime(100);
+                        }
+                    },
+                    error: function () {
+                        console.log('请求错误');
+                    }
+                });
+            }else {
+                layer.msg('请输入正确的电话号码');
+            }
+        });
+        $(".save-psaaword").click(function () {
+            var captchaCode = $(".captchaCode").val();
+            if (pass && captchaCode){
+                $.ajax({
+                    url: "http://192.168.0.102/persion/preCheckMobile.json",
+                    dataType: 'jsonp',
+                    method: '',
+                    data: {
+                        method: 'post',
+                        memberId: memberId,
+                        memberPhone:memberPhone,
+                        captchaCode:captchaCode,
+                    },
+                    jsonp: 'callback',
+                    async: false,    //或false,是否异步
+                    timeout: 5000,    //超时时间
+                    success: function (data) {
+                        if(data.code == 200){
+                            location.href="safe-center.html";
+                        }else {
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error: function () {
+                        console.log('请求错误');
+                    }
+                });
+            }else {
+                layer.msg('请输入正确的验证码');
+            }
+        });
+    });
+</script>
 </body>
 </html>

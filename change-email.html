@@ -82,19 +82,22 @@
                 <span>安全中心</span>
             </div>
             <div class="login-detail change-password clearfix">
-                <p class="send-phone">短信验证码将发送至已验证手机号码：<em></em></p>
                 <div>
-                    <em>短信验证码：</em>
-                    <input class="captchaCode" placeholder="请输入短信验证码">
-                    <button class="get-phone-code">获取短信验证码</button>
+                    <em>我的邮箱：</em>
+                    <input class="email" placeholder="请输入邮箱号码">
+                </div>
+                <div>
+                    <em>邮箱验证码：</em>
+                    <input class="captchaCode" placeholder="请输入邮箱证码">
+                    <button class="get-phone-code">获取邮箱验证码</button>
                 </div>
                 <div class="change-code clearfix">
                     <em class="fl">验证码：</em>
-                    <input  class="fl email-code" placeholder="请输入验证码">
+                    <input class="email-code fl" placeholder="请输入验证码">
                     <img  class="fl code-img" src="http://192.168.0.100:8088/authImage?id=1">
                     <p>看不清？<a class="change-none" href="javascript:;">换一张</a></p>
                 </div>
-                <a href="javascript:;" class="save-psaaword" style="margin: 17px 0 0 90px;">确定</a>
+                <a href="javascript:;" class="save-psaaword">确认</a>
             </div>
         </div>
         <div class="warm-message">
@@ -125,18 +128,13 @@
 <script>
     layui.use('layer', function () {
         var layer = layui.layer;
-        var memberId, pass,memberPhone;
+        var memberId, memberMailbox,imgcode, captchaCode,pass;
+        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
         if ($.cookie('usermessage')) {
             var data = JSON.parse($.cookie('usermessage'));
             memberId = data.USER_ID;
+            accountGrade = data.accountGrade
         };
-        if ($.cookie('memberPhone')) {
-             memberPhone = $.cookie('memberPhone');
-            $('.send-phone em').html(memberPhone.substring(0, 3) + "****" + memberPhone.substring(7, 11));
-        };
-        $(".change-none").click(function () {
-            $(".code-img").attr('src','http://192.168.0.100:8088/authImage?id'+new Date());
-        });
         //倒计时
         var dian = true;
         // var intDiff = parseInt(60);//倒计时总秒数量
@@ -155,34 +153,50 @@
                 }
             },1000);
         }
+        //验证密码
+        $(".email").blur(function(){
+            memberMailbox =$(this).val();
+            if ( memberMailbox==""|| !myreg.test(memberMailbox) ){
+                layer.msg('请输入正确的邮箱');
+                pass = false;
+            }else{
+                pass = true;
+                $(this).addClass("pass");
+            }
+        });
         $(".get-phone-code").click(function () {
             if(dian==false){
                 return ;
             }
-            $.ajax({
-                url: "http://192.168.0.102/api/common/getSMSCaptcha.json",
-                dataType: 'jsonp',
-                method: '',
-                data: {
-                    method: 'post',
-                    memberPhone: memberPhone,
-                    smsType:'1',
-                    codeType:'2',
-                },
-                jsonp: 'callback',
-                async: false,    //或false,是否异步
-                timeout: 5000,    //超时时间
-                success: function (data) {
-                    layer.msg(data.msg);
-                    if(data.code == 200){
-                        dian = false;
-                        setTime(100);
+            if(myreg.test(memberMailbox)){
+                $.ajax({
+                    url: "http://192.168.0.102/api/common/getSMSCaptcha.json",
+                    dataType: 'jsonp',
+                    method: '',
+                    data: {
+                        method: 'post',
+                        memberPhone: memberMailbox,
+                        smsType:'2',
+                        codeType:'5',
+                    },
+                    jsonp: 'callback',
+                    async: false,    //或false,是否异步
+                    timeout: 5000,    //超时时间
+                    success: function (data) {
+                        layer.msg(data.msg);
+                        if(data.code == 200){
+                            dian = false;
+                            setTime(100);
+                        }
+                    },
+                    error: function () {
+                        console.log('请求错误');
                     }
-                },
-                error: function () {
-                    console.log('请求错误');
-                }
-            });
+                });
+            }else {
+                layer.msg('请填写正确的邮箱');
+            }
+
         });
         $(".email-code").blur(function(){
             imgcode =$(this).val();
@@ -216,17 +230,21 @@
                 });
             }
         });
+        $(".change-none").click(function () {
+            $(".code-img").attr('src','http://192.168.0.100:8088/authImage?id'+new Date());
+        });
         $(".save-psaaword").click(function () {
-            var captchaCode = $(".captchaCode").val();
-            if (pass && captchaCode){
+//             memberMailbox = $(".email").val();
+             captchaCode= $(".captchaCode").val();
+            if (memberMailbox && captchaCode && pass){
                 $.ajax({
-                    url: "http://192.168.0.102/persion/preCheckMobile.json",
+                    url: "http://192.168.0.102/persion/updateMail.json",
                     dataType: 'jsonp',
                     method: '',
                     data: {
                         method: 'post',
                         memberId: memberId,
-                        memberPhone:memberPhone,
+                        memberMailbox:memberMailbox,
                         captchaCode:captchaCode,
                     },
                     jsonp: 'callback',
@@ -244,7 +262,7 @@
                     }
                 });
             }else {
-                layer.msg('请输入正确的验证码');
+                layer.msg('请输入正确的信息');
             }
         });
     });
