@@ -21,6 +21,9 @@ em{
 .clearfix {
     zoom:1;
 }
+#page{
+	text-align: center;
+}
 .clearfix:after {
     clear:both;
     content:'';
@@ -86,6 +89,7 @@ body{
     background: url("../img/search-btn.png") no-repeat;
     border: none;
     margin-left: -60px;
+    cursor: pointer;
 }
 /*首页购物车样式*/
 .shop-cart{
@@ -485,6 +489,7 @@ body{
     font-size: 14px;
     color: #0094e1;
     margin-right: 20px;
+    cursor: pointer;
 }
 .filter{
     border: 1px solid #ebebeb;
@@ -511,6 +516,7 @@ body{
     margin: 0 10px;
     padding: 0 10px;
     border-radius: 3px;
+    cursor:pointer;
 }
 .filter li a:hover{
     background: #ee692c;
@@ -601,9 +607,25 @@ body{
 }
 .list .price{
     display: block;
+    font-weight: bold;
+}
+.list .buy nb{
+	color: #ee692c;
+    font-weight: 700;
+}
+.list .cart nb{
+	color: #54a5c6;
+    font-weight: 700;
 }
 .list .buy{
-    width: 106px;
+	width: 106px;
+    height: 30px;
+    line-height: 30px;
+    color: #4c4c4c;
+    text-align: left;
+    display: inline-block;
+    font-size: 12px;
+    /* width: 106px;
     height: 38px;
     line-height: 38px;
     background: #ee692c;
@@ -612,10 +634,17 @@ body{
     display: inline-block;
     border-radius: 5px;
     font-size: 14px;
-    margin-top: 20px;
+    margin-top: 20px; */
 }
 .list .cart{
-    width: 106px;
+	width: 106px;
+    height: 30px;
+    line-height: 36px;
+    color: #4c4c4c;
+    text-align: left;
+    display: inline-block;
+    font-size: 12px;
+    /* width: 106px;
     height: 36px;
     line-height: 36px;
     color: #ee692c;
@@ -624,7 +653,7 @@ body{
     border-radius: 5px;
     font-size: 14px;
     border: 1px solid #ee692c;
-    margin: 20px 0 0 4px;
+    margin: 20px 0 0 4px; */
 }
 .pages a{
     display: inline-block;
