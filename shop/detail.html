@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <title>详情页</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
-    <link href="/layui/css/layui.css" rel="stylesheet" type="text/css">
+    <!-- <link href="/layui/css/layui.css" rel="stylesheet" type="text/css"> -->
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="js/jquerysession.js"></script>
     <script type="text/javascript" src="js/js.js"></script>
     <script type="text/javascript" src="/layui/layui.js"></script>
-    <script type="text/javascript" src="js/md5.js"></script>
     <style>
     	.attr-name{display: initial !important;}
     </style>
@@ -29,7 +27,7 @@
         <div class="fr logo-right">
             <input type="text" placeholder="请输入关键词" class="search-input">
             <input type="submit" class="search-btn" value="">
-            <a class="shop-cart" href="">我的购物车（0）</a>
+            <a class="shop-cart" href="cart.html">我的购物车（<span>0</span>）</a>
         </div>
     </div>
     <div class="two-block con">
@@ -77,7 +75,7 @@
             <span class="info-titile">商品配送：
 				<em class="place">中国  重庆</em> 
 				{{d.productStock>0?'有货':'没货' }}
-				{{(d.isPost==2 && d.prPostage>0) ? ('运费：￥'+d.d.prPostage):'免运费'}}  
+				{{(d.isPost==2 && d.prPostage>0) ? ('运费：￥'+d.prPostage):'免运费'}}  
 			</span>
             <span class="info-titile">商品服务：<em>由 金税通商城 发货并提供售后服务</em></span>
         </div>
