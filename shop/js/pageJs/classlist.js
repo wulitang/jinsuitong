@@ -324,6 +324,7 @@ function ajaxData(pageNow,order){
 	        cl1Id:cl1Id,
 	        searchKeyword:searchKey
 	}
+	postData[obyKey]=obyVal;
 	$.ajax({
         url: postUrl+"/product/search_product.json",
         dataType: 'jsonp',

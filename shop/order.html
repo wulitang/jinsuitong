@@ -40,16 +40,22 @@
         <span class="fl">收货信息：</span>
         <a class="fr" href=""><i></i>新增收货地址</a>
     </div>
-    <div class="address">
-        <i class="check"></i>
-        <span>收货信息：<em>林道云</em></span>
-        <span>手机号：<em>186****4244</em></span>
-        <span>收货地址：<em>重庆市南岸区协信星光7栋40楼</em></span>
-    </div>
-    <div class="receipt">
-        <span class="fl">商品清单：</span>
-        <a class="fr" href="">返回修改购物车</a>
-    </div>
+    <div id="addressView">
+    	<script id="address" type="text/html">
+		{{#  layui.each(d, function(index, item){ }}
+	    <div class="address">
+			{{#  if(index==0){  }}
+	        <i class="check checked" data-id="{{item.addressId}}"></i>
+			{{#  } else { }}
+			<i class="check" data-id="{{item.addressId}}"></i>
+			{{#  } }}
+	        <span>收货人：<em>{{item.receivingName}}</em></span>
+	        <span>手机号：<em>{{item.receivingMobile}}</em></span>
+	        <span>收货地址：<em>{{item.city1Name}}{{item.city2Name}}{{item.city3Name}}{{item.receivingAddress}}</em></span>
+	    </div>
+		{{#  }); }}
+		</script>
+  	</div>
     <ul class="order-list" id="orderPayView">
     	<script id="orderPay" type="text/html">
 		{{#  layui.each(d, function(index, item){ }}
@@ -65,8 +71,8 @@
 				{{#  } }}
 				{{#  } }}
             </div>
-            <span class="order-price">￥<price data-yf="{{item.yf}}" data-number="{{item.productNumber}}" data-price="{{item.productPrice}}">{{item.productPrice}}</price></span>
-            <span class="order-num">￥{{item.yf}}</span>
+            <span class="order-price">￥<price data-yf="{{item.yf}}" data-number="{{item.productNumber}}" data-price="{{item.productPrice}}">{{formatCurrency(item.productPrice)}}</price></span>
+            <span class="order-num">￥{{formatCurrency(item.yf)}}</span>
 			<span class="order-num">X{{item.productNumber}}</span>
             <span class="order-stock fr">有货</span>
         </li>
@@ -86,6 +92,10 @@
         </select>
         <span>发票抬头：</span>
         <input type="text" placeholder="请输入发票抬头">
+    </div>
+    <div class="imsg">
+    	<p>留言：</p>
+        <textarea></textarea>
     </div>
     <div class="receipt">
         <span>支付方式：</span>
