@@ -1034,6 +1034,7 @@ body{
     display: inline-block;
     vertical-align: top;
     margin: 0 -1px 0 -2px;
+    background: #f7f7f7;
 }
 .cart-list .num i{
     width: 35px;

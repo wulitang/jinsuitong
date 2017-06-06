@@ -31,7 +31,7 @@ layui.use('laytpl', function(){
         	}
         	if(data.data.pruductPsukInfo){
         		$.each(data.data.pruductPsukInfo,function(i,v){
-        			suk[v.propertiesAttr] = {"price":v.prPrice,'id':v.sukId};
+        			suk[v.propertiesAttr] = {"price":v.prPrice,'id':v.sukId,'number':v.prNumber};
         		})
         	}
         	tplCarousel(data.data.pictureTable);
@@ -188,8 +188,9 @@ $('#tplDetailView').on('click','.number .reduce',function(){ //减少
 })
 $('#tplDetailView').on('click','.number .add',function(){//添加
 	var numinput = parseInt($('#tplDetailView .number .num-input').val());
+	var max      = $(this).attr('data-stock');
+	if(numinput>max || numinput==max){return ;}
 	$('#tplDetailView .number .num-input').val(numinput+1);
-	
 })
 function page(pageNow){
 	$.ajax({
@@ -264,6 +265,8 @@ $('#tplDetailView').on('click','.option .choose-xh .choose',function(){
 		price = suk[key];
 		if(price){
 			$('#tplDetailView .info-titile .price').text('￥'+price['price']);
+			$('#tplDetailView .option .number .add').attr('data-stock',price['number']);
+			$('#tplDetailView .option stock').html(price['number']);
 			sukId = price['id'];
 			sukKey= key;
 			snk   = nKey;

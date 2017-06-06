@@ -88,8 +88,8 @@
 			</span>
             {{#  }); }}
 			<span class="info-titile">选择数量：
-                <em class="number"><i class="reduce"></i><input type="text" class="num-input" value="1"><i class="add"></i></em>
-                库存：{{d.productStock}}件
+                <em class="number"><i class="reduce"></i><input type="text" disabled class="num-input" value="1"><i class="add" data-stock='{{d.productStock}}'></i></em>
+               	库存：<stock>{{d.productStock}}</stock>件
             </span>
             <span class="info-titile t-color"></span>
         </div>

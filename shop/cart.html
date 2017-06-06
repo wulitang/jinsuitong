@@ -69,7 +69,7 @@
 				{{#  } }}
             </div>
             <span class="unit-price fl"><p class="dj" data-price="{{item.productPrice}}">￥<price>{{formatCurrency(item.productPrice)}}</price></p><p class="yf" data-yf="{{item.prPostage}}">运费：￥<price>{{formatCurrency(item.prPostage)}}</price></p></span>
-            <span class="num fl"><i class="reduce"></i><input type="text" class="num-input" value="{{item.productNumber}}"><i class="add"></i></span>
+            <span class="num fl"><i class="reduce"></i><input type="text" disabled class="num-input" value="{{item.productNumber}}"><i class="add" data-stock="{{item.productStock}}"></i></span>
             <span class="total price fl">￥<price>{{formatCurrency((item.productPrice*item.productNumber)+item.prPostage)}}</price></span>
             <span class="operate fl">删除</span>
         </li>

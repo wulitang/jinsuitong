@@ -78,26 +78,30 @@ $('#shopListView').on('click','.clearfix .num .add',function(){
 	var _this    = $(this);
 	var numinput = parseInt($(this).parent('.num').find('.num-input').val()),
 		cartId   = $(this).parents('.clearfix').find('i').attr('data-id');
-		$.ajax({
-	        url: postUrl+"/cart/updatecartitem.json",
-	        dataType: 'jsonp',
-	        method: 'POST',
-	        data: {
-	            method: 'POST',
-	            cartId: cartId,
-	            productNumber:numinput+1
-	        },
-	        jsonp: 'callback',
-	        async: false,    //或false,是否异步
-	        timeout: 5000,    //超时时间
-	        success: function (data) {
-	        	_this.parent('.num').find('.num-input').val(numinput+1)
-	        	editGoodsNum(_this,numinput+1);
-	        },
-	        error: function () {
-	            console.log('请求错误');
-	        }
-	    });
+	var max      = $(this).attr('data-stock');
+	if(numinput==max || numinput>max){
+		return ;
+	}
+	$.ajax({
+        url: postUrl+"/cart/updatecartitem.json",
+        dataType: 'jsonp',
+        method: 'POST',
+        data: {
+            method: 'POST',
+            cartId: cartId,
+            productNumber:numinput+1
+        },
+        jsonp: 'callback',
+        async: false,    //或false,是否异步
+        timeout: 5000,    //超时时间
+        success: function (data) {
+        	_this.parent('.num').find('.num-input').val(numinput+1)
+        	editGoodsNum(_this,numinput+1);
+        },
+        error: function () {
+            console.log('请求错误');
+        }
+    });
 })
 $('#shopListView').on('click','.operate',function(){ //删除购物车
 	delCart($(this).parents('li').find('i').attr('data-id'));	
