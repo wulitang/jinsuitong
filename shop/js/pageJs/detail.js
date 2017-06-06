@@ -9,6 +9,8 @@ var laytpl    = '',
 	gooosImg  = '';
 	goodsNum  = 0;
 	snk       = '';
+	dprice    = 0;
+	yf        = 0;
 layui.use('laytpl', function(){
 	laytpl = layui.laytpl;
 	  //使用方式跟独立组件完全一样
@@ -105,7 +107,9 @@ $('#tplDetailView').on('click','.ljgm',function(){ //立即购买
 						'gooosImg':gooosImg,
 						'goodsNum':goodsNum,
 						'snk':snk,
-						'productNumber':numinput
+						'productNumber':numinput,
+						'productPrice':dprice,
+						'yf':yf
             		}
 	};
 	$.getScript("js/md5.js",function(){  //加载test.js,成功后，并执行回调函数
@@ -270,6 +274,8 @@ $('#tplDetailView').on('click','.option .choose-xh .choose',function(){
 			sukId = price['id'];
 			sukKey= key;
 			snk   = nKey;
+			dprice= price['price'];
+			goodsNum = price['number'];
 		}
 		$('#tplDetailView .t-color').html(tcolor);
 })
@@ -326,6 +332,8 @@ function tplDetail(data){
 		};
 		goodsName = data['productName'];
 		goodsNum  = data['productStock'];
+		dprice    = data['productPrice'];
+		yf        = (data['isPost']==2 && data['prPostage']>0)?data['prPostage']:0
 	}
 	var getTpl = tplDetailHtml.innerHTML;
 	laytpl(getTpl).render(datas, function(html){

@@ -45,6 +45,7 @@ function tplComment(){//评论
 			'productName':data.list.goodsName,
 			'priceImg':data.list.gooosImg
 		}
+		tplOrderPay([data.list]);
 	}else{
 		
 	}
@@ -56,6 +57,13 @@ function tplComment(){//评论
 	});*/
 }
 
+function tplOrderPay(data){
+	var data=data?data:'';
+	var getTpl = orderPay.innerHTML;
+	laytpl(getTpl).render(data, function(html){
+		orderPayView.innerHTML = html;
+	});
+}
 
 //404
 function e404(){
