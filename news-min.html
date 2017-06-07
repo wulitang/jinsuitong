@@ -7,19 +7,26 @@
     <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="shop/js/jquerysession.js"></script>
     <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/swiper-3.4.2.min.js"></script>
     <script type="text/javascript" src="js/pc.js"></script>
 </head>
 <body>
 <!--welcome-->
-<div class="welcome">
+<div class="welcome" id="welcomeBox"></div>
+<script type="text/html" id="welcomeData">
     <div class="ke-grid">
         <p class="over">欢迎光临金<em>穗通官网</em></p>
         <div class="index-right fr">
-            <a href="">登录</a>|<a href="">注册</a>
+            {{# if(d.userName){}}
+            <a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
+            {{# } else { }}
+            <a href="login.html">登录</a>|<a href="register.html">注册</a>
+            {{# } }}
         </div>
     </div>
-</div>
+</script>
 <!--菜单-->
 <div class="index-top clearfix">
     <div class="ke-grid">

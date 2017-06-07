@@ -7,20 +7,26 @@
     <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
-    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="shop/js/jquerysession.js"></script>
     <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/swiper-3.4.2.min.js"></script>
     <script type="text/javascript" src="js/pc.js"></script>
 </head>
 <body>
 <!--welcome-->
-<div class="welcome">
+<div class="welcome" id="welcomeBox"></div>
+<script type="text/html" id="welcomeData">
     <div class="ke-grid">
         <p class="over">欢迎光临金<em>穗通官网</em></p>
         <div class="index-right fr">
-            <a href="">18602384244</a>|<a href="">退出</a>|<a href="">我的订单</a>|<a href="">消息</a>
+            {{# if(d.userName){}}
+            <a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
+            {{# } else { }}
+            <a href="login.html">登录</a>|<a href="register.html">注册</a>
+            {{# } }}
         </div>
     </div>
-</div>
+</script>
 <!--个人中心顶部-->
 <div class="person-top">
     <div class="ke-grid">
@@ -49,13 +55,13 @@
                 <span>交易管理</span>
             </li>
             <li>
-                <a href="">我的订单</a>
+                <a href="person.html">我的订单</a>
             </li>
             <li>
-                <a href="">下载记录</a>
+                <a href="downloadhistory.html?&pageNow=1&pageSize=10">下载记录</a>
             </li>
             <li>
-                <a href="">购买记录</a>
+                <a href="buyhistory.html?pageNow=1&pageSize=10">购买记录</a>
             </li>
         </ul>
         <ul class="person-left fl">
@@ -69,10 +75,10 @@
                 <a href="safe-center.html">安全中心</a>
             </li>
             <li>
-                <a href="">收货地址</a>
+                <a href="my-address.html">收货地址</a>
             </li>
             <li>
-                <a href="">我的消息</a>
+                <a href="my-message.html?pageNow=1&pageSize=5">我的消息</a>
             </li>
         </ul>
     </div>
@@ -149,8 +155,8 @@
         var laytpl = layui.laytpl;
         var layer = layui.layer;
         var memberId;
-        if ($.cookie('usermessage')) {
-            var data = JSON.parse($.cookie('usermessage'));
+        if ($.session.get('usermessage')) {
+            var data = JSON.parse($.session.get('usermessage'));
             memberId = data.USER_ID;
             accountGrade = data.accountGrade
         };
@@ -166,7 +172,7 @@
             async: false,    //或false,是否异步
             timeout: 5000,    //超时时间
             success: function (data) {
-                $.cookie('memberPhone', data.data.memberPhone);
+                $.session.set('memberPhone', data.data.memberPhone);
                 var getTpl = safeData.innerHTML;
                 laytpl(getTpl).render(data, function (html) {
                     safeBox.innerHTML = html;

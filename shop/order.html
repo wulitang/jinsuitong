@@ -10,6 +10,10 @@
     <script type="text/javascript" src="js/js.js"></script>
     <script type="text/javascript" src="/layui/layui.js"></script>
     <script type="text/javascript" src="js/md5.js"></script>
+    <style>
+    	#orderPayForm{display: none;}
+    	#code{padding: 30px 50px 0px 50px;}
+    </style>
 </head>
 <body>
 <!--顶部-->
@@ -87,11 +91,17 @@
     <div class="invoice">
         <span>发票类别：</span>
         <select class="category">
-            <option>普通发票</option>
-            <option>电子发票</option>
+        	<option value="">请选择发票类型</option>
+            <option value="1">电子发票</option>
+            <option value="2">普通发票</option>
+            <option value="3">增值税专用发票（纸质）</option>
         </select>
         <span>发票抬头：</span>
-        <input type="text" placeholder="请输入发票抬头">
+        <input type="text" name="invoiceHeader" placeholder="请输入发票抬头">
+    </div>
+    <div class="imsg">
+    	<p>留言：</p>
+        <textarea name="buyerMessage"  placeholder="请输入留言信息"></textarea>
     </div>
     <div class="imsg">
     	<p>留言：</p>
@@ -101,10 +111,10 @@
         <span>支付方式：</span>
     </div>
     <ul class="pay-mode clearfix">
-        <li class="fl active"><img src="img/pay1.png"></li>
-        <li class="fl"><img src="img/pay2.png"></li>
-        <li class="fl"><img src="img/pay3.png"></li>
-        <li class="fl"><img src="img/pay4.png"></li>
+        <li class="fl active" data-pay="lakala_web"><img src="img/pay1.png"></li>
+        <li class="fl" data-pay="alipay_web"><img src="img/pay2.png"></li>
+        <li class="fl" data-pay="lakala_web_fast"><img src="img/pay3.png"></li>
+        <li class="fl" data-pay="wechat_csb"><img src="img/pay4.png"></li>
     </ul>
     <div class="balance">
         运费：<span class="freight">￥0.00</span>
@@ -197,6 +207,11 @@
     </div>
     <p class="filing">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539</p>
 </div>
+<div id="orderPayForm"></div>
+<div id="idCode">
+	<div id="code"></div>
+</div>
+<script type="text/javascript" src="js/jquery.qrcode.min.js"></script>
 <script type="text/javascript" src="js/pageJs/order.js"></script>
 </body>
 </html>

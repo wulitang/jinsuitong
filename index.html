@@ -8,7 +8,7 @@
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <link href="css/swiper-3.4.2.min.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
-    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="shop/js/jquerysession.js"></script>
     <script type="text/javascript" src="layui/layui.js"></script>
     <script type="text/javascript" src="js/swiper-3.4.2.min.js"></script>
     <script type="text/javascript" src="js/pc.js"></script>
@@ -21,7 +21,7 @@
         <p class="over">欢迎光临金<em>穗通官网</em></p>
         <div class="index-right fr">
             {{# if(d.userName){}}
-            <a href="center.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
+            <a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
             {{# } else { }}
             <a href="login.html">登录</a>|<a href="register.html">注册</a>
             {{# } }}
@@ -48,10 +48,10 @@
                 <a href="download.html?dowcateId=&keyword=&pageNow=1&pageSize=10">下载中心</a>
             </li>
             <li>
-                <a href="/shop">商城</a>
+                <a href="/shop/index.html">商城</a>
             </li>
             <li>
-                <a href="">服务缴费</a>
+                <a href="payment.html">服务缴费</a>
             </li>
         </ul>
         <div class="top-phone">
@@ -198,7 +198,7 @@
             <ul class="news-item active">
                 {{# layui.each(d.data.newstrandenter, function(index, item){ }}
                 <li>
-                    <a class="over" href="news-min.html?id={{item.id}}">{{item.newTitle}}</a>
+                    <a class="over" href="news-min.html?type={{item.newType}}&new_id={{item.id}}">{{item.newTitle}}</a>
                     <span>{{item.newDate}}</span>
                 </li>
                 {{# }); }}
@@ -206,7 +206,7 @@
             <ul class="news-item">
                 {{# layui.each(d.data.newstrandsuiwu, function(index, item){ }}
                 <li>
-                    <a class="over" href="news-min.html?id={{item.id}}">{{item.newTitle}}</a>
+                    <a class="over" href="news-min.html?type={{item.newType}}&new_id={{item.id}}">{{item.newTitle}}</a>
                     <span>{{item.newDate}}</span>
                 </li>
                 {{# }); }}
@@ -214,7 +214,7 @@
             <ul class="news-item">
                 {{# layui.each(d.data.noticeList, function(index, item){ }}
                 <li>
-                    <a class="over" href="news-min.html?id={{item.id}}">{{item.newTitle}}</a>
+                    <a class="over" href="news-min.html?type={{item.newType}}&new_id={{item.id}}">{{item.newTitle}}</a>
                     <span>{{item.newDate}}</span>
                 </li>
                 {{# }); }}
@@ -285,16 +285,16 @@
         <div class="foot-left">
             <ul>
                 <li>
-                    <a href="">关于我们</a>
+                    <a href="about.html?type=1">关于我们</a>
                 </li>
                 <li>
                     <a href="">服务介绍</a>
                 </li>
                 <li>
-                    <a href="">新闻动态</a>
+                    <a href="news.html?newType=0&pageNow=1&pageSize=10">新闻动态</a>
                 </li>
                 <li>
-                    <a href="">招聘信息</a>
+                    <a href="center.html?pageNow=1&pageSize=10">招聘信息</a>
                 </li>
                 <li>
                     <a href="">税务服务</a>
@@ -365,9 +365,9 @@
                     item.newDate = getLocalTime(item.newDate);
                 });
                 data['usermessage'] = '';
-                if ($.cookie('usermessage')){
+                if ($.session.get('usermessage')){
                     var usermessage;
-                    usermessage = JSON.parse($.cookie('usermessage'));
+                    usermessage = JSON.parse($.session.get('usermessage'));
                     data['usermessage'] = usermessage;
                 }
 
@@ -411,11 +411,11 @@
                     success: function (data) {
                         if (data.code == 200) {
                             var user = JSON.stringify(data.data);
-                            $.session('usermessage', user);
+                            $.session.set('usermessage', user);
                             console.log("登陆成功");
                             $.session.get('usermessage');
                             console.log($.session.get('usermessage'));
-                            //location.reload();
+                            location.reload();
                         } else {
                             layer.msg(data.msg);
                         }

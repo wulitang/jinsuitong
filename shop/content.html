@@ -58,10 +58,10 @@
         </div>
     </script>
     <script type="text/html" id="menuListData">
-        <h4 class="con-title"><span>购物流程</span></h4>
+        <h4 class="con-title"><span>{{d.data.hlName}}</span></h4>
         <div class="con-text">
             <ul>
-                {{#  layui.each(d.data, function(index, item){ }}
+                {{#  layui.each(d.data.helpList, function(index, item){ }}
                 <li><a href="content.html?helpdetailId={{item.id}}">{{item.helpTitle}}</a></li>
                 {{#  }); }}
             </ul>

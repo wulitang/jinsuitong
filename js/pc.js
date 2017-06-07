@@ -1,7 +1,7 @@
 $(function () {
     // //获取用户信息JSON.stringify(obj)将JSON转为字符串。JSON.parse(string)将字符串转为JSON格式；
-    // if($.cookie('usermessage')){
-    //     var data = JSON.parse($.cookie('usermessage'));
+    // if($.session.get('usermessage')){
+    //     var data = JSON.parse($.session.get('usermessage'));
     //     console.log(data);
     // }else {
     //
@@ -33,8 +33,8 @@ layui.use(['laytpl','laypage'], function(){
     laypage= layui.laypage;
     //使用方式跟独立组件完全一样
     //获取用户信息JSON.stringify(obj)将JSON转为字符串。JSON.parse(string)将字符串转为JSON格式；
-    if($.cookie('usermessage')){
-        var data = JSON.parse($.cookie('usermessage'));
+    if($.session.get('usermessage')){
+        var data = JSON.parse($.session.get('usermessage'));
         console.log(data);
         var getTpl = welcomeData.innerHTML;
         laytpl(getTpl).render(data, function (html) {
@@ -47,4 +47,25 @@ layui.use(['laytpl','laypage'], function(){
             welcomeBox.innerHTML = html;
         });
     }
+    $("#welcomeBox").on('click','.login-out',function () {
+        $.ajax({
+            url: "http://192.168.0.102/persion/sign_out.json",
+            dataType: 'jsonp',
+            method: '',
+            data: {
+                method: 'get',
+            },
+            jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+                $.session.clear();
+                location.href='index.html'
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+        
+    });
 });
