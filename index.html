@@ -18,7 +18,7 @@
 <div class="welcome" id="welcomeBox"></div>
 <script type="text/html" id="welcomeData">
     <div class="ke-grid">
-        <p class="over">欢迎光临金<em>穗通官网</em></p>
+        <p class="over">欢迎光临金<em><a href="index.html">穗通官网</a></em></p>
         <div class="index-right fr">
             {{# if(d.userName){}}
             <a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
@@ -32,7 +32,9 @@
 <div class="index-top clearfix">
     <div class="ke-grid">
         <div class="index-logo">
-            <img src="img/logo.png">
+            <a href="index.html">
+                <img src="img/logo.png">
+            </a>
         </div>
         <ul class="index-menu">
             <li class="active">
@@ -231,31 +233,39 @@
     <div class="ke-grid clearfix">
         <ul class="server-min">
             <li class="server-item server-item-1">
-                <i></i>
-                <h3 class="over">软件下载</h3>
-                <p class="over">税务软件一应俱全</p>
+                <a href="download.html?dowcateId=&keyword=&pageNow=1&pageSize=10">
+                    <i></i>
+                    <h3 class="over">软件下载</h3>
+                    <p class="over">税务软件一应俱全</p>
+                </a>
             </li>
             <li class="server-item server-item-2">
-                <i></i>
-                <h3 class="over">自助缴费</h3>
-                <p class="over">在线自助缴费通道</p>
+                <a href="payment.html">
+                    <i></i>
+                    <h3 class="over">自助缴费</h3>
+                    <p class="over">在线自助缴费通道</p>
+                </a>
             </li>
             <li class="server-item server-item-3">
-                <i></i>
-                <h3 class="over">税务服务</h3>
-                <p class="over">各项税务服务说明</p>
+                <a target="_blank" href="http://12366.cqsw.gov.cn/">
+                    <i></i>
+                    <h3 class="over">税务服务</h3>
+                    <p class="over">各项税务服务说明</p>
+                </a>
             </li>
             <li class="server-item server-item-4">
-                <i></i>
-                <h3 class="over">帮助中心</h3>
-                <p class="over">帮助中心内容介绍</p>
+                <a href="/jinsuitong/shop/content.html?helpclassId=2">
+                    <i></i>
+                    <h3 class="over">帮助中心</h3>
+                    <p class="over">帮助中心内容介绍</p>
+                </a>
             </li>
         </ul>
     </div>
     <!--推荐商品-->
     <div class="server-top ke-grid">
         <span>推荐商品</span>
-        <a href="">查看更多></a>
+        <a href="/jinsuitong/shop/list.html">查看更多></a>
         <div class="server-border ke-grid"></div>
         <img src="img/commodity.png">
     </div>
@@ -264,7 +274,7 @@
             {{# layui.each(d.data.indexproduct, function(index, item){ }}
             {{#  if(index < 4){ }}
             <li>
-                <a href="{{item.id}}">
+                <a href="/jinsuitong/shop/detail.html?shopId={{item.id}}">
                     <div class="goods-image">
                         <img src="http://file.serv.cq196.cn:10000/{{item.picturetImg}}">
                     </div>
@@ -280,60 +290,8 @@
 </script>
 <div id="indexdata"></div>
 <!--foot-->
-<div class="foot">
-    <div class="ke-grid clearfix">
-        <div class="foot-left">
-            <ul>
-                <li>
-                    <a href="about.html?type=1">关于我们</a>
-                </li>
-                <li>
-                    <a href="">服务介绍</a>
-                </li>
-                <li>
-                    <a href="news.html?newType=0&pageNow=1&pageSize=10">新闻动态</a>
-                </li>
-                <li>
-                    <a href="center.html?pageNow=1&pageSize=10">招聘信息</a>
-                </li>
-                <li>
-                    <a href="">税务服务</a>
-                </li>
-            </ul>
-            <div>
-                重庆远见金税通信息系统技术有限公司<br>
-                邮箱：123456789@qq.com<br>
-                地址：重庆北部新区人和街道镜泊中路5号
-            </div>
-        </div>
-        <div class="foot-center">
-            <p class="phone-namber">
-                400-123-1234
-            </p>
-            <div class="work-time">周一至周五 09:00-18:00</div>
-            <ul class="foot-icon">
-                <li>
-                    <img src="img/wechat.png">
-                </li>
-                <li class="center">
-                    <img src="img/qq.png">
-                </li>
-                <li>
-                    <img src="img/weibo.png">
-                </li>
-            </ul>
-        </div>
-        <div class="foot-right fr">
-            <img src="img/conde.png">
-            <p>微信二维码</p>
-        </div>
-    </div>
-    <div class="foot-bottom">
-        <p class="ke-grid">
-            Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6 渝公网备：50019002500539
-        </p>
-    </div>
-</div>
+<div class="foot" id="footBox"></div>
+<script type="text/javascript" src="js/common.js"></script>
 <script>
     //格式化时间
     function getLocalTime(nS) {
