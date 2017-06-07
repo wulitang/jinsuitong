@@ -9,7 +9,7 @@ $(function(){
         $(this).toggleClass("checked");
     });
     //全选
-    $(".all-check").click(function(){
+    /*$(".all-check").click(function(){
         $(".all-check").toggleClass("checked");
         $(".cart-list .check").each(function(){
             if($(".all-check").hasClass("checked")){
@@ -19,7 +19,7 @@ $(function(){
                 $(this).removeClass("checked");
             }
         });
-    });
+    });*/
     //清空购物车
     $(".empty").click(function(){
        $(".cart-list").remove();

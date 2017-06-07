@@ -45,13 +45,13 @@
     <script id="shopList" type="text/html">
 	{{#  layui.each(d, function(index, item){ }}
     <li class="fl">
-        <a href="{{item.id}}">
+        <a href="detail.html?shopId={{item.id}}">
             <img src="{{imgUrl+item.picturetImg}}">
             <p class="goods-name">{{item.productName}}</p>
             <span class="price">￥{{item.productPrice}}</span>
         </a>
-        <a class="buy" href="{{item.id}}">交易量&nbsp;&nbsp;<nb>{{item.salesVolume}}笔</nb></a>
-        <a class="cart" href="{{item.id}}">评价&nbsp;&nbsp;<nb>{{item.reviewTimes}}</nb></a>
+        <a class="buy" href="detail.html?shopId={{item.id}}">交易量&nbsp;&nbsp;<nb>{{item.salesVolume}}笔</nb></a>
+        <a class="cart" href="detail.html?shopId={{item.id}}">评价&nbsp;&nbsp;<nb>{{item.reviewTimes}}</nb></a>
     </li>
 	{{#  }); }}
     </script>

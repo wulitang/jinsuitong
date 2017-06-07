@@ -5,7 +5,14 @@
     <title>购物车</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="js/js.js"></script>
+    <script type="text/javascript" src="/layui/layui.js"></script>
+    <style>
+    	.yf{font-size: 12px;}
+    	.check{cursor: pointer;}
+    	.reduce{cursor: pointer;}
+    	.add{cursor: pointer;}
+    	.pay-btn{cursor: pointer;}
+    </style>
 </head>
 <body>
 <!--顶部-->
@@ -33,88 +40,49 @@
 <!--下订单-->
 <div class="con order cart">
     <div class="form-name clearfix">
-        <i class="all-check fl"></i>
+        <i class="check all-check fl checked" style="margin: 28px 20px 0 30px;"></i>
         <span class="goods fl">商品</span>
         <span class="unit-price fl">单价</span>
         <span class="num fl">数量</span>
         <span class="total fl">小计</span>
         <span class="operate fl">操作</span>
     </div>
-    <ul class="cart-list">
-        <li class="clearfix">
-            <i class="check fl"></i>
-            <img class="fl" src="img/groom-goods.png">
+    <ul class="cart-list" id="shopListView"></ul>
+    <script id="shopList" type="text/html">
+		{{#  layui.each(d, function(index, item){ }}
+			{{#  if(item.pStatus==1 || item.status==1 || item.theShelves==1){  }}
+        	<li class="clearfixdisp">
+				<i class="checkdisp fl" data-id="{{item.id}}">失效</i>
+			{{#  } else { }}
+			<li class="clearfix">
+				<i class="check fl checked" data-id="{{item.id}}"></i>
+			{{#  } }}
+            <img class="fl" data-src="{{item.picturetImg}}" src="{{imgUrl+item.picturetImg}}">
             <div class="order-info fl">
-                <p>惠普-HP黑白多功能激光</p>
-                <span>型号：i70023</span>
-                <span>颜色：深灰色</span>
+                <p data-av="{{item.productAtter}}" data-name="{{item.productName}}">{{item.productName}}</p>
+				{{#  if(item.productAtter){ var av=item.productAtter.split("|");      }}
+				{{#  if(av){  }}
+				{{#  layui.each(av, function(i, v){ }}
+                <span>{{v}}</span>
+				{{#  }); }}
+				{{#  } }}
+				{{#  } }}
             </div>
-            <span class="unit-price fl">￥1599.00</span>
-            <span class="num fl"><i class="reduce"></i><input type="text" class="num-input" value="1"><i class="add"></i></span>
-            <span class="total price fl">￥1159.00</span>
+            <span class="unit-price fl"><p class="dj" data-price="{{item.productPrice}}">￥<price>{{formatCurrency(item.productPrice)}}</price></p><p class="yf" data-yf="{{item.prPostage}}">运费：￥<price>{{formatCurrency(item.prPostage)}}</price></p></span>
+            <span class="num fl"><i class="reduce"></i><input type="text" disabled class="num-input" value="{{item.productNumber}}"><i class="add" data-stock="{{item.productStock}}"></i></span>
+            <span class="total price fl">￥<price>{{formatCurrency((item.productPrice*item.productNumber)+item.prPostage)}}</price></span>
             <span class="operate fl">删除</span>
         </li>
-        <li class="clearfix">
-            <i class="check fl"></i>
-            <img class="fl" src="img/groom-goods.png">
-            <div class="order-info fl">
-                <p>惠普-HP黑白多功能激光</p>
-                <span>型号：i70023</span>
-                <span>颜色：深灰色</span>
-            </div>
-            <span class="unit-price fl">￥1599.00</span>
-            <span class="num fl"><i class="reduce"></i><input type="text" class="num-input" value="1"><i class="add"></i></span>
-            <span class="total price fl">￥1159.00</span>
-            <span class="operate fl">删除</span>
-        </li>
-        <li class="clearfix">
-            <i class="check fl"></i>
-            <img class="fl" src="img/groom-goods.png">
-            <div class="order-info fl">
-                <p>惠普-HP黑白多功能激光</p>
-                <span>型号：i70023</span>
-                <span>颜色：深灰色</span>
-            </div>
-            <span class="unit-price fl">￥1599.00</span>
-            <span class="num fl"><i class="reduce"></i><input type="text" class="num-input" value="1"><i class="add"></i></span>
-            <span class="total price fl">￥1159.00</span>
-            <span class="operate fl">删除</span>
-        </li>
-        <li class="clearfix">
-            <i class="check fl"></i>
-            <img class="fl" src="img/groom-goods.png">
-            <div class="order-info fl">
-                <p>惠普-HP黑白多功能激光</p>
-                <span>型号：i70023</span>
-                <span>颜色：深灰色</span>
-            </div>
-            <span class="unit-price fl">￥1599.00</span>
-            <span class="num fl"><i class="reduce"></i><input type="text" class="num-input" value="1"><i class="add"></i></span>
-            <span class="total price fl">￥1159.00</span>
-            <span class="operate fl">删除</span>
-        </li>
-        <li class="clearfix">
-            <i class="check fl"></i>
-            <img class="fl" src="img/groom-goods.png">
-            <div class="order-info fl">
-                <p>惠普-HP黑白多功能激光</p>
-                <span>型号：i70023</span>
-                <span>颜色：深灰色</span>
-            </div>
-            <span class="unit-price fl">￥1599.00</span>
-            <span class="num fl"><i class="reduce"></i><input type="text" class="num-input" value="1"><i class="add"></i></span>
-            <span class="total price fl">￥1159.00</span>
-            <span class="operate fl">删除</span>
-        </li>
-    </ul>
+		{{#  }); }}
+        </script>
     <div class="balance cart-balance clearfix">
         <div class="all-operate fl">
-            <i class="all-check fl"></i><em class="fl">全选</em>
+            <i class="check all-check fl checked"></i><em class="fl">全选</em>
             <a class="empty fl" href="javascript:;">清空购物车</a>
         </div>
         <span class="cart-num">共<em>1</em>件商品</span>
-        总价：<span class="total">￥1159.00</span>
-        <input class="pay-btn" type="submit" value="去结算">
+       	 总价：<span class="total">￥1159.00</span>
+        <input class="pay-btn submit" type="submit" value="去结算">
     </div>
 </div>
 <!--footer-->
@@ -202,5 +170,6 @@
     </div>
     <p class="filing">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539</p>
 </div>
+<script type="text/javascript" src="js/pageJs/cart.js"></script>
 </body>
 </html>

@@ -33,6 +33,18 @@ a{cursor: pointer;}
     height: 0;
     visibility:hidden;
 }
+.clearfixdisp:after {
+    clear: both;
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+.clearfixdisp{
+	background: #efefef;
+}
+
 body{
     margin: auto;
     max-width: 1920px;
@@ -772,8 +784,8 @@ body{
     margin-right: 10px;
 }
 .address{
-    height: 80px;
-    line-height: 80px;
+    height: 50px;
+    line-height: 50px;
     border-bottom: 1px dashed #ebebeb;
     font-size: 14px;
 }
@@ -781,9 +793,25 @@ body{
     width: 20px;
     height: 20px;
     display: inline-block;
-    background: url("../img/checked.png") no-repeat;
+    background: url("../img/check.png") no-repeat;
     vertical-align: middle;
     margin:0 20px 0 30px;
+    cursor: pointer;
+}
+.imsg{
+	padding: 0 30px 0 30px;
+}
+.imsg p{
+	margin-bottom: 10px;
+}
+.imsg textarea{
+	width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 150px;
+}
+.address .checked{
+	background: url(../img/checked.png) no-repeat;
 }
 .address em{
     font-style: normal;
@@ -807,7 +835,7 @@ body{
 }
 .order-info{
     margin-top: 35px;
-    width: 630px;
+    width: 530px;
 }
 .order-info span{
     display: block;
@@ -941,8 +969,7 @@ body{
 
 /*购物车样式开始*/
 .form-name{
-    line-height: 50px;
-    line-height: 50px;
+    line-height: 70px;
     border-bottom: 1px solid #ebebeb;
     font-size: 14px;
     text-align: center;
@@ -983,6 +1010,15 @@ body{
     vertical-align: middle;
     margin: 60px 20px 0 30px;
 }
+.cart .checkdisp {
+    width: 20px;
+    height: 20px;
+    display: block;
+    /* background: url(../img/check.png) no-repeat; */
+    vertical-align: middle;
+    margin: 60px 20px 0 30px;
+    font-size: 12px;
+}
 .cart-list img{
     width: 79px;
     height: 79px;
@@ -991,7 +1027,7 @@ body{
 }
 .cart-list .order-info{
     margin-top: 30px;
-    width: 390px;
+    width: 360px;
 }
 .cart-list .order-info span{
     text-align: left;
@@ -1000,7 +1036,7 @@ body{
     margin-top: 30px;
 }
 .cart-list .num{
-    margin-top: 20px;
+    margin-top: 30px;
 }
 .cart-list .operate{
     text-align: right;
@@ -1015,6 +1051,7 @@ body{
     display: inline-block;
     vertical-align: top;
     margin: 0 -1px 0 -2px;
+    background: #f7f7f7;
 }
 .cart-list .num i{
     width: 35px;
