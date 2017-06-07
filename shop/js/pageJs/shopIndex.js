@@ -86,6 +86,7 @@ function tplRecShop(data){ //推荐商品
 	laytpl(getTpl).render(data, function(html){
 		recShopView.innerHTML = html;
 	});
+	swiperBanner();
 }
 function tplShopClass(data){ //分类商品
 	var data = data?data:[];
