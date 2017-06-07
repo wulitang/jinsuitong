@@ -12,6 +12,11 @@
     <script type="text/javascript" src="js/pc.js"></script>
 </head>
 <body>
+<script>
+    if (!$.session.get('usermessage')){
+        location.href="login.html"
+    }
+</script>
 <!--welcome-->
 <div class="welcome" id="welcomeBox"></div>
 <script type="text/html" id="welcomeData">

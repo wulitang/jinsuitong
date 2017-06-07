@@ -12,6 +12,11 @@
     <script type="text/javascript" src="js/pc.js"></script>
 </head>
 <body>
+<script>
+    if (!$.session.get('usermessage')){
+        location.href="login.html"
+    }
+</script>
 <!--welcome-->
 <div class="welcome" id="welcomeBox"></div>
 <script type="text/html" id="welcomeData">
@@ -27,17 +32,18 @@
     </div>
 </script>
 <!--个人中心顶部-->
-<div class="person-top">
+<div class="person-top" id="personBox"></div>
+<script type="text/html" id="personData">
     <div class="ke-grid">
         <img src="img/person.png">
         <div class="person-message fl">
-            <div class="person-name">用户昵称</div>
+            <div class="person-name">{{d.userName}}</div>
             <div class="person-safe">
                 <span>账户安全：</span>
                 <div class="safe-grade fl">
-                    <em style="width: 50%"></em>
+                    <em style="width: {{d.accountGrade}}%"></em>
                 </div>
-                <em>中级</em>
+                <!--<em>中级</em>-->
             </div>
         </div>
         <div class="check-sever fr">
@@ -45,7 +51,18 @@
             <a href="">续费缴费</a>
         </div>
     </div>
-</div>
+</script>
+<script>
+    layui.use('laytpl', function() {
+        laytpl = layui.laytpl;
+        var data = JSON.parse($.session.get('usermessage'));
+        console.log(data);
+        var getTpl = personData.innerHTML;
+        laytpl(getTpl).render(data, function (html) {
+            personBox.innerHTML = html;
+        });
+    });
+</script>
 <!--个人中心min-->
 <div class="ke-grid clearfix person-center">
     <div class="person-center-left fl">
