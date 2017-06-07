@@ -219,7 +219,7 @@ function tplShopList(data){
 
 //404
 function e404(){
-	alert('数据不存在');
+	window.location.href='/404.html';
 }
 
 function getUrlParam(name) {
