@@ -35,7 +35,6 @@ layui.use(['laytpl','laypage'], function(){
     //获取用户信息JSON.stringify(obj)将JSON转为字符串。JSON.parse(string)将字符串转为JSON格式；
     if($.session.get('usermessage')){
         var data = JSON.parse($.session.get('usermessage'));
-        console.log(data);
         var getTpl = welcomeData.innerHTML;
         laytpl(getTpl).render(data, function (html) {
             welcomeBox.innerHTML = html;

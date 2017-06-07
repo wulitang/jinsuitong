@@ -69,12 +69,12 @@
     <div class="about-img">
         <div class="about-word">
             <ul class="menu-center">
-                <li class="active" data-type="1">
-                    <a>关于我们</a>
+                <li class="active">
+                    <a href="about.html">关于我们</a>
                     <em></em>
                 </li>
-                <li data-type="2">
-                    <a>企业介绍</a>
+                <li>
+                    <a href="qyjs.html">企业介绍</a>
                     <em></em>
                 </li>
                 <li>
@@ -123,12 +123,12 @@
         laytpl = layui.laytpl;
         ajax(type);
     });
-    $(".menu-center li").click(function(){
+   /*  $(".menu-center li").click(function(){
     	type = $(this).attr('data-type');
     	$('.menu-center .active').removeClass('active');
     	$(this).addClass("active");
     	ajax(type);
-    })
+    }) */
    
     function ajax(type){
     	$.ajax({
@@ -143,13 +143,15 @@
             async: false,    //或false,是否异步
             timeout: 5000,    //超时时间
             success: function (data) {
-                var getTpl = index.innerHTML;
-                laytpl(getTpl).render(data.data, function (html) {
-                    indexdata.innerHTML = html;
-                });
-                if(type==1){
-	                allmap(data.data);
-                }
+            	if(data){
+            		var getTpl = index.innerHTML;
+                    laytpl(getTpl).render(data.data, function (html) {
+                        indexdata.innerHTML = html;
+                    });
+                    if(type==1 && data.data){
+    	                allmap(data.data);
+                    }
+            	}
             },
             error: function () {
                 console.log('请求错误');
