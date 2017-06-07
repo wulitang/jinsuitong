@@ -148,7 +148,7 @@ $('#tplDetailView').on('click','.jrgwc',function(){ //加入购物车
             skuId:sukId,
             productAtter:snk,
             productNumber:numinput,
-            productName:goodsNum,
+            productName:goodsName,
             priceImg:gooosImg
         },
         jsonp: 'callback',
@@ -171,7 +171,7 @@ function gwcDH(){ //购物车动画
 			et = $('.shop-cart').offset().top,
 			el = $('.shop-cart').offset().left,
 			img= $('#ban_pic1 li:first img').attr('src');
-			$('<div id="jrgwcdh"><img src="'+img+'"></div>').fly({
+			$('<div id="jrgwcdh"><img style="width: 40px;height: 40px;" src="'+img+'"></div>').fly({
 			      start: {top: st, left: sl},
 			      end: {top: et, left: el, width: 40, height: 40},
 			      onEnd: function(){

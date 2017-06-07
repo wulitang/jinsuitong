@@ -13,6 +13,45 @@
     <style>
     	#orderPayForm{display: none;}
     	#code{padding: 30px 50px 0px 50px;}
+    	.payTip{
+    		font-size:12px;
+    	}
+    	.payTip .pop-info{
+    		padding: 30px 25px;
+    		color: #323232;
+    	}
+    	.payTip .nav {
+		    line-height: 30px;
+		    font-weight: bold;
+		    font-size: 14px;
+	    }
+	    .payTip .text {
+		    line-height: 20px;
+		    color: #646464;
+		}
+		.payTip .btn {
+		    padding: 17px 0 0 2px;
+		    height: 30px;
+		}
+		.payTip .btn a.ok, .payTip .btn a.ok:hover {
+		    background: #ff2832;
+		    color: #fff;
+		}
+		.payTip .btn a, .payTip .btn a:hover {
+		    height: 28px;
+		    line-height: 28px;
+		    float: left;
+		    padding: 0 20px;
+		    text-decoration: none;
+		    margin-right: 20px;
+		    _display: inline;
+		    white-space: nowrap;
+		}
+		.payTip .btn a.qx, .payTip .btn a.qx:hover {
+		    background: #fafafa;
+		    color: #646464;
+		    border: 1px solid #d2d2d2;
+		}
     </style>
 </head>
 <body>
@@ -30,7 +69,7 @@
         <div class="fr logo-right">
             <input type="text" placeholder="请输入关键词" class="search-input">
             <input type="submit" class="search-btn" value="">
-            <a class="shop-cart" href="">我的购物车（<span>0</span>）</a>
+            <a class="shop-cart" href="cart.html">我的购物车（<span>0</span>）</a>
         </div>
     </div>
     <div class="two-block con">
@@ -82,7 +121,27 @@
         </li>
 		{{#  }); }}
         </script>
-        
+        <script id="cartPay" type="text/html">
+		{{#  layui.each(d, function(index, item){ }}
+        <li class="clearfix">
+            <img class="fl" src="{{imgUrl+item.picturetImg}}">
+            <div class="order-info fl">
+                <p>{{item.productName}}</p>
+				{{#  if(item.productAtter){ var av=item.productAtter.split("|");      }}
+				{{#  if(av){  }}
+				{{#  layui.each(av, function(i, v){ }}
+                <span>{{v}}</span>
+				{{#  }); }}
+				{{#  } }}
+				{{#  } }}
+            </div>
+            <span class="order-price">￥<price data-yf="{{item.prPostage}}" data-number="{{item.productNumber}}" data-price="{{item.productPrice}}">{{formatCurrency(item.productPrice)}}</price></span>
+            <span class="order-num">￥{{formatCurrency(item.prPostage)}}</span>
+			<span class="order-num">X{{item.productNumber}}</span>
+            <span class="order-stock fr">有货</span>
+        </li>
+		{{#  }); }}
+        </script>
     </ul>
     
     <div class="receipt">
@@ -118,95 +177,13 @@
     </ul>
     <div class="balance">
         运费：<span class="freight">￥0.00</span>
-        应付总额：<span class="total">￥1159.00</span>
+        应付总额：<span class="total">￥0.00</span>
         <input class="pay-btn" type="submit" value="去支付">
     </div>
 </div>
 <!--footer-->
-<div class="con con-bottom">
-    <ul class="clearfix ensure">
-        <li class="fl">
-            <img class="fl" src="img/zpbz-footer.png">
-            <div class="fl">
-                <h4>正品保障</h4>
-                <p>正品行货，100%质量保证</p>
-            </div>
-        </li>
-        <li class="fl">
-            <img class="fl" src="img/jsps-footer.png">
-            <div class="fl">
-                <h4>极速配送</h4>
-                <p>下单24小时内立即发货</p>
-            </div>
-        </li>
-        <li class="fl">
-            <img class="fl" src="img/wyth-footer.png">
-            <div class="fl">
-                <h4>无忧退货</h4>
-                <p>无忧售后，7日无理由退换</p>
-            </div>
-        </li>
-        <li class="fl">
-            <img class="fl" src="img/wxbz-footer.png">
-            <div class="fl">
-                <h4>维修保障</h4>
-                <p>官方授权，全国联保</p>
-            </div>
-        </li>
-    </ul>
-    <ul class="bottom-link">
-        <li class="fl">
-            <h4>购物指南</h4>
-            <a href="">购物流程</a>
-            <a href="">会员制度</a>
-            <a href="">常见问题</a>
-        </li>
-        <li class="fl">
-            <h4>支付方式</h4>
-            <a href="">购物流程</a>
-            <a href="">会员制度</a>
-        </li>
-        <li class="fl">
-            <h4>配送方式</h4>
-            <a href="">购物流程</a>
-            <a href="">会员制度</a>
-        </li>
-        <li class="fl">
-            <h4>售后服务</h4>
-            <a href="">购物流程</a>
-            <a href="">会员制度</a>
-            <a href="">常见问题</a>
-        </li>
-    </ul>
-    <div class="contact fl">
-        <span class="tel">400-123-1234</span>
-        <span class="work-time">周一至周五 09:00-18:00</span>
-        <img src="img/wx.png">
-        <img src="img/qq.png">
-        <img src="img/wb.png">
-    </div>
-    <div class="ewm fl">
-        <img src="img/ewm.png">
-        <p>微信二维码</p>
-    </div>
-</div>
-<div class="footer">
-    <div class="link-box">
-        <div class="footer-link">
-            <a href="">关于我们</a>
-            <a href="">服务介绍</a>
-            <a href="">新闻动态</a>
-            <a href="">招聘信息</a>
-            <a href="">税务服务</a>
-        </div>
-    </div>
-    <div class="company-info">
-        <p>重庆远见金税通信息系统技术有限公司</p>
-        <p>邮箱：123456789@qq.com</p>
-        <p>地址：重庆北部新区人和街道镜泊中路5号 </p>
-    </div>
-    <p class="filing">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539</p>
-</div>
+<div id="footView"></div>
+<script type="text/javascript" src="js/pageJs/foot.js"></script>
 <div id="orderPayForm"></div>
 <div id="idCode">
 	<div id="code"></div>
