@@ -1108,15 +1108,15 @@ body{
 
 /*详情页样式开始*/
 .ban {
-    width: 502px;
+    width: 440px;
     height: 600px;
     position: relative;
     overflow: hidden;
     margin: 20px 20px 0 0;
 }
 .ban2 {
-    width: 500px;
-    height: 500px;
+    width: 440px;
+    height: 480px;
     position: relative;
     overflow: hidden;
     border: 1px solid #ebebeb;
@@ -1127,19 +1127,19 @@ body{
     top: 0;
 }
 .ban2 ul li, .ban2 ul li img {
-    width: 500px;
-    height: 500px;
+    width: 440px;
+    height: 440px;
 }
 .num {
     height: 90px;
     overflow: hidden;
-    width: 430px;
+    width: 360px;
     position: relative;
     float: left;
 }
 .min_pic {
     padding-top: 10px;
-    width: 500px;
+    width: 440px;
 }
 
 .num ul {
@@ -1148,16 +1148,17 @@ body{
     top: 0;
 }
 .num ul li {
-    width: 75px;
-    height: 75px;
+    width: 62px;
+    height: 62px;
     margin-right: 7px;
     padding: 1px;
     border: 1px solid #ebebeb;
+    margin-top: 6px;
 }
 
 .num ul li img {
-    width: 75px;
-    height: 75px;
+    width: 100%;
+    height: 100%;
 }
 .num ul li.on {
     border: 2px solid red;
@@ -1199,15 +1200,18 @@ body{
     cursor: pointer;
 }
 .detail-r{
-    width: 675px;
+    width: 425px;
     margin-top: 20px;
 }
 .detail-r h4{
     font-size: 22px;
     font-weight: normal;
-    height: 60px;
+    display: block;
+    height: auto;
+    max-height: 120px;
     line-height: 60px;
     border-bottom: 1px solid #ebebeb;
+    overflow: hidden;
 }
 .goods-info{
     border-bottom: 1px solid #ebebeb;
@@ -1243,16 +1247,16 @@ body{
     background: #fff;
 }
 .choose{
-    width: 96px;
     height: 32px;
     line-height: 32px;
     text-align: center;
     border: 1px solid #ebebeb;
     border-radius: 5px;
     display: inline-block;
-    margin-right: 20px;
     cursor: pointer;
     background: #fff;
+    margin-bottom: 10px;
+    padding: 0 10px;
 }
 .option .active{
     color: #ee692c;
@@ -1285,15 +1289,14 @@ body{
     color: #ee692c;
 }
 .detail-r a{
-    width: 200px;
-    height: 70px;
+    width: 160px;
+    height: 50px;
     color: #fff;
-    font-size: 22px;
-    line-height: 70px;
+    font-size: 15px;
+    line-height: 50px;
     display: inline-block;
     border-radius: 5px;
     text-align: center;
-    margin-top: 30px;
     margin-right: 15px;
 }
 .detail-r a:hover{
@@ -1478,4 +1481,42 @@ body{
 #noticeView a{
     display: inline-block;
     width: 160px;
+}
+.sees{
+    width: 200px;
+}
+.sees img{
+    width: 100%!important;
+    height: auto!important;
+}
+#lookedShopView {
+    height: 520px;
+    overflow: auto;
+}
+.over-two{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sees h4{
+    height: 40px;
+    line-height: 50px;
+    font-size: 12px;
+}
+.sees h4 span{
+    height: 24px;
+    line-height: 24px;
+}
+.sees p{
+    font-size: 12px;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.sees  .price{
+    font-size: 12px;
 }
