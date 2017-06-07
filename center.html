@@ -64,11 +64,11 @@
         <div class="about-word">
             <ul class="menu-center">
                 <li>
-                    <a href="about.html?type=1">关于我们</a>
+                    <a href="about.html">关于我们</a>
                     <em></em>
                 </li>
                 <li>
-                    <a href="about.html?type=2">企业介绍</a>
+                    <a href="about.html">企业介绍</a>
                     <em></em>
                 </li>
                 <li>
@@ -76,7 +76,7 @@
                     <em></em>
                 </li>
                 <li class="active">
-                    <a href="center.html?pageNow=1&pageSize=10">招聘信息</a>
+                    <a href="center.html">招聘信息</a>
                 </li>
             </ul>
             <div class="clearfix">
@@ -175,9 +175,7 @@
         return get_par;
     };
    // var newType = getPar("newType");
-    var pageNow = getPar("pageNow");
-    var pageSize = getPar("pageSize");
-    var laytpl,laypage;
+    var pageNow = 1,pageSize = 10,laytpl='',laypage='';
    // $(".menu-center li").eq(newType).addClass("active").siblings().removeClass('active');
     //分页方法
     function page(data){
@@ -191,7 +189,9 @@
                 //得到了当前页，用于向服务端请求对应数据
                 var curr = obj.curr;
                 if (pageNow != curr){
-                    window.location.href = 'center.html?pageNow='+curr+'&pageSize='+pageSize
+                	pageNow  = curr;
+                	ajax();
+                    //window.location.href = 'center.html?pageNow='+curr+'&pageSize='+pageSize
                 }
             }
         });
@@ -199,35 +199,39 @@
     layui.use(['laytpl', 'laypage'], function () {
         laytpl = layui.laytpl;
         laypage = layui.laypage;
+        ajax();
     });
-    $.ajax({
-        url: "http://192.168.0.102/index/recruit.json",
-        dataType: 'jsonp',
-        method: '',
-        data:{
-            method:'get',
-           // newType:newType,
-            pageNow:pageNow,
-            pageSize:pageSize,
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-            $(data.data).each(function(index,item){
-                item.createDate =getLocalTime(item.createDate);
-                //console.log(this.newDate);
-            });
-            var getTpl = index.innerHTML;
-            laytpl(getTpl).render(data.data, function(html){
-                indexdata.innerHTML = html;
-            });
-            page(data);
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+    function ajax(){
+    	$.ajax({
+            url: "http://192.168.0.102/index/recruit.json",
+            dataType: 'jsonp',
+            method: '',
+            data:{
+                method:'get',
+               // newType:newType,
+                pageNow:pageNow,
+                pageSize:pageSize,
+            },
+            jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+                $(data.data).each(function(index,item){
+                    item.createDate =getLocalTime(item.createDate);
+                    //console.log(this.newDate);
+                });
+                var getTpl = index.innerHTML;
+                laytpl(getTpl).render(data.data, function(html){
+                    indexdata.innerHTML = html;
+                });
+                page(data);
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+    }
+    
 
 </script>
 </body>

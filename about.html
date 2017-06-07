@@ -10,6 +10,10 @@
     <script type="text/javascript" src="shop/js/jquerysession.js"></script>
     <script type="text/javascript" src="layui/layui.js"></script>
     <script type="text/javascript" src="js/pc.js"></script>
+    <style>
+    	 #allmap{width: 380px;height: 240px;float: left;}
+    	 a{cursor: pointer;}
+    </style>
 </head>
 <body>
 <!--welcome-->
@@ -37,7 +41,7 @@
                 <a href="index.html">首页</a>
             </li>
             <li class="active">
-                <a href="about.html?type=1">关于我们</a>
+                <a href="about.html">关于我们</a>
             </li>
             <li>
                 <a href="news.html?newType=0&pageNow=1&pageSize=10">新闻动态</a>
@@ -63,12 +67,12 @@
     <div class="about-img">
         <div class="about-word">
             <ul class="menu-center">
-                <li>
-                    <a href="about.html?type=1">关于我们</a>
+                <li class="active" data-type="1">
+                    <a>关于我们</a>
                     <em></em>
                 </li>
-                <li>
-                    <a href="about.html?type=2">企业介绍</a>
+                <li data-type="2">
+                    <a>企业介绍</a>
                     <em></em>
                 </li>
                 <li>
@@ -76,7 +80,7 @@
                     <em></em>
                 </li>
                 <li>
-                    <a href="center.html?pageNow=1&pageSize=10">招聘信息</a>
+                    <a href="center.html">招聘信息</a>
                 </li>
             </ul>
 
@@ -84,8 +88,10 @@
                 <div id="indexdata"></div>
                 <script id="index" type="text/html">
                     {{#  if(d.introduceLogo){ }}
-                    <img src="http://file.serv.cq196.cn:10000/{{d.introduceLogo}}">
-                    {{#  } }}
+                    <img src="{{imgUrl+d.introduceLogo}}">
+                    {{#  } else { }}
+					<div id="allmap"></div>
+					{{#  } }}
                     <div class="page-word">
                         {{#  if(d.enterpriseIntroduce){ }}
                         <p>{{d.enterpriseIntroduce}}</p>
@@ -158,54 +164,55 @@
         </p>
     </div>
 </div>
+<script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&amp;ak=DC5RGUGEHxBAWUmGy203jC8b&amp;services=&amp;t=20170606131300"></script>
 <script>
     //获取url上面的参数，有类似方法getQueryString
-    function getPar(par) {
-        //获取当前URL
-        var local_url = document.location.href;
-        //获取要取得的get参数位置
-        var get = local_url.indexOf(par + '=');
-        if (get == -1) {
-            return false;
-        }
-        //截取字符串
-        var get_par = local_url.slice(par.length + get + 1);
-        //判断截取后的字符串是否还有其他get参数
-        var nextPar = get_par.indexOf('&');
-        if (nextPar != -1) {
-            get_par = get_par.slice(0, nextPar);
-        }
-        return get_par;
-    };
-    var type = getPar("type");
-    var laytpl;
-    var num = type - 1;
-    $(".menu-center li").eq(num).addClass("active").siblings().removeClass('active');
+    var type   = 1,laytpl='',imgUrl = 'http://file.serv.cq196.cn:10000/';
+    //$(".menu-center li").eq(num).addClass("active").siblings().removeClass('active');
     layui.use('laytpl', function () {
         laytpl = layui.laytpl;
-
+        ajax(type);
     });
-    $.ajax({
-        url: "http://192.168.0.102/index/about_us.json",
-        dataType: 'jsonp',
-        method: '',
-        data: {
-            method: 'get',
-            type: type,
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-            var getTpl = index.innerHTML;
-            laytpl(getTpl).render(data.data, function (html) {
-                indexdata.innerHTML = html;
-            });
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+    $(".menu-center li").click(function(){
+    	type = $(this).attr('data-type');
+    	$('.menu-center .active').removeClass('active');
+    	$(this).addClass("active");
+    	ajax(type);
+    })
+   
+    function ajax(type){
+    	$.ajax({
+            url: "http://192.168.0.102/index/about_us.json",
+            dataType: 'jsonp',
+            method: '',
+            data: {
+                method: 'get',
+                type: type,
+            },
+            jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+                var getTpl = index.innerHTML;
+                laytpl(getTpl).render(data.data, function (html) {
+                    indexdata.innerHTML = html;
+                });
+                if(type==1){
+	                allmap(data.data);
+                }
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+    }
+    function allmap(data){
+    	var map = new BMap.Map("allmap");
+    	var point = new BMap.Point(data.longItude,data.latItude);
+    	map.centerAndZoom(point, 15);
+    	var marker = new BMap.Marker(point);  // 创建标注
+    	map.addOverlay(marker);              // 将标注添加到地图中
+    }
 </script>
 </body>
 </html>
