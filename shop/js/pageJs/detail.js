@@ -353,7 +353,7 @@ function tplCarousel(data){ //图片
 }
 //404
 function e404(){
-	alert('数据不存在');
+	window.location.href='/404.html';
 }
 //图片轮播JS
 function carouselPic(){
