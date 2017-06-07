@@ -72,14 +72,16 @@
     <!--公告-->
     {{#  layui.each(d, function(index, item){ }}  
         <li class="clearfix">
-              <a href="">{{Trim(item.newTitle)}}</a>
+              <a class="over" href="../news-min.html?type={{item.newType}}&new_id={{item.id}}">{{Trim(item.newTitle)}}</a>
               <span class="date fr">{{formatDate(item.newDate)}}</span>
         </li>
     {{#  }); }}  
 </script> 
  	</ul>
     <div class="notice-dot">
-        <img src="img/notice-dot.png">
+        <a href="../news.html">
+            <img src="img/notice-dot.png">
+        </a>
     </div>
     </div>
 </div>
