@@ -69,7 +69,7 @@
         <div class="fr logo-right">
             <input type="text" placeholder="请输入关键词" class="search-input">
             <input type="submit" class="search-btn" value="">
-            <a class="shop-cart" href="">我的购物车（<span>0</span>）</a>
+            <a class="shop-cart" href="cart.html">我的购物车（<span>0</span>）</a>
         </div>
     </div>
     <div class="two-block con">
@@ -121,7 +121,27 @@
         </li>
 		{{#  }); }}
         </script>
-        
+        <script id="cartPay" type="text/html">
+		{{#  layui.each(d, function(index, item){ }}
+        <li class="clearfix">
+            <img class="fl" src="{{imgUrl+item.picturetImg}}">
+            <div class="order-info fl">
+                <p>{{item.productName}}</p>
+				{{#  if(item.productAtter){ var av=item.productAtter.split("|");      }}
+				{{#  if(av){  }}
+				{{#  layui.each(av, function(i, v){ }}
+                <span>{{v}}</span>
+				{{#  }); }}
+				{{#  } }}
+				{{#  } }}
+            </div>
+            <span class="order-price">￥<price data-yf="{{item.prPostage}}" data-number="{{item.productNumber}}" data-price="{{item.productPrice}}">{{formatCurrency(item.productPrice)}}</price></span>
+            <span class="order-num">￥{{formatCurrency(item.prPostage)}}</span>
+			<span class="order-num">X{{item.productNumber}}</span>
+            <span class="order-stock fr">有货</span>
+        </li>
+		{{#  }); }}
+        </script>
     </ul>
     
     <div class="receipt">
@@ -153,7 +173,7 @@
     </ul>
     <div class="balance">
         运费：<span class="freight">￥0.00</span>
-        应付总额：<span class="total">￥1159.00</span>
+        应付总额：<span class="total">￥0.00</span>
         <input class="pay-btn" type="submit" value="去支付">
     </div>
 </div>

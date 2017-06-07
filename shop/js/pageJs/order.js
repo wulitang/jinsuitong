@@ -24,8 +24,11 @@ $('.search-btn').click(function(){
 })
 function tplComment(){//评论
 		spm   = getUrlParam('spm');
+	if(!$.session.get(spm)){
+		e404();return;
+	}
 	var data  = JSON.parse($.session.get(spm));
-	if(data.list.length<1){
+	if(!data){
 		e404();return;
 	}
 	if(data.type==1){
@@ -53,7 +56,39 @@ function tplComment(){//评论
 		tplOrderPay([data.list]);
 		tplAddrView();
 	}else{
-		
+		if(!data.ids){
+			e404();return;
+		}
+		orderData = {
+			'type':2,
+			'cart_Ids':data.ids,
+		}
+		tplAddrView();
+		$.ajax({
+	        url: postUrl+"/order/shopping_order.json",
+	        dataType: 'jsonp',
+	        method: 'POST',
+	        data: {
+	        	 method: 'POST',
+	             jst:'jstm.20170004502312366.yj',
+	             member_id:7,
+	             cart_Ids:data.ids
+	        },
+	        jsonp: 'callback',
+	        async: false,    //或false,是否异步
+	        timeout: 5000,    //超时时间
+	        success: function (data) {
+	        	if(!data.data){
+	        		if(!data.data.shoppingCartByList){
+	        			e404();return;
+	        		}
+	        	}
+	        	tplCartPay(data.data.shoppingCartByList);
+	        },
+	        error: function () {
+	            console.log('请求错误');
+	        }
+	    });
 	}
 }
 
@@ -195,7 +230,6 @@ function timer(order){
 		    });
 	    }, 2000);
 }
-
 function tipAlert(){
 	layer.closeAll();
 	var html = '<div class="pop-info">'+
@@ -250,6 +284,16 @@ function tplOrderPay(data){
 		orderPayView.innerHTML = html;
 	});
 	settlement();
+	pay();
+}
+function tplCartPay(data){
+	var data=data?data:'';
+	var getTpl = cartPay.innerHTML;
+	laytpl(getTpl).render(data, function(html){
+		orderPayView.innerHTML = html;
+	});
+	settlement();
+	pay();
 }
 
 function toUtf8(str) {   

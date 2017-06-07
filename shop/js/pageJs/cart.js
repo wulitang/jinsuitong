@@ -160,6 +160,25 @@ $('.all-check').click(function(){
 	settlement();
 })
 
+$('.balance').on('click','.submit',function(){
+	var ids = '';
+	$('#shopListView .checked').each(function(index,item){
+		ids += index==0?($(this).attr('data-id')):","+($(this).attr('data-id'));
+	})
+	var data = {
+		'ids':ids,
+		'type':2
+	}
+	$.getScript("js/md5.js",function(){  //加载test.js,成功后，并执行回调函数
+		$.getScript("js/jquerysession.js",function(){  //加载test.js,成功后，并执行回调函数
+			var  timestamp = (new Date()).valueOf(),
+			 	 spKey     = $.md5('cart'+timestamp);
+				 $.session.set(spKey,JSON.stringify(data));
+				 window.location.href='order.html?spm='+spKey;
+		});
+	});
+})
+
 function settlement(){ //结算价格
 	var num   = 0;
 		price = 0;
