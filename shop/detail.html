@@ -38,9 +38,7 @@
 <!--详情页-->
 <div class="con clearfix">
     <!--缩略图轮播-->
-    <div class="ban fl" id="carouselView">
-        
-    </div>
+    <div class="ban fl" id="carouselView"></div>
     <script id="carousel" type="text/html">
     <div class="ban2" id="ban_pic1">
         <ul>
@@ -61,7 +59,20 @@
         <div class="next_btn1" id="next_btn1"><img src="img/slt-right.png" width="30" height="74"  alt=""/></div>
     </div>
      </script> 
-    <div class="detail-r fr" id="tplDetailView"></div>
+    <div class="detail-r fl" id="tplDetailView"></div>
+    <div class="relate-goods fl">
+        <h4 class="con-title"><span>看了又看</span></h4>
+        <ul id="lookedShopView"></ul>
+        <script id="lookedShop" type="text/html">
+		{{#  layui.each(d, function(index, item){ }}
+        <a href="detail.html?shopId={{item.id}}"><li>
+            <img src="{{imgUrl+item.picturetImg}}">
+            <p class="goods-name">{{item.productName}}</p>
+            <span class="price">￥{{item.productPrice}}</span>
+        </li></a>
+		{{# }) }}  
+		</script>
+    </div>
     <script id="tplDetailHtml" type="text/html">
     	<h4>{{d.productName}}</h4>
         <div class="goods-info">

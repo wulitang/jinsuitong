@@ -39,6 +39,7 @@ layui.use('laytpl', function(){
         	tplCarousel(data.data.pictureTable);
         	tplDetail(data.data);
         	tplDelevantShop(data.data.relatedProducts);
+        	tpllookedShop(data.data.relatedProducts); //看了又看
         	tplShopInf(data.data.productDescribe);
         	tplcommentInfShop(data.data);
         },
@@ -316,6 +317,14 @@ function tplDelevantShop(data){ //相关商品
 		relevantShopView.innerHTML = html;
 	});
 }
+function tpllookedShop(data){ //看了又看
+	var data = data?data:[];
+	var getTpl = lookedShop.innerHTML;
+	laytpl(getTpl).render(data, function(html){
+		lookedShopView.innerHTML = html;
+	});
+}
+
 function tplDetail(data){
 	var datas = [];
 	if(data){
