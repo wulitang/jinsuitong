@@ -30,10 +30,10 @@
             }
             return get_par;
         };
-        var dowcateId = getPar("dowcateId");
-        var keyword = getPar("keyword");
-        var pageNow = getPar("pageNow");
-        var pageSize = getPar("pageSize");
+        var dowcateId = getPar("dowcateId")?getPar("dowcateId"):'';
+        var keyword = getPar("keyword")?getPar("keyword"):'';
+        var pageNow = getPar("pageNow")?getPar("pageNow"):1;
+        var pageSize = getPar("pageSize")?getPar("pageSize"):10;
         var laytpl;
     </script>
 </head>
@@ -65,13 +65,13 @@
                 <a href="index.html">首页</a>
             </li>
             <li>
-                <a href="about.html?type=1">关于我们</a>
+                <a href="about.html">关于我们</a>
             </li>
             <li>
-                <a href="news.html?newType=0&pageNow=1&pageSize=10">新闻动态</a>
+                <a href="news.html">新闻动态</a>
             </li>
             <li class="active">
-                <a href="download.html?dowcateId=&keyword=&pageNow=1&pageSize=10">下载中心</a>
+                <a href="download.html">下载中心</a>
             </li>
             <li>
                 <a href="/shop/index.html">商城</a>
@@ -186,7 +186,17 @@
                 //得到了当前页，用于向服务端请求对应数据
                 var curr = obj.curr;
                 if (pageNow != curr) {
-                    window.location.href = 'download.html?dowcateId=' + dowcateId + '&keyword=' + keyword + '&pageNow=' + curr + '&pageSize=' + pageSize
+                	var url = '';
+                	if(dowcateId){
+                		url += url?'&dowcateId='+dowcateId:'dowcateId='+dowcateId;
+                	}
+                	if(keyword){
+                		url += url?'&keyword='+keyword:'keyword='+keyword;
+                	}
+                	if(pageNow){
+                		url += url?'&pageNow='+curr:'pageNow='+curr;
+                	}
+                    window.location.href = 'download.html'+(url?'?'+url:'');
                 }
             }
         });
