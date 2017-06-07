@@ -497,7 +497,7 @@ body {
     color: #666;
 }
 
-.about-img, .news-img, .download-img, .payment-img {
+.about-img, .news-img, .download-img, .payment-img, .center-img {
     min-height: 300px;
     padding-top: 250px;
 }
@@ -516,6 +516,9 @@ body {
 
 .payment-img {
     background: url("../img/payment.png") top center no-repeat;
+}
+.center-img{
+    background: url("../img/center.png") top center no-repeat;
 }
 
 .about-center {
@@ -1924,7 +1927,7 @@ body {
     margin-left: 20px;
     height: 70px;
     line-height: 35px;
-    width: 420px
+    width: 400px
 }
 
 .download-history .software-type {
@@ -2419,18 +2422,26 @@ body {
     background: #fff;
     padding: 0 20px;
     border-top: 1px dashed #ececec;
-    height: 50px;
-    line-height: 50px;
 }
-
+.my-message li .message-detail{
+    display: none;
+    margin: 0 20px 20px 20px;
+    border-top: 1px solid #ededed;
+    padding-top: 20px;
+    width: 100%;
+}
 .my-message li div a {
     font-size: 14px;
     color: #666;
     margin: 0 20px;
     display: block;
-    width: 485px;
+    width: 430px;
+    line-height: 50px;
+    height: 50px;
 }
-
+.my-message li div .choose-time{
+    line-height: 50px;
+}
 .my-message li div {
     font-size: 14px;
     color: #666;
@@ -2457,6 +2468,7 @@ body {
     outline: none;
     width: 150px;
     float: right;
+    line-height: 50px;
 }
 
 .delete-all i {
@@ -2672,4 +2684,23 @@ body {
 }
 .set-address .active{
     background: url("../img/icon.png") no-repeat center;
+}
+.center-min{
+    padding: 30px;
+}
+.order-page .layui-laypage-curr {
+    display: inline-block!important;
+    width: auto!important;
+    height: 28px!important;
+}
+.message-line {
+    width: 675px;
+}
+.readed{
+    float: left;
+    width: 20px;
+    margin: 15px 0 0 15px;
+}
+.icon-active i{
+    background: url("../img/icon.png") no-repeat center!important;
 }

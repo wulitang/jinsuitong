@@ -80,8 +80,9 @@
             <span>收货地址</span>
         </div>
         <script id="cityOneData" type="text/html">
+            <option>请选择</option>
             {{#  layui.each(d.data, function(index, item){ }}
-            {{# if(item.cityId == item.cityId){ }}
+            {{# if(item.cityId == d.id){ }}
             <option value="{{item.cityCode}}" selected id="{{item.cityId}}">
                 {{# } else { }}
             <option value="{{item.cityCode}}" id="{{item.cityId}}">
@@ -91,8 +92,9 @@
             {{#  }); }}
         </script>
         <script id="cityTwoData" type="text/html">
+            <option>请选择</option>
             {{#  layui.each(d.data, function(index, item){ }}
-            {{# if(item.cityId == item.cityId){ }}
+            {{# if(item.cityId == d.id){ }}
             <option value="{{item.cityCode}}" selected id="{{item.cityId}}">
                 {{# } else { }}
             <option value="{{item.cityCode}}" id="{{item.cityId}}">
@@ -102,11 +104,16 @@
             {{#  }); }}
         </script>
         <script id="cityThreeData" type="text/html">
+            <option>请选择</option>
             {{#  layui.each(d.data, function(index, item){ }}
-            {{# if(item.cityId == item.cityId){ }}
+            {{# if(item.cityId == d.id){ }}
             <option value="{{item.cityCode}}" selected id="{{item.cityId}}">
+                {{item.cityName}}
+            </option>
                 {{# } else { }}
             <option value="{{item.cityCode}}" id="{{item.cityId}}">
+                {{item.cityName}}
+            </option>
                 {{# } }}
                 {{item.cityName}}
             </option>
@@ -118,9 +125,10 @@
                 <ul class="set-list">
                     <li>
                         <span>所在区域：</span>
-                        <select id="cityOneBox" class="stateId"></select>
-                        <select id="cityTwoBox" class="cityId" style="display: none"></select>
-                        <select id="cityThreeBox" class="districtId" style="display: none"></select>
+                        <select id="cityOneBox" class="stateId" lay-filter="selectOne">
+                        </select>
+                        <select id="cityTwoBox" class="cityId" lay-filter="selectTwo" style="display: none"></select>
+                        <select id="cityThreeBox" class="districtId" lay-filter="selectTwo" style="display: none"></select>
                     </li>
                     <li class="detail-address">
                         <span>详细地址：</span>
@@ -202,13 +210,13 @@
                     {{#  layui.each(d.data, function(index, item){ }}
                     <tr>
                         <td>{{item.receivingName}}</td>
-                        <td>{{item.city3Name}}</td>
+                        <td>{{item.city1Name}}-{{item.city2Name}}-{{item.city3Name}}</td>
                         <td>{{item.receivingAddress}}</td>
                         <td>{{item.receivingZip}}</td>
                         <td>{{item.receivingMobile}}</td>
-                        <td><a href="my-address.html?addressId={{item.addressId}}">修改</a> | <a class="delete"
-                                                                                               data-address="{{item.addressId}}"
-                                                                                               href="javascript:;">删除</a>
+                        <td>
+                            <a href="my-address.html?addressId={{item.addressId}}">修改</a> |
+                            <a class="delete" data-address="{{item.addressId}}" href="javascript:;">删除</a>
                         </td>
                     </tr>
                     {{#  }); }}
@@ -223,11 +231,6 @@
         var layer = layui.layer;
         var laytpl = layui.laytpl;
         var form = layui.form();
-        form.on('select(stateId)', function (data) {
-            console.log(data.elem); //得到select原始DOM对象
-            console.log(data.value); //得到被选中的值
-            console.log(data.othis); //得到美化后的DOM对象
-        });
         var member_id, receivingName, receivingMobile, stateId, cityId, receivingPhone, districtId, receivingAddress,
             receivingZip, isDefault = 0;
         //获取url上面的参数，有类似方法getQueryString
@@ -248,34 +251,36 @@
             }
             return get_par;
         };
-        //获取一级城市列表
-        $.ajax({
-            url: "http://192.168.0.102/address/provCityOne.json",
-            dataType: 'jsonp',
-            method: '',
-            data: {
-                method: 'post',
-            },
-            jsonp: 'callback',
-            async: false,    //或false,是否异步
-            timeout: 5000,    //超时时间
-            success: function (data) {
-                var data = {
-                    'data': data.data,
-                    'id': data.data.cityId
+        function getOne(valData) {
+            //获取一级城市列表
+            $.ajax({
+                url: "http://192.168.0.102/address/provCityOne.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    var getTpl = cityOneData.innerHTML;
+                    var data = {
+                        'data':data.data,
+                        'id':valData,
+                    };
+                    laytpl(getTpl).render(data, function (html) {
+                        cityOneBox.innerHTML = html;
+                    });
+                },
+                error: function () {
+                    console.log('请求错误');
                 }
-                var getTpl = cityOneData.innerHTML;
-                laytpl(getTpl).render(data, function (html) {
-                    cityOneBox.innerHTML = html;
-                });
-            },
-            error: function () {
-                console.log('请求错误');
-            }
-        });
+            });
+        };
         //选择城市
         //getcityTwoBox
-        function getTwo(cityCode) {
+        function getTwo(cityCode,valTwoData) {
             $("#cityTwoBox").show();
             $.ajax({
                 url: "http://192.168.0.102/address/cityTwo.json",
@@ -289,6 +294,10 @@
                 async: false,    //或false,是否异步
                 timeout: 5000,    //超时时间
                 success: function (data) {
+                    var data = {
+                        'data':data.data,
+                        'id':valTwoData,
+                    };
                     var getTpl = cityTwoData.innerHTML;
                     laytpl(getTpl).render(data, function (html) {
                         cityTwoBox.innerHTML = html;
@@ -301,7 +310,7 @@
         }
 
         //getThree
-        function getThree(cityCode) {
+        function getThree(cityCode,valThreeData) {
             $("#cityThreeBox").show();
             $.ajax({
                 url: "http://192.168.0.102/address/cityTwo.json",
@@ -315,6 +324,10 @@
                 async: false,    //或false,是否异步
                 timeout: 5000,    //超时时间
                 success: function (data) {
+                    var data = {
+                        'data':data.data,
+                        'id':valThreeData,
+                    };
                     var getTpl = cityThreeData.innerHTML;
                     laytpl(getTpl).render(data, function (html) {
                         cityThreeBox.innerHTML = html;
@@ -444,6 +457,7 @@
         }
 
         var addressId = getPar("addressId");
+        var valData,valTwoData,valThreeData;
         if (addressId) {
             //获取一级城市列表
             $.ajax({
@@ -461,8 +475,13 @@
                     var getTpl = addressData.innerHTML;
                     laytpl(getTpl).render(data.data, function (html) {
                         addressBox.innerHTML = html;
-                        getTwo(data.data.stateId);
-                        getThree(data.data.cityId);
+                        valData = data.data.stateId;
+                        getOne(valData);
+                        console.log(data.data.id);
+                        valTwoData = data.data.cityId;
+                        getTwo(data.data.stateCode,valTwoData);
+                        valThreeData = data.data.districtId;
+                        getThree(data.data.cityCode,valThreeData);
                     });
                 },
                 error: function () {
@@ -475,7 +494,17 @@
             laytpl(getTpl).render(data, function (html) {
                 addressBox.innerHTML = html;
             });
+            getOne();
         }
+        //check phone
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        $(".receivingMobile").blur(function(){
+            memberPhone =$(this).val();
+            if ( memberPhone=="" || !myreg.test(memberPhone) ){
+                layer.msg('请输入正确的手机号码');
+                pass =false;
+            }
+        });
         //delete
         $(".address-list").on('click', '.delete', function () {
             addressId = $(this).attr("data-address");
@@ -515,7 +544,7 @@
             receivingAddress = $(".receivingAddress").val();
             receivingZip = $(".receivingZip").val();
             receivingPhone = $(".receivingPhone").val();
-            if (receivingName && receivingMobile && districtId) {
+            if (receivingName && receivingMobile && cityId) {
                 if (addressId) {
                     change(addressId);
                 } else {

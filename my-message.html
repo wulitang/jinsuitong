@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>个人中心</title>
     <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/pc.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
 </head>
 <body>
 <!--welcome-->
@@ -69,7 +71,7 @@
                 <a href="">收货地址</a>
             </li>
             <li class="active">
-                <a href="">我的消息</a>
+                <a href="my-message.html?&pageNow=1&pageSize=5">我的消息</a>
             </li>
         </ul>
     </div>
@@ -84,101 +86,39 @@
                 <div class="my-message-time">时间</div>
                 <div class="my-message-does">操作</div>
             </div>
-            <ul class="">
+            <ul class="" id="messageBox"></ul>
+            <script type="text/html" id="messageData">
+                {{#  layui.each(d.data, function(index, item){ }}
                 <li class="clearfix">
-                    <div class="choose-icon">
+                    <div class="choose-icon" id="{{item.messId}}">
                         <i></i>
                     </div>
-                    <div>
-                        <a class="over" href="">这里显示消息内容</a>
+                    <div class="message-line clearfix" id="{{item.messId}}">
+                        <div class="clearfix">
+                            {{# if(item.isRead == 2){ }}
+                            <img class="readed" src="img/readed.png">
+                            {{# } else { }}
+                            <img class="readed" src="img/noread.png">
+                            {{# } }}
+                            <a class="over fl" href="javascript:;">{{item.messageTitle}}</a>
+                            <div class="choose-time">{{item.createDate}}</div>
+                        </div>
+                        <div class="message-detail clearfix">
+                            {{item.messageContent}}
+                        </div>
                     </div>
-                    <div class="choose-time">2017-5-27</div>
-                    <button>删除</button>
+                    <button id="{{item.messId}}">删除</button>
                 </li>
-                <li class="clearfix">
-                    <div class="choose-icon">
-                        <i></i>
-                    </div>
-                    <div>
-                        <a class="over" href="">这里显示消息内容</a>
-                    </div>
-                    <div class="choose-time">2017-5-27</div>
-                    <button>删除</button>
-                </li>
-                <li class="clearfix">
-                    <div class="choose-icon">
-                        <i></i>
-                    </div>
-                    <div>
-                        <a class="over" href="">这里显示消息内容</a>
-                    </div>
-                    <div class="choose-time">2017-5-27</div>
-                    <button>删除</button>
-                </li>
-                <li class="clearfix">
-                    <div class="choose-icon">
-                        <i></i>
-                    </div>
-                    <div>
-                        <a class="over" href="">这里显示消息内容</a>
-                    </div>
-                    <div class="choose-time">2017-5-27</div>
-                    <button>删除</button>
-                </li>
-                <li class="clearfix">
-                    <div class="choose-icon">
-                        <i></i>
-                    </div>
-                    <div>
-                        <a class="over" href="">这里显示消息内容</a>
-                    </div>
-                    <div class="choose-time">2017-5-27</div>
-                    <button>删除</button>
-                </li>
-                <li class="clearfix">
-                    <div class="choose-icon">
-                        <i></i>
-                    </div>
-                    <div>
-                        <a class="over" href="">这里显示消息内容</a>
-                    </div>
-                    <div class="choose-time">2017-5-27</div>
-                    <button>删除</button>
-                </li>
-                <li class="clearfix">
-                    <div class="choose-icon">
-                        <i></i>
-                    </div>
-                    <div>
-                        <a class="over" href="">这里显示消息内容</a>
-                    </div>
-                    <div class="choose-time">2017-5-27</div>
-                    <button>删除</button>
-                </li>
-                <li class="clearfix">
-                    <div class="choose-icon">
-                        <i></i>
-                    </div>
-                    <div>
-                        <a class="over" href="">这里显示消息内容</a>
-                    </div>
-                    <div class="choose-time">2017-5-27</div>
-                    <button>删除</button>
-                </li>
-            </ul>
+                {{#  }); }}
+            </script>
         </div>
         <div class="delete-message clearfix">
             <div class="delete-all fl">
-                <i></i>
+                <!--<i class="choose-all"></i>-->
                 <a href="javascript:;">批量删除</a>
             </div>
             <div class="order-page clearfix fr">
-                <span class="fl"><</span>
-                <ul class="fl">
-                    <li class="active"><a href="">1</a> </li>
-                    <li><a href="">2</a> </li>
-                </ul>
-                <span class="fl"> ></span>
+                <ul class="clearfix" id="page1"></ul>
             </div>
         </div>
     </div>
@@ -201,5 +141,185 @@
         <div class="ke-grid">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6 渝公网备：50019002500539</div>
     </div>
 </div>
+<style>
+    #messageBox .active .message-detail{
+        display: block;
+    }
+</style>
+<script>
+    layui.use(['layer', 'laytpl', 'laypage'], function () {
+        var layer = layui.layer;
+        var laytpl = layui.laytpl;
+        laypage = layui.laypage;
+        //获取url上面的参数，有类似方法getQueryString
+        function getPar(par) {
+            //获取当前URL
+            var local_url = document.location.href;
+            //获取要取得的get参数位置
+            var get = local_url.indexOf(par + '=');
+            if (get == -1) {
+                return false;
+            }
+            //截取字符串
+            var get_par = local_url.slice(par.length + get + 1);
+            //判断截取后的字符串是否还有其他get参数
+            var nextPar = get_par.indexOf('&');
+            if (nextPar != -1) {
+                get_par = get_par.slice(0, nextPar);
+            }
+            return get_par;
+        };
+        function del (MESS_IDS) {
+            $.ajax({
+                url: "http://192.168.0.102/persion/deleteMessage.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                    MESS_IDS:MESS_IDS,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    if(data.code==200){
+                        layer.msg(data.msg);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000)
+                    }else {
+                        // layer.msg(data.msg);
+                        //location.reload();
+                    }
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        }
+        $("#messageBox").on('click','button',function () {
+            var MESS_IDS = $(this).attr("id");
+            console.log(MESS_IDS);
+            del(MESS_IDS);
+        });
+        //delete-all
+        $(".delete-all").click(function () {
+            var MESS_IDS = '';
+            $("#messageBox li .icon-active").each(function(index,item){
+               // MESS_IDS.push($(this).attr("id"));
+                MESS_IDS += index==0?$(this).attr("id"):','+$(this).attr("id");
+                console.log(MESS_IDS);
+
+            });
+            del(MESS_IDS);
+        });
+        //choose
+        $("#messageBox").on('click','.choose-icon',function () {
+            //$(this).toggleClass("active");
+            $(this).toggleClass('icon-active');
+
+        });
+        var choose = 1;
+        //choose-all
+        $(".message-title .choose-icon").click(function () {
+            $(this).toggleClass('icon-active');
+            if (choose == 1){
+                $("#messageBox").find(".choose-icon").addClass('icon-active');
+                choose = 2;
+            }else {
+                $("#messageBox").find(".choose-icon").removeClass('icon-active');
+                choose = 1;
+            }
+        });
+        //read
+        $("#messageBox").on('click','.message-line',function () {
+            $(this).toggleClass("active");
+            $(this).find('img').attr('src','img/readed.png');
+            var MESS_IDS = $(this).attr('id');
+            $.ajax({
+                url: "http://192.168.0.102/persion/markRead.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                    MESS_ID:MESS_IDS,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    if(data.code==200){
+                        //layer.msg(data.msg);
+//                        setTimeout(function () {
+//                            location.reload();
+//                        }, 1000)
+                    }else {
+                        // layer.msg(data.msg);
+                        //location.reload();
+                    }
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        });
+        var pageNow = getPar("pageNow");
+         //获取用户地址
+        var  member_id = JSON.parse($.cookie("usermessage")).USER_ID;
+//        var user = JSON.stringify(data.data);
+        //格式化时间
+        function getLocalTime(nS) {
+            return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/, ' ');
+        };
+        function getMessage() {
+            $.ajax({
+                url: "http://192.168.0.102/persion/messageList.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                    USER_ID:member_id,
+                    pageNow:pageNow,
+                    pageSize:5,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    $(data.data).each(function (index, item) {
+                        item.createDate = getLocalTime(item.createDate);
+                        //console.log(this.newDate);
+                    });
+                    var getTpl = messageData.innerHTML;
+                    laytpl(getTpl).render(data, function (html) {
+                        messageBox.innerHTML = html;
+                    });
+                    page(data);
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        };
+        getMessage();
+        //分页方法
+        function page(data) {
+            laypage({
+                cont: 'page1',
+                pages: Math.ceil(data.total / 10), //总页数
+                groups: 10, //连续显示分页数
+                skin: '#fe5f01',
+                curr: pageNow,
+                jump: function (obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if (pageNow != curr) {
+                        window.location.href = 'my-message.html?&pageNow=' + curr + '&pageSize=5'
+                    }
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>

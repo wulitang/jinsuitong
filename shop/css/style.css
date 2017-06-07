@@ -712,6 +712,7 @@ body{
     font-size: 14px;
     color: #4c4c4c;
     margin-left: 20px;
+    display: block;
 }
 .con-left ul a:after{
     content: "";

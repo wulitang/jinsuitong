@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>内容页</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <!-- layui -->
+    <link href="../layui/css/layui.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.js"></script>
 </head>
 <body>
 <!--顶部-->
@@ -30,43 +34,39 @@
 </div>
 <!--商城相关问题-->
 <div class="con clearfix">
-    <div class="con-left fl">
+    <div class="con-left fl" id="menuBox"></div>
+    <script id="menuData" type="text/html">
+        {{#  layui.each(d.data, function(index, item){ }}
         <div class="left-link-box">
-            <h4 class="con-title"><span>购物指南</span></h4>
+            <h4 class="con-title"><span>{{item.helpclassName}}</span></h4>
             <ul>
-                <li><a class="active" href="">购物流程</a></li>
-                <li><a href="">会员制度</a></li>
-                <li><a href="">常见问题</a></li>
+                {{#  layui.each(item.helpClasses, function(index, item){ }}
+                <li><a href="content.html?helpclassId={{item.id}}">{{item.helpclassName}}</a></li>
+                {{#  }); }}
             </ul>
         </div>
-        <div class="left-link-box">
-            <h4 class="con-title"><span>支付方式</span></h4>
-            <ul>
-                <li><a href="">会员制度</a></li>
-                <li><a href="">常见问题</a></li>
-            </ul>
-        </div>
-        <div class="left-link-box">
-            <h4 class="con-title"><span>配送方式</span></h4>
-            <ul>
-                <li><a href="">购物流程</a></li>
-            </ul>
-        </div>
-        <div class="left-link-box">
-            <h4 class="con-title"><span>售后服务</span></h4>
-            <ul>
-                <li><a href="">购物流程</a></li>
-                <li><a href="">会员制度</a></li>
-                <li><a href="">常见问题</a></li>
-            </ul>
-        </div>
-    </div>
+        {{#  }); }}
+    </script>
     <div class="con-right fr">
+        <div id="menuListBox"></div>
+        <div id="menuDetailBox"></div>
+    </div>
+    <script type="text/html" id="menuDetailData">
+        <h4 class="con-title"><span>{{d.helpTitle}}</span></h4>
+        <div class="con-text">
+            {{d.helpContent}}
+        </div>
+    </script>
+    <script type="text/html" id="menuListData">
         <h4 class="con-title"><span>购物流程</span></h4>
         <div class="con-text">
-            富文本内容
+            <ul>
+                {{#  layui.each(d.data, function(index, item){ }}
+                <li><a href="content.html?helpdetailId={{item.id}}">{{item.helpTitle}}</a></li>
+                {{#  }); }}
+            </ul>
         </div>
-    </div>
+    </script>
 </div>
 <!--footer-->
 <div class="con con-bottom">
@@ -153,5 +153,105 @@
     </div>
     <p class="filing">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539</p>
 </div>
+<script>
+    layui.use(['layer', 'laytpl'], function () {
+        var layer = layui.layer;
+        var laytpl = layui.laytpl;
+        function getMessage() {
+            $.ajax({
+                url: "http://192.168.0.102/hepl/help_index.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'get',
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    var getTpl = menuData.innerHTML;
+                    laytpl(getTpl).render(data, function (html) {
+                        menuBox.innerHTML = html;
+                    });
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        };
+        getMessage();
+        //获取url上面的参数，有类似方法getQueryString
+        function getPar(par) {
+            //获取当前URL
+            var local_url = document.location.href;
+            //获取要取得的get参数位置
+            var get = local_url.indexOf(par + '=');
+            if (get == -1) {
+                return false;
+            }
+            //截取字符串
+            var get_par = local_url.slice(par.length + get + 1);
+            //判断截取后的字符串是否还有其他get参数
+            var nextPar = get_par.indexOf('&');
+            if (nextPar != -1) {
+                get_par = get_par.slice(0, nextPar);
+            }
+            return get_par;
+        };
+        var helpclassId = getPar("helpclassId");
+        var helpdetailId = getPar("helpdetailId");
+        if(helpclassId){
+            getList(helpclassId);
+        }else {
+            getdetail(helpdetailId);
+        }
+        function getList(helpclassId) {
+            $.ajax({
+                url: "http://192.168.0.102/hepl/help_list.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'get',
+                    helpclassId:helpclassId,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    var getTpl = menuListData.innerHTML;
+                    laytpl(getTpl).render(data, function (html) {
+                        menuListBox.innerHTML = html;
+                    });
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        };
+        function getdetail(helpdetailId) {
+            $.ajax({
+                url: "http://192.168.0.102/hepl/help_info.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'get',
+                    helpclassId:helpdetailId,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    var getTpl = menuDetailData.innerHTML;
+                    laytpl(getTpl).render(data, function (html) {
+                        menuDetailBox.innerHTML = html;
+                    });
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        };
+    });
+</script>
 </body>
 </html>

@@ -2,12 +2,13 @@
 <html lang="cn">
 <head>
     <meta charset="UTF-8">
-    <title>关于我们</title>
+    <title>招聘中心</title>
     <link href="css/common.css" rel="stylesheet" type="text/css">
     <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/pc.js"></script>
 </head>
 <body>
 <!--welcome-->
@@ -15,7 +16,7 @@
     <div class="ke-grid">
         <p class="over">欢迎光临金<em>穗通官网</em></p>
         <div class="index-right fr">
-            <a href="login.html">登录</a>|<a href="register.html">注册</a>
+            <a href="">登录</a>|<a href="">注册</a>
         </div>
     </div>
 </div>
@@ -29,10 +30,10 @@
             <li>
                 <a href="index.html">首页</a>
             </li>
-            <li class="active">
+            <li>
                 <a href="about.html?type=1">关于我们</a>
             </li>
-            <li>
+            <li class="active">
                 <a href="news.html?newType=0&pageNow=1&pageSize=10">新闻动态</a>
             </li>
             <li>
@@ -53,7 +54,7 @@
 </div>
 <!--about-us-->
 <div class="about-center ke-grid">
-    <div class="about-img">
+    <div class="center-img">
         <div class="about-word">
             <ul class="menu-center">
                 <li>
@@ -68,30 +69,33 @@
                     <a href="">服务介绍</a>
                     <em></em>
                 </li>
-                <li>
+                <li class="active">
                     <a href="center.html?pageNow=1&pageSize=10">招聘信息</a>
                 </li>
             </ul>
+            <div class="clearfix">
+                <div class="center-min" id="indexdata">
 
-            <div class="about-page clearfix">
-                <div id="indexdata"></div>
+                </div>
                 <script id="index" type="text/html">
-                    {{#  if(d.introduceLogo){ }}
-                    <img src="http://file.serv.cq196.cn:10000/{{d.introduceLogo}}">
-                    {{#  } }}
-                    <div class="page-word">
-                        {{#  if(d.enterpriseIntroduce){ }}
-                        <p>{{d.enterpriseIntroduce}}</p>
-                        {{#  } }}
-                        {{#  if(d.enterpriseDesc){ }}
-                        <p>{{d.enterpriseDesc}}</p>
-                        {{#  } }}
-                        <div class="page-address">
-                            <p>电话：{{d.enterpriseTelephone}}</p>
-                            <p>地址：{{d.enterpriseAddress}}</p>
+                   <h3 class="">{{d.positionName}}</h3>
+                    <div class="center-detail">
+                        {{d.jobContent}}
+                        任职资格:<br>
+                        {{d.jobRequirements}}
+                        <br>
+                        <div style="line-height: 30px;" class="center-phone">
+                            联系电话：{{d.contactInfor}}
+                        </div>
+                        <div style="line-height: 30px;" class="center-address">
+                            联系地址：{{d.recruitAddress}}
+                        </div>
+                        <div style="line-height: 30px;" class="center-time">
+                            截止日期：{{d.deadlineDate}}
                         </div>
                     </div>
                 </script>
+                <ul class="page-number clearfix" id="page1"></ul>
             </div>
         </div>
     </div>
@@ -152,8 +156,12 @@
     </div>
 </div>
 <script>
+    //格式化时间
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/,' ');
+    };
     //获取url上面的参数，有类似方法getQueryString
-    function getPar(par) {
+    function getPar (par) {
         //获取当前URL
         var local_url = document.location.href;
         //获取要取得的get参数位置
@@ -170,35 +178,36 @@
         }
         return get_par;
     };
-    var type = getPar("type");
-    var laytpl;
-    var num = type - 1;
-    $(".menu-center li").eq(num).addClass("active").siblings().removeClass('active');
-    layui.use('laytpl', function () {
+    layui.use(['laytpl', 'laypage'], function () {
         laytpl = layui.laytpl;
+        var RECRUIT_ID = getPar("RECRUIT_ID");
+        $.ajax({
+            url: "http://192.168.0.102/index/recruitDes.json",
+            dataType: 'jsonp',
+            method: '',
+            data:{
+                method:'get',
+                RECRUIT_ID:RECRUIT_ID,
+            },
+            jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+                data.data.deadlineDate =getLocalTime(data.data.deadlineDate);
+                //console.log(this.newDate);
+                var getTpl = index.innerHTML;
+                laytpl(getTpl).render(data.data, function(html){
+                    indexdata.innerHTML = html;
+                });
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+    });
+   // var newType = getPar("newType");
 
-    });
-    $.ajax({
-        url: "http://192.168.0.102/index/about_us.json",
-        dataType: 'jsonp',
-        method: '',
-        data: {
-            method: 'get',
-            type: type,
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-            var getTpl = index.innerHTML;
-            laytpl(getTpl).render(data.data, function (html) {
-                indexdata.innerHTML = html;
-            });
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+
 </script>
 </body>
 </html>

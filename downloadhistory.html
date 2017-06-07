@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>个人中心</title>
     <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/pc.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
 </head>
 <body>
 <!--welcome-->
@@ -49,7 +51,7 @@
             <a href="">我的订单</a>
         </li>
         <li class="active">
-            <a href="">下载记录</a>
+            <a href="downloadhistory.html?&pageNow=1&pageSize=10">下载记录</a>
         </li>
         <li>
             <a href="">购买记录</a>
@@ -77,95 +79,33 @@
         <div class="my-order-title">
             <span>下载记录</span>
         </div>
-        <ul class="download-history">
+        <ul class="download-history" id="messageBox"></ul>
+        <script type="text/html" id="messageData">
+            {{#  layui.each(d.data, function(index, item){ }}
             <li class="clearfix">
-                <a href="">
+                <a href="{{item.softwareLink}}">
+                    {{# if(item.softwareImg){ }}
+                    <img src="http://file.serv.cq196.cn:10000/{{item.softwareImg}}">
+                    {{# } else { }}
                     <img src="img/sui.png">
+                    {{# } }}
                     <div class="software-name">
-                        <p class="over">税控发票开票软件（金税盘版）V2.1.30.161225</p>
-                        <p class="over">开票软件集成安装包V2.1.30.161225</p>
+                        <p class="over">{{item.softwareName}}</p>
+                        <p class="over hide">{{item.softwareName}}</p>
                     </div>
                     <div class="software-type">
-                        <p class="over">软件分类：<em>软件下载</em></p>
-                        <p class="over">下载次数：<em>23331次</em></p>
+                        <p class="over">软件分类：<em>{{item.categoryName}}</em></p>
+                        <p class="over">下载次数：<em>{{item.downloadNum}}次</em></p>
                     </div>
                     <div class="software-time">
-                        <p class="over">下载时间：2017-05-07</p>
+                        <p class="over">下载时间：{{item.createDate}}</p>
                     </div>
                 </a>
             </li>
-            <li class="clearfix">
-                <a href="">
-                    <img src="img/sui.png">
-                    <div class="software-name">
-                        <p class="over">税控发票开票软件（金税盘版）V2.1.30.161225</p>
-                        <p class="over">开票软件集成安装包V2.1.30.161225</p>
-                    </div>
-                    <div class="software-type">
-                        <p class="over">软件分类：<em>软件下载</em></p>
-                        <p class="over">下载次数：<em>23331次</em></p>
-                    </div>
-                    <div class="software-time">
-                        <p class="over">下载时间：2017-05-07</p>
-                    </div>
-                </a>
-            </li>
-            <li class="clearfix">
-                <a href="">
-                    <img src="img/sui.png">
-                    <div class="software-name">
-                        <p class="over">税控发票开票软件（金税盘版）V2.1.30.161225</p>
-                        <p class="over">开票软件集成安装包V2.1.30.161225</p>
-                    </div>
-                    <div class="software-type">
-                        <p class="over">软件分类：<em>软件下载</em></p>
-                        <p class="over">下载次数：<em>23331次</em></p>
-                    </div>
-                    <div class="software-time">
-                        <p class="over">下载时间：2017-05-07</p>
-                    </div>
-                </a>
-            </li>
-            <li class="clearfix">
-                <a href="">
-                    <img src="img/sui.png">
-                    <div class="software-name">
-                        <p class="over">税控发票开票软件（金税盘版）V2.1.30.161225</p>
-                        <p class="over">开票软件集成安装包V2.1.30.161225</p>
-                    </div>
-                    <div class="software-type">
-                        <p class="over">软件分类：<em>软件下载</em></p>
-                        <p class="over">下载次数：<em>23331次</em></p>
-                    </div>
-                    <div class="software-time">
-                        <p class="over">下载时间：2017-05-07</p>
-                    </div>
-                </a>
-            </li>
-            <li class="clearfix">
-                <a href="">
-                    <img src="img/sui.png">
-                    <div class="software-name">
-                        <p class="over">税控发票开票软件（金税盘版）V2.1.30.161225</p>
-                        <p class="over">开票软件集成安装包V2.1.30.161225</p>
-                    </div>
-                    <div class="software-type">
-                        <p class="over">软件分类：<em>软件下载</em></p>
-                        <p class="over">下载次数：<em>23331次</em></p>
-                    </div>
-                    <div class="software-time">
-                        <p class="over">下载时间：2017-05-07</p>
-                    </div>
-                </a>
-            </li>
-        </ul>
+            {{#  }); }}
+        </script>
         <div class="order-page clearfix fr">
-            <span class="fl"><</span>
-            <ul class="fl">
-                <li class="active"><a href="">1</a> </li>
-                <li><a href="">2</a> </li>
-            </ul>
-            <span class="fl"> ></span>
+            <ul class="clearfix" id="page1"></ul>
         </div>
     </div>
 </div>
@@ -187,5 +127,85 @@
         <div class="ke-grid">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539</div>
     </div>
 </div>
+<script>
+    layui.use(['layer', 'laytpl', 'laypage'], function () {
+        var layer = layui.layer;
+        var laytpl = layui.laytpl;
+        laypage = layui.laypage;
+        //获取url上面的参数，有类似方法getQueryString
+        function getPar(par) {
+            //获取当前URL
+            var local_url = document.location.href;
+            //获取要取得的get参数位置
+            var get = local_url.indexOf(par + '=');
+            if (get == -1) {
+                return false;
+            }
+            //截取字符串
+            var get_par = local_url.slice(par.length + get + 1);
+            //判断截取后的字符串是否还有其他get参数
+            var nextPar = get_par.indexOf('&');
+            if (nextPar != -1) {
+                get_par = get_par.slice(0, nextPar);
+            }
+            return get_par;
+        };
+        var pageNow = getPar("pageNow");
+        //获取用户id
+        var  member_id = JSON.parse($.cookie("usermessage")).USER_ID;
+        //格式化时间
+        function getLocalTime(nS) {
+            return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/, ' ');
+        };
+        function getMessage() {
+            $.ajax({
+                url: "http://192.168.0.102/persion/downloadRecord.json",
+                dataType: 'jsonp',
+                method: '',
+                data: {
+                    method: 'post',
+                    member_id:member_id,
+                    pageNow:pageNow,
+                    pageSize:10,
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    $(data.data).each(function (index, item) {
+                        item.createDate = getLocalTime(item.createDate);
+                        //console.log(this.newDate);
+                    });
+                    var getTpl = messageData.innerHTML;
+                    laytpl(getTpl).render(data, function (html) {
+                        messageBox.innerHTML = html;
+                    });
+                    page(data);
+                },
+                error: function () {
+                    console.log('请求错误');
+                }
+            });
+        };
+        getMessage();
+        //分页方法
+        function page(data) {
+            laypage({
+                cont: 'page1',
+                pages: Math.ceil(data.total / 10), //总页数
+                groups: 10, //连续显示分页数
+                skin: '#fe5f01',
+                curr: pageNow,
+                jump: function (obj, first) {
+                    //得到了当前页，用于向服务端请求对应数据
+                    var curr = obj.curr;
+                    if (pageNow != curr) {
+                        window.location.href = 'downloadhistory.html?&pageNow=' + curr + '&pageSize=10'
+                    }
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>
