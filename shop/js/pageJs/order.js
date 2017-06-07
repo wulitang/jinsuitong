@@ -119,8 +119,8 @@ $('.balance').on('click','.order-pay',function(){
 	        	layer.load(1,{shade: [0.5, '#393D49']});
         	},
 	        success: function (data) {
-	        	/*$.session.remove(spm);
-	        	orderData = [];*/
+	        	$.session.remove(spm);
+	        	orderData = [];
 	        	if(channel=='wechat_csb'){ //微信
 	        		$("#code").empty();
 	        		var str = toUtf8(data.data.charge.credential.wechat_csb.qr_code);
@@ -171,13 +171,13 @@ function timer(order){
 	var witch=1;
 		setTimeout(function() {
 			$.ajax({
-		        url: postUrl+"/Index/test.html",
+		        url: postUrl+"/api/payorder/payweixin.json",
 		        dataType: 'jsonp',
 		        method: 'POST',
 		        data: {
 		        	 method: 'POST',
 		             jst:'jstm.20170004502312366.yj',
-		             member_id:7
+		             orderNumber:order
 		        },
 		        jsonp: 'callback',
 		        async: false,    //或false,是否异步
@@ -186,11 +186,11 @@ function timer(order){
 		        	if(data.code==200){
 		        		tipAlert();
 		        	}else{
-		        		timer();
+		        		timer(order);
 		        	}
 		        },
 		        error: function () {
-		        	timer();
+		        	timer(order);
 		        }
 		    });
 	    }, 2000);
@@ -198,11 +198,19 @@ function timer(order){
 
 function tipAlert(){
 	layer.closeAll();
+	var html = '<div class="pop-info">'+
+					'<div class="nav">请在您新打开的页面上完成付款。</div>'+
+					'<div class="text">'+
+						'<p>完成付款后请根据您的情况点击下面的按钮。</p>'+
+					'</div>'+
+					'<div class="btn"><a id="popPayConfirmLink" href="" class="ok paySuccess">已完成支付</a><a href="" class="qx">付款遇到问题</a></div>'+
+				'</div>';
 	layer.open({
 		  type: 1, 
-		  title:'支付信息'
-		  area: ['500px', '300px'],
-		  content: '支付成功' //这里content是一个普通的String
+		  title:'确认提示',
+		  skin:'payTip',
+		  area: ['330px', '200px'],
+		  content: html //这里content是一个普通的String
 	});
 }
 function newWin(url) {   
