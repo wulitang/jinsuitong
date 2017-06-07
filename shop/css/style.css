@@ -935,6 +935,7 @@ body{
     border: none;
     border-radius: 5px;
     margin: 0 30px;
+    cursor: pointer;
 }
 /*下订单页样式结束*/
 
