@@ -497,7 +497,7 @@ body {
     color: #666;
 }
 
-.about-img, .news-img, .download-img, .payment-img, .center-img {
+.about-img, .news-img, .download-img, .payment-img, .center-img, .information-img {
     min-height: 300px;
     padding-top: 250px;
 }
@@ -510,6 +510,10 @@ body {
     background: url("../img/news.png") top center no-repeat;
 }
 
+.information-img {
+    background: url("../img/information.png") top center no-repeat;
+}
+
 .download-img {
     background: url("../img/down.png") top center no-repeat;
 }
@@ -517,7 +521,8 @@ body {
 .payment-img {
     background: url("../img/payment.png") top center no-repeat;
 }
-.center-img{
+
+.center-img {
     background: url("../img/center.png") top center no-repeat;
 }
 
@@ -2428,13 +2433,15 @@ body {
     padding: 0 20px;
     border-top: 1px dashed #ececec;
 }
-.my-message li .message-detail{
+
+.my-message li .message-detail {
     display: none;
     margin: 0 20px 20px 20px;
     border-top: 1px solid #ededed;
     padding-top: 20px;
     width: 100%;
 }
+
 .my-message li div a {
     font-size: 14px;
     color: #666;
@@ -2444,9 +2451,11 @@ body {
     line-height: 50px;
     height: 50px;
 }
-.my-message li div .choose-time{
+
+.my-message li div .choose-time {
     line-height: 50px;
 }
+
 .my-message li div {
     font-size: 14px;
     color: #666;
@@ -2632,14 +2641,17 @@ body {
     background: url("../img/right.png") no-repeat 430px center #fff;
     background-size: 20px;
 }
+
 .person-person-right .pass {
     background: url("../img/right.png") no-repeat 230px center #fff;
     background-size: 20px;
 }
+
 .change-password .pass {
     background: url("../img/right.png") no-repeat 230px center #fff;
     background-size: 20px;
 }
+
 .reader-min {
     padding: 30px;
 }
@@ -2677,35 +2689,134 @@ body {
     color: #fff;
     border-radius: 4px;
 }
-.person-person-right .layui-input-block{
+
+.person-person-right .layui-input-block {
     display: inline-block;
     margin-left: 0;
 }
-.person-person-right .layui-input-block span{
+
+.person-person-right .layui-input-block span {
     width: 20px;
 }
+
 .person-person-right .layui-form-radioed i {
     color: #0499ff;
 }
-.set-address .active{
+
+.set-address .active {
     background: url("../img/icon.png") no-repeat center;
 }
-.center-min{
+
+.center-min {
     padding: 30px;
 }
+
 .order-page .layui-laypage-curr {
-    display: inline-block!important;
-    width: auto!important;
-    height: 28px!important;
+    display: inline-block !important;
+    width: auto !important;
+    height: 28px !important;
 }
+
 .message-line {
     width: 675px;
 }
-.readed{
+
+.readed {
     float: left;
     width: 20px;
     margin: 15px 0 0 15px;
 }
-.icon-active i{
-    background: url("../img/icon.png") no-repeat center!important;
+
+.icon-active i {
+    background: url("../img/icon.png") no-repeat center !important;
+}
+
+.information-search {
+    padding: 20px 30px;
+    background: #fafafa;
+}
+
+.information-search input {
+    display: inline-block;
+    width: 270px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    color: #a6a6a6;
+}
+
+.information-search button {
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 10px;
+    border-radius: 4px;
+    padding: 0 10px;
+    background: #ee692c;
+    color: #fff;
+}
+
+.information-min {
+    padding: 30px;
+    background: #fff;
+}
+
+.information-center {
+    border: 1px solid #ececec;
+    border-radius: 4px;
+}
+
+.information-top {
+    border-bottom: 1px dashed #ececec;
+    color: #1a1a1a;
+}
+
+.information-list li {
+    height: 49px;
+    line-height: 49px;
+    border-bottom: 1px dashed #ececec;
+    background: url("../img/dian.png") no-repeat 10px center;
+}
+
+.information-top div, .information-list li div {
+    display: inline-block;
+    height: 49px;
+    line-height: 49px;
+    text-align: center;
+}
+.wang-name{
+    width: 240px;
+    text-align: left!important;
+    text-indent: 30px;
+}
+.server-name{
+    width: 190px;
+}
+.server-zoom{
+    width: 180px;
+}
+.server-phone{
+    width: 160px;
+}
+.server-place{
+    width: 280px;
+}
+.information-list div{
+    color: #4c4c4c;
+}
+.information-list li:nth-last-child(1){
+    border: none;
+}
+.information-name h3{
+    font-size: 22px;
+    color: #4c4c4c;
+    line-height: 49px;
+    height: 49px;
+    margin: 30px 30px 0 30px;
+    border-bottom: 1px solid #ececec;
+}
+.information-min p{
+    display: block;
+    line-height: 30px;
 }

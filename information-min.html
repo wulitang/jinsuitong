@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>服务信息</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="shop/js/jquerysession.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/pc.js"></script>
+</head>
+<body>
+<!--welcome-->
+<div class="welcome" id="welcomeBox"></div>
+<script type="text/html" id="welcomeData">
+    <div class="ke-grid">
+        <p class="over">欢迎光临金<em><a href="index.html">穗通官网</a></em></p>
+        <div class="index-right fr">
+            {{# if(d.userName){}}
+            <a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
+            {{# } else { }}
+            <a href="login.html">登录</a>|<a href="register.html">注册</a>
+            {{# } }}
+        </div>
+    </div>
+</script>
+<!--菜单-->
+<div class="index-top clearfix">
+    <div class="ke-grid">
+        <div class="index-logo">
+            <a href="index.html">
+                <img src="img/logo.png">
+            </a>
+        </div>
+        <ul class="index-menu">
+            <li>
+                <a href="index.html">首页</a>
+            </li>
+            <li>
+                <a href="about.html">关于我们</a>
+            </li>
+            <li>
+                <a href="news.html">新闻动态</a>
+            </li>
+            <li class="active">
+                <a href="download.html">下载中心</a>
+            </li>
+            <li>
+                <a href="/shop/index.html">商城</a>
+            </li>
+            <li>
+                <a href="payment.html">服务缴费</a>
+            </li>
+        </ul>
+        <div class="top-phone">
+            服务热线:
+            <em>400-123-1234</em>
+        </div>
+    </div>
+</div>
+<!--about-us-->
+<div class="about-center ke-grid">
+    <div class="information-img">
+        <div class="about-word">
+            <div class="information-name">
+                <h3>此处为网点名称</h3>
+            </div>
+            <div class="information-min">
+                <p>
+                    服务人员姓名 ：<br>
+                    林老师
+                </p>
+                <p>
+                服务人员联系电话：<br>
+                023-62627788
+                </p>
+                <p>
+                服务网点地址：<br>
+                重庆市南岸区协信星光7栋40楼
+                </p>
+                <p>
+                服务网点电话：<br>
+                023-62627788
+                </p>
+                <p>
+                服务内容：<br>
+                此处显示服务内容
+                </p>
+                <p>
+                服务区域：<br>
+                南岸区
+                </p>
+                <p>
+                纳税人性质：<br>
+                一般纳税人／小规模纳税人
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--foot-->
+<div class="foot" id="footBox"></div>
+<script type="text/javascript" src="js/common.js"></script>
+</body>
+</html>
