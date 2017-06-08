@@ -1492,6 +1492,7 @@ body{
 #lookedShopView {
     height: 520px;
     overflow: auto;
+    overflow-x:hidden;
 }
 .over-two{
     display: -webkit-box;
@@ -1511,7 +1512,7 @@ body{
 }
 .sees p{
     font-size: 12px;
-    width: 100%;
+    width: 100%!important;
     display: block;
     overflow: hidden;
     white-space: nowrap;
