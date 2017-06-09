@@ -27,81 +27,14 @@
     </style>
 </head>
 <body>
-<script>
-    if (!$.session.get('usermessage')){
-        location.href="login.html"
-    }
-</script>
 <!--welcome-->
 <div class="welcome" id="welcomeBox"></div>
-<script type="text/html" id="welcomeData">
-    <div class="ke-grid">
-        <p class="over">欢迎光临金<em><a href="index.html">穗通官网</a></em></p>
-        <div class="index-right fr">
-            {{# if(d.userName){}}
-            <a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
-            {{# } else { }}
-            <a href="login.html">登录</a>|<a href="register.html">注册</a>
-            {{# } }}
-        </div>
-    </div>
-</script>
 <!--个人中心顶部-->
 <div class="person-top" id="personBox"></div>
-<script type="text/html" id="personData">
-    <div class="ke-grid">
-        <img src="img/person.png">
-        <div class="person-message fl">
-            <div class="person-name">{{d.userName}}</div>
-            <div class="person-safe">
-                <span>账户安全：</span>
-                <div class="safe-grade fl">
-                    <em style="width: {{d.accountGrade}}%"></em>
-                </div>
-                <!--<em>中级</em>-->
-            </div>
-        </div>
-        <div class="check-sever fr">
-            <a href="">服务费查询</a>
-            <a href="">续费缴费</a>
-        </div>
-    </div>
-</script>
 <!--个人中心min-->
 <div class="ke-grid clearfix person-center">
-    <div class="person-center-left fl">
-    <ul class="person-left fl">
-        <li class="person-left-title">
-            <span>交易管理</span>
-        </li>
-        <li class="active">
-            <a href="person.html">我的订单</a>
-        </li>
-        <li>
-            <a href="downloadhistory.html">下载记录</a>
-        </li>
-        <li>
-            <a href="buyhistory.html">购买记录</a>
-        </li>
-    </ul>
-    <ul class="person-left fl">
-        <li class="person-left-title">
-            <span>账户管理</span>
-        </li>
-        <li>
-            <a href="person-message.html">个人信息</a>
-        </li>
-        <li>
-            <a href="safe-center.html">安全中心</a>
-        </li>
-        <li>
-            <a href="my-address.html">收货地址</a>
-        </li>
-        <li>
-            <a href="my-message.html?pageNow=1&pageSize=5">我的消息</a>
-        </li>
-    </ul>
-    </div>
+    <div class="person-center-left fl"  id="personNav"></div>
+    <script type="text/javascript" src="js/person.js"></script>
     <div class="my-order fr">
         <div class="my-order-title">
             <span>我的订单</span>
@@ -217,11 +150,6 @@
         laytpl = layui.laytpl;
         laypage = layui.laypage;
         laydate = layui.laydate;
-        var data = JSON.parse($.session.get('usermessage'));
-        var getTpl = personData.innerHTML;
-        laytpl(getTpl).render(data, function (html) {
-            personBox.innerHTML = html;
-        });
         ajax(1);
     });
     $('.order-type a').click(function(){

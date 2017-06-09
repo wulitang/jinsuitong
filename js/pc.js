@@ -35,7 +35,8 @@ layui.use(['laytpl','laypage'], function(){
     //获取用户信息JSON.stringify(obj)将JSON转为字符串。JSON.parse(string)将字符串转为JSON格式；
     if($.session.get('usermessage')){
         var data = JSON.parse($.session.get('usermessage'));
-        var getTpl = welcomeData.innerHTML;
+        /*var getTpl = welcomeData.innerHTML;*/
+        var getTpl = welcomeDataInnerHTML();
         laytpl(getTpl).render(data, function (html) {
             welcomeBox.innerHTML = html;
         });
@@ -68,3 +69,16 @@ layui.use(['laytpl','laypage'], function(){
         
     });
 });
+
+function welcomeDataInnerHTML(){
+	return '<div class="ke-grid">'+
+			    '<p class="over">欢迎光临金<em><a href="index.html">穗通官网</a></em></p>'+
+			    '<div class="index-right fr">'+
+			        '{{# if(d.userName){}}'+
+			        '<a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>'+
+			        '{{# } else { }}'+
+			        '<a href="login.html">登录</a>|<a href="register.html">注册</a>'+
+			        '{{# } }}'+
+			    '</div>'+
+			'</div>';
+}
