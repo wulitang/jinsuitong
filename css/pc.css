@@ -2820,3 +2820,57 @@ body {
     display: block;
     line-height: 30px;
 }
+<<<<<<< HEAD
+.order-center{
+    background: #fff;
+    padding: 10px 30px;
+    min-height: 370px;
+}
+.order-address{
+    line-height: 50px;
+    height: 50px;
+}
+.order-address span,.orderMessage span{
+    color: #ee692c;
+}
+.orderMessage p{
+    display: inline-block;
+}
+.orderMessage p{
+    color: #333;
+    font-size: 14px;
+    margin-right: 20px;
+}
+.orderType{
+    margin-top: 20px;
+}
+.orderType table{
+    border: 1px solid gainsboro;
+}
+.orderType td{
+    word-break: break-all;
+    padding: 10px;
+    background-color: rgba(171, 217, 238, 0.14);
+    line-height: 34px;
+    border-right: 1px solid #fff;
+    color: #777;
+    font-size: 14px;
+}
+.orderType th{
+    min-width: 70px;
+}
+.orderType td img{
+    float: left;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+}
+.orderType td a{
+    color: #777;
+    font-size: 14px;
+}
+.orderType tr{
+    border-top: 1px solid #fff;
+}
+=======
+>>>>>>> ae9e8e219cd01c6051407903d5e97113554b2ff9
