@@ -6,6 +6,7 @@ var laytpl    = '',
     layer     = '',
     wx        = 0,
     orderData = [];
+var witch     =1;
 layui.use(['laytpl','layer'], function(){
     laytpl = layui.laytpl;
     layer = layui.layer;
@@ -93,6 +94,7 @@ function tplComment(){//评论
 }
 
 function tplAddrView(){
+	pay();
     $.ajax({
         url: postUrl+"/address/getEasyBuyList.json",
         dataType: 'jsonp',
@@ -172,7 +174,8 @@ $('.balance').on('click','.order-pay',function(){
                     title:'微信扫码支付',
                     content: $("#idCode").html(), //这里content是一个普通的String
                     cancel: function(index, layero){
-                        tipAlert();
+                    	witch = 2;
+                    	tipAlert();
                     }
                 });
                 timer(data.data.orderNumber); //定时器
@@ -203,32 +206,36 @@ $('.balance').on('click','.order-pay',function(){
 })
 
 function timer(order){
-    var witch=1;
-    setTimeout(function() {
-        $.ajax({
-            url: postUrl+"/api/payorder/payweixin.json",
-            dataType: 'jsonp',
-            method: 'POST',
-            data: {
+    if(witch==1){
+    	setTimeout(function() {
+            $.ajax({
+                url: postUrl+"/api/payorder/payweixin.json",
+                dataType: 'jsonp',
                 method: 'POST',
-                jst:'jstm.20170004502312366.yj',
-                orderNumber:order
-            },
-            jsonp: 'callback',
-            async: false,    //或false,是否异步
-            timeout: 5000,    //超时时间
-            success: function (data) {
-                if(data.code==200){
-                    tipAlert();
-                }else{
+                data: {
+                    method: 'POST',
+                    jst:'jstm.20170004502312366.yj',
+                    orderNumber:order
+                },
+                jsonp: 'callback',
+                async: false,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                success: function (data) {
+                    if(data.code==200){
+                    	if(witch==1){
+                    		tipAlert();
+                    		witch = 2;
+                    	}
+                    }else{
+                        timer(order);
+                    }
+                },
+                error: function () {
                     timer(order);
                 }
-            },
-            error: function () {
-                timer(order);
-            }
-        });
-    }, 2000);
+            });
+        }, 2000);
+    }
 }
 function tipAlert(){
     layer.closeAll();
@@ -274,6 +281,7 @@ function pay(){
     if(!addrId){
         $('.balance .pay-btn').css({'background':'#ccc','cursor':'no-drop'});
     }else{
+    	$('.balance .pay-btn').css({'background':'#ee692c','cursor':'pointer'});
         $('.balance .pay-btn').addClass('order-pay');
     }
 }
@@ -284,7 +292,6 @@ function tplOrderPay(data){
         orderPayView.innerHTML = html;
     });
     settlement();
-    pay();
 }
 function tplCartPay(data){
     var data=data?data:'';
@@ -293,7 +300,6 @@ function tplCartPay(data){
         orderPayView.innerHTML = html;
     });
     settlement();
-    pay();
 }
 
 function toUtf8(str) {

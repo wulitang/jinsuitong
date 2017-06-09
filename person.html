@@ -5,116 +5,57 @@
     <title>个人中心</title>
     <link href="css/common.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="shop/js/jquerysession.js"></script>
     <script type="text/javascript" src="layui/layui.js"></script>
     <script type="text/javascript" src="js/swiper-3.4.2.min.js"></script>
     <script type="text/javascript" src="js/pc.js"></script>
+    <style>
+    	.dzf{    
+	    	background: #ee692c !important;
+	    	color: #fff !important;
+    	}
+    	.dsh{
+    		background: #118adb !important;
+    		color: #fff !important;
+    	}
+    	.dpj{
+    		background: #fcbf04 !important;
+    		color: #fff !important;
+    	}
+    </style>
 </head>
 <body>
-<script>
-    if (!$.session.get('usermessage')){
-        location.href="login.html"
-    }
-</script>
 <!--welcome-->
 <div class="welcome" id="welcomeBox"></div>
-<script type="text/html" id="welcomeData">
-    <div class="ke-grid">
-        <p class="over">欢迎光临金<em><a href="index.html">穗通官网</a></em></p>
-        <div class="index-right fr">
-            {{# if(d.userName){}}
-            <a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
-            {{# } else { }}
-            <a href="login.html">登录</a>|<a href="register.html">注册</a>
-            {{# } }}
-        </div>
-    </div>
-</script>
 <!--个人中心顶部-->
 <div class="person-top" id="personBox"></div>
-<script type="text/html" id="personData">
-    <div class="ke-grid">
-        <img src="img/person.png">
-        <div class="person-message fl">
-            <div class="person-name">{{d.userName}}</div>
-            <div class="person-safe">
-                <span>账户安全：</span>
-                <div class="safe-grade fl">
-                    <em style="width: {{d.accountGrade}}%"></em>
-                </div>
-                <!--<em>中级</em>-->
-            </div>
-        </div>
-        <div class="check-sever fr">
-            <a href="">服务费查询</a>
-            <a href="">续费缴费</a>
-        </div>
-    </div>
-</script>
-<script>
-    layui.use('laytpl', function() {
-        laytpl = layui.laytpl;
-        var data = JSON.parse($.session.get('usermessage'));
-        console.log(data);
-        var getTpl = personData.innerHTML;
-        laytpl(getTpl).render(data, function (html) {
-            personBox.innerHTML = html;
-        });
-    });
-</script>
 <!--个人中心min-->
 <div class="ke-grid clearfix person-center">
-    <div class="person-center-left fl">
-    <ul class="person-left fl">
-        <li class="person-left-title">
-            <span>交易管理</span>
-        </li>
-        <li class="active">
-            <a href="person.html">我的订单</a>
-        </li>
-        <li>
-            <a href="downloadhistory.html?pageNow=1&pageSize=10">下载记录</a>
-        </li>
-        <li>
-            <a href="buyhistory.html?pageNow=1&pageSize=10">购买记录</a>
-        </li>
-    </ul>
-    <ul class="person-left fl">
-        <li class="person-left-title">
-            <span>账户管理</span>
-        </li>
-        <li>
-            <a href="person-message.html">个人信息</a>
-        </li>
-        <li>
-            <a href="safe-center.html">安全中心</a>
-        </li>
-        <li>
-            <a href="my-address.html">收货地址</a>
-        </li>
-        <li>
-            <a href="my-message.html?pageNow=1&pageSize=5">我的消息</a>
-        </li>
-    </ul>
-    </div>
+    <div class="person-center-left fl"  id="personNav"></div>
+    <script type="text/javascript" src="js/person.js"></script>
     <div class="my-order fr">
         <div class="my-order-title">
             <span>我的订单</span>
         </div>
         <div class="order-type">
-            <a class="active" href="">全部订单</a>
-            <a href="">待付款<!-- <em>（1）</em> --></a>
-            <a href="">待收货</a>
-            <a href="">待评价</a>
+            <a class="active" data-type="waitWhole">全部订单</a>
+            <a data-type="waitPay">待付款<!-- <em>（1）</em> --></a>
+            <a data-type="waitConfirm">待收货</a>
+            <a data-type="waitRate">待评价</a>
         </div>
         <div class="order-time">
             <span>成交时间：</span>
-            <div class="person-start"></div>
+            <div class="person-start">
+            	<input type="text" name="dates" id="date" lay-verify="date" placeholder="请选择成交时间" autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})">
+            </div>
             <span>至</span>
-            <div class="person-end"></div>
+            <div class="person-end">
+            	<input type="text" name="datee" id="datee" lay-verify="date" placeholder="请选择成交时间" autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})">
+            </div>
             <div class="person-search fl">
-                <input placeholder="请输入商品名称或订单编号">
+                <input name="keyword" placeholder="请输入订单号">
                 <button></button>
             </div>
         </div>
@@ -123,44 +64,66 @@
             <div class="order-pic">单价</div>
             <div class="order-number">数量</div>
             <div class="order-money">金额</div>
-            <div class="order-date">成交时间</div>
             <div class="order-does">操作</div>
         </div>
-        <ul class="oder-list">
-        	
+        <ul class="oder-list" id="orderListView"></ul>
+        <script id="orderList" type="text/html">
+			{{#  layui.each(d, function(index, item){ }}
             <li class="order-item clearfix">
                 <div class="order-order">
-                  	订单编号：2017021510113606
-                </div>
+                  	<span>{{formatDate(item.ordersDate)}}&nbsp;&nbsp;&nbsp;订单编号：{{item.ordersNumber}}</span>
+                	<span style="padding: 0 15px 0 0;float:right;cursor: pointer;">删除</span>
+				</div>
                 <div class="order-detail clearfix">
-                    <div class="order-photo fl">
-                        <img src="img/goods.png">
-                    </div>
-                    <div class="order-detail-item fl">
-                        <div class="order-title over">惠普-HP黑白多功能激光</div>
-                        <span class="over">型号：i70023</span>
-                        <span class="over">颜色：深灰色</span>
-                    </div>
-                    <div class="order-pic over">￥1159.00</div>
-                    <div class="order-number over">X1</div>
-                    <div class="order-money over">￥1159.00</div>
-                    <div class="order-date over">2017-05-07 10:00:31</div>
-                    <div class="order-does fl">
-                        <a class="">待收货</a>
-                        <span>支付成功</span>
-                    </div>
+					<table>
+						{{#  layui.each(item.listProductBoughtItems, function(k, v){ }}
+        				<tr>
+        					<td>
+								<a href="/shop/detail.html?shopId{{v.productId}}"><div class="order-photo fl">
+                        			<img src="{{imgUrl+v.priductImg}}">
+                    			</div></a>
+                    			<div class="order-detail-item fl">
+                        			<a href="/shop/detail.html?shopId{{v.productId}}"><div class="order-title over">{{v.productName}}</div></a>
+									{{#  if(v.productAtter){ var av=v.productAtter.split("|");      }}
+									{{#  if(av){  }}
+									{{#  layui.each(av, function(key, val){ }}
+                						<span class="over">{{val}}</span>
+									{{#  }); }}
+									{{#  } }}
+									{{#  } }}
+                    			</div>
+                    			<div class="order-pic over">￥{{formatCurrency(v.unitPrice)}}</div>
+                    			<div class="order-number over">X{{v.purchaseNum}}</div>
+							</td>
+							{{#  if(k === 0){ }}
+        					<td>
+								<div class="order-money over"><p style="font-weight: bolder;">￥{{formatCurrency(item.actualAmount)}}</p><p>(含运费：￥{{formatCurrency(item.postFee)}})</p></div>
+                    			<div class="order-does fl">
+									{{#  if(item.ordersStatus1 === 2 && item.ordersStatus==1){ }}
+                        			<span>订单失效</span>
+									{{#  } else{ }}
+										{{#  if(item.ordersStatus==1){ }}
+											<a class="dzf" href="">待支付</a>
+											<a style="margin-top: 5px;" href="">取消订单</a>
+										{{#  } else if(item.ordersStatus==2 ||item.ordersStatus==3 ||item.ordersStatus==4){ }}
+											<a class="dsh" href="">确定收货</a>
+										{{#  } else if(item.ordersStatus==5) { }}
+											<a class="dpj" href="">待评价</a>
+										{{#  } else { }}
+											<span>交易关闭</span>
+										{{#  } }}
+									{{#  } }}
+                    			</div>
+							</td>
+							{{#  } }}
+        				</tr>
+						{{#  }); }}
+        			</table>
                 </div>
             </li>
-            
-        </ul>
-        <div class="order-page clearfix fr">
-            <span class="fl"><</span>
-            <ul class="fl">
-                <li class="active"><a href="">1</a> </li>
-                <li><a href="">2</a> </li>
-            </ul>
-            <span class="fl"> ></span>
-        </div>
+			{{#  }); }}
+            </script> 
+        <div id="orderPage"></div>
     </div>
 </div>
 <!--foot-->
@@ -181,5 +144,107 @@
         <div class="ke-grid">Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6  渝公网备：50019002500539</div>
     </div>
 </div>
+<script>
+	var laytpl = '',laypage='',imgUrl='http://file.serv.cq196.cn:10000/',postUrl= 'http://192.168.0.102';
+    layui.use(['laytpl','laypage','laydate'], function() {
+        laytpl = layui.laytpl;
+        laypage = layui.laypage;
+        laydate = layui.laydate;
+        ajax(1);
+    });
+    $('.order-type a').click(function(){
+    	$('.order-type .active').removeClass('active');
+    	$(this).addClass('active');
+    	ajax(1);
+    })
+    $('.person-search button').click(function(){
+    	ajax(1);
+    })
+    function ajax(pageNow,isPage){
+    	isPage   = isPage?true:false;
+    	var tabCode    = $('.order-type .active').attr('data-type');
+    	var startTime  = $('.order-time input[name="dates"]').val();
+    	var endTime    = $('.order-time input[name="datee"]').val();
+    	var keyword    = $('.order-time input[name="keyword"]').val();
+    	$.ajax({
+            url: postUrl+"/trade/itemlist/list_bought_items.json",
+            dataType: 'jsonp',
+            method: 'POST',
+            data: {
+                method: 'POST',
+                member_id:7,
+                tabCode:tabCode,
+                pageNow:pageNow,
+                pageSize:10,
+                startTime:startTime,
+                endTime:endTime,
+                keyword:keyword
+            },
+            jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+            	if(data.data){
+            		var getTpl = orderList.innerHTML;
+                	laytpl(getTpl).render(data.data, function(html){
+                		orderListView.innerHTML = html;
+                	});
+                	if(!isPage){
+                		page(Math.ceil(data.total/10),pageNow);
+                	}
+            	}else{
+            		var getTpl = orderList.innerHTML;
+                	laytpl(getTpl).render([], function(html){
+                		orderListView.innerHTML = html;
+                	});
+            	}
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+    }
+	function page(pagess,currs){
+		laypage({
+		    cont: 'orderPage'
+		    ,pages: pagess
+		    ,curr:currs
+		    ,skin: '#ee692c'
+	    	,jump: function(obj, first){
+	    	    //得到了当前页，用于向服务端请求对应数据
+	    	    var curr = obj.curr;
+	    	    if(currs!=curr){
+	    	    	ajax(curr);
+	    	    }
+	    	}
+		});
+	}    
+    function formatDate(now) {
+    	var now=new Date(now); 
+    	var year=now.getFullYear();      //年
+    	var month=now.getMonth()+1;  //月
+    	var date=now.getDate();      //日
+    	var hour=now.getHours();     //时
+    	var minute=now.getMinutes(); //分 
+    	var second=now.getSeconds(); //秒
+    	return year+"-"+month+"-"+date+" "+hour+":"+minute;
+    	//return "20"+year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
+    }
+    function formatCurrency(num) {    
+        num = num.toString().replace(/\$|\,/g,'');    
+        if(isNaN(num))    
+        num = "0";    
+        sign = (num == (num = Math.abs(num)));    
+        num = Math.floor(num*100+0.50000000001);    
+        cents = num%100;    
+        num = Math.floor(num/100).toString();    
+        if(cents<10)    
+        cents = "0" + cents;    
+        for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)    
+        num = num.substring(0,num.length-(4*i+3))+','+    
+        num.substring(num.length-(4*i+3));    
+        return (((sign)?'':'-') + num + '.' + cents);    
+    }   
+</script>
 </body>
 </html>
