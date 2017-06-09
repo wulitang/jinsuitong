@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻列表</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="shop/js/jquerysession.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/swiper-3.4.2.min.js"></script>
+    <script type="text/javascript" src="js/pc.js"></script>
+</head>
+<body>
+<!--welcome-->
+<div class="welcome" id="welcomeBox"></div>
+<script type="text/html" id="welcomeData">
+    <div class="ke-grid">
+        <p class="over">欢迎光临金<em><a href="index.html">穗通官网</a></em></p>
+        <div class="index-right fr">
+            {{# if(d.userName){}}
+            <a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
+            {{# } else { }}
+            <a href="login.html">登录</a>|<a href="register.html">注册</a>
+            {{# } }}
+        </div>
+    </div>
+</script>
+<!--菜单-->
+<div class="index-top clearfix">
+    <div class="ke-grid">
+        <div class="index-logo">
+            <a href="index.html">
+                <img src="img/logo.png">
+            </a>
+        </div>
+        <ul class="index-menu">
+            <li>
+                <a href="index.html">首页</a>
+            </li>
+            <li>
+                <a href="about.html">关于我们</a>
+            </li>
+            <li class="active">
+                <a href="news.html">新闻动态</a>
+            </li>
+            <li>
+                <a href="download.html?dowcateId=&keyword=&pageNow=1&pageSize=10">下载中心</a>
+            </li>
+            <li>
+                <a href="/shop/index.html">商城</a>
+            </li>
+            <li>
+                <a href="payment.html">服务缴费</a>
+            </li>
+        </ul>
+        <div class="top-phone">
+            服务热线:
+            <em>400-123-1234</em>
+        </div>
+    </div>
+</div>
+<!--about-us-->
+<div class="about-center ke-grid">
+    <div class="news-img">
+        <div class="about-word">
+            <ul class="menu-center">
+                <li>
+                    <a href="news.html">全部新闻</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="news.html?newType=1">企业新闻</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="news.html?newType=2">税务新闻</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="news.html?newType=3">公司公告</a>
+                </li>
+            </ul>
+            <div class="clearfix">
+                <ul class="news-list" id="indexdata">
+
+                </ul>
+                <script id="index" type="text/html">
+                    {{#  layui.each(d, function(index, item){ }}
+                    <li>
+                        <a class="over" href="news-min.html?type={{item.newType}}&new_id={{item.id}}">{{item.newTitle}}</a>
+                        <span>{{item.newDate}}</span>
+                    </li>
+                    {{#  }); }}
+                </script>
+                <ul class="page-number clearfix" id="page1"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--foot-->
+<div class="foot" id="footBox"></div>
+<script type="text/javascript" src="js/common.js"></script>
+<script>
+    //格式化时间
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/,' ');
+    };
+    //获取url上面的参数，有类似方法getQueryString
+    function getPar (par) {
+        //获取当前URL
+        var local_url = document.location.href;
+        //获取要取得的get参数位置
+        var get = local_url.indexOf(par + '=');
+        if (get == -1) {
+            return false;
+        }
+        //截取字符串
+        var get_par = local_url.slice(par.length + get + 1);
+        //判断截取后的字符串是否还有其他get参数
+        var nextPar = get_par.indexOf('&');
+        if (nextPar != -1) {
+            get_par = get_par.slice(0, nextPar);
+        }
+        return get_par;
+    };
+    var newType = getPar("newType")?getPar("newType"):0;
+    var pageNow = getPar("pageNow")?getPar("pageNow"):1;
+    var pageSize = getPar("pageSize")?getPar("pageSize"):10;
+    var laytpl,laypage;
+    $(".menu-center li").eq(newType).addClass("active").siblings().removeClass('active');
+    //分页方法
+    function page(data){
+        laypage({
+            cont: 'page1',
+            pages: Math.ceil(data.total/10), //总页数
+            groups: 10, //连续显示分页数
+            skin: '#fe5f01',
+            curr:pageNow,
+            jump: function(obj, first){
+                //得到了当前页，用于向服务端请求对应数据
+                var curr = obj.curr;
+                if (pageNow != curr){
+                	if(newType){
+	                    window.location.href = 'news.html?newType='+newType+'&pageNow='+curr;
+                	}else{
+                		window.location.href = 'news.html?pageNow='+curr;
+                	}
+                }
+            }
+        });
+    }
+    layui.use(['laytpl', 'laypage'], function () {
+        laytpl = layui.laytpl;
+        laypage = layui.laypage;
+        $.ajax({
+            url: "http://192.168.0.102/api/cms/newInfo.json",
+            dataType: 'jsonp',
+            method: '',
+            data:{
+                method:'post',
+                newType:newType,
+                pageNow:pageNow,
+                pageSize:10,
+            },
+            jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+                $(data.data).each(function(index,item){
+                    item.newDate =getLocalTime(item.newDate);
+                    //console.log(this.newDate);
+                });
+                var getTpl = index.innerHTML;
+                laytpl(getTpl).render(data.data, function(html){
+                    indexdata.innerHTML = html;
+                });
+                page(data);
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+    });
+    
+</script>
+</body>
+</html>

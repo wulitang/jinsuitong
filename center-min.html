@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>招聘中心</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+    	var navIndex = 2;
+    </script>
+</head>
+<body>
+<!--welcome-->
+<div class="welcome" id="welcomeBox"></div>
+<!--菜单-->
+<div class="index-top clearfix" id="menuNav"></div>
+<!--about-us-->
+<div class="about-center ke-grid">
+    <div class="center-img">
+        <div class="about-word">
+           <ul class="menu-center">
+                <li>
+                    <a href="about.html">关于我们</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="business.html">企业介绍</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="information.html">服务介绍</a>
+                    <em></em>
+                </li>
+                <li class="active">
+                    <a href="center.html">招聘信息</a>
+                </li>
+            </ul>
+            <div class="clearfix">
+                <div class="center-min" id="indexdata">
+
+                </div>
+                <script id="index" type="text/html">
+                   <h3 class="">{{d.positionName}}</h3>
+                    <div class="center-detail">
+                        {{d.jobContent}}
+                        任职资格:<br>
+                        {{d.jobRequirements}}
+                        <br>
+                        <div style="line-height: 30px;" class="center-phone">
+                            联系电话：{{d.contactInfor}}
+                        </div>
+                        <div style="line-height: 30px;" class="center-address">
+                            联系地址：{{d.recruitAddress}}
+                        </div>
+                        <div style="line-height: 30px;" class="center-time">
+                            截止日期：{{d.deadlineDate}}
+                        </div>
+                    </div>
+                </script>
+                <ul class="page-number clearfix" id="page1"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--foot-->
+<div class="foot" id="footBox"></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="shop/js/jquerysession.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/head.js"></script>
+<script type="text/javascript" src="js/request.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script>
+    layui.use(['laytpl'], function () {
+        laytpl = layui.laytpl;
+        var RECRUIT_ID = getUrlParam("RECRUIT_ID");
+        var data = request('/index/recruitDes.json',{'RECRUIT_ID':RECRUIT_ID},'GET');
+        if(data.data){
+        	 data.data.deadlineDate =getLocalTime(data.data.deadlineDate);
+             var getTpl = index.innerHTML;
+             laytpl(getTpl).render(data.data, function(html){
+                 indexdata.innerHTML = html;
+             });
+        }
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="shop/js/jquerysession.js"></script>
+    <script type="text/javascript" src="js/request.js"></script>
+</head>
+<body>
+<div class="register">
+    <div class="register-form">
+        <input class="user" type="text" placeholder="请输入用户名或手机号">
+        <input class="password" type="password" placeholder="请输入登陆密码">
+        <a class="pass-button" href="javascript:;">确定</a>
+        <div class="have">
+            <p>还没有金税通账号？</p>
+            <a href="register.html">立即注册</a>
+            <a class="fr" href="get-password.html">忘记密码？</a>
+        </div>
+    </div>
+    <div class="register-foot">
+        <div class="foot-bottom">
+            <p class="ke-grid">
+                Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6 渝公网备：50019002500539
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+$(".pass-button").click(function () {
+    var memberPhone =$(".user").val();
+    var memberPwd =$(".password").val();
+    if (memberPhone && memberPwd){
+    	var data       = request('/persion/member_login.json',{memberPhone:memberPhone,memberPwd:memberPwd},'POST');
+    	if(data.code==200){
+            var user = JSON.stringify(data.data);
+            $.session.set('usermessage',user);
+            location.href="index.html";
+        }else {
+            layer.msg(data.msg);
+        }
+    }else {
+        layer.msg('账号或密码错误');
+    }
+});
+</script>
+</body>
+</html>

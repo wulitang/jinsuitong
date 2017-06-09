@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>服务信息</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+    	var navIndex = 2;
+    </script>
+</head>
+<body>
+<!--welcome-->
+<div class="welcome" id="welcomeBox"></div>
+<!--菜单-->
+<div class="index-top clearfix" id="menuNav"></div>
+<!--about-us-->
+<div class="about-center ke-grid">
+    <div class="information-img">
+        <div class="about-word">
+        	<ul class="menu-center">
+                <li>
+                    <a href="about.html">关于我们</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="business.html">企业介绍</a>
+                    <em></em>
+                </li>
+                <li class="active">
+                    <a href="information.html">服务介绍</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="center.html">招聘信息</a>
+                </li>
+            </ul>
+            <div class="information-search">
+                <input placeholder="请输入关键词" name="keyword"> <button>搜索</button>
+            </div>
+            <div class="information-min">
+                <div class="information-center">
+                    <div class="information-top">
+                        <div class="wang-name">网点名称</div>
+                        <div class="server-name">服务人员姓名</div>
+                        <div class="server-zoom">服务区域</div>
+                        <div class="server-phone">联系电话</div>
+                        <div class="server-place">服务网点地址</div>
+                    </div>
+                    <ul class="clearfix information-list" id="informationListView"></ul>
+                    <script id="informationList" type="text/html">
+						{{#  layui.each(d, function(index, item){ }}
+                    	<li>
+                            <a href="informationmin.html?serviceId={{item.id}}">
+                                <div class="wang-name over">{{item.serviceName}}</div>
+                                <div class="server-name over">{{item.serviceStaname}}</div>
+                                <div class="server-zoom over">{{item.serviceArea}}</div>
+                                <div class="server-phone over">{{item.telePhone}}</div>
+                                <div class="server-place over">{{item.serviceAddress}}</div>
+                            </a>
+                        </li>
+						{{#  }); }}
+					</script>
+                </div>
+            </div>
+            <div style="text-align: center;" id="informationPage"></div>
+        </div>
+    </div>
+</div>
+<!--foot-->
+<div class="foot" id="footBox"></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="shop/js/jquerysession.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/head.js"></script>
+<script type="text/javascript" src="js/request.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+var laytpl='',laypage='',pageNow=1;
+layui.use(['laytpl','laypage'], function () {
+    laytpl = layui.laytpl;
+    laypage= layui.laypage;
+    ajax(1,true);
+});
+function ajax(pageNow,isPage){
+	pageNow= pageNow?pageNow:1;
+	isPage = isPage?true:false;
+	var keyword = $('input[name="keyword"]').val()?$('input[name="keyword"]').val():'';
+	var data = request('/index/service_infor.json',{'pageNow':pageNow,'pageSize':10,'keyword':keyword},'GET');
+	if(data.code==200){
+		var getTpl = informationList.innerHTML;
+        laytpl(getTpl).render(data.data, function (html) {
+        	informationListView.innerHTML = html;
+        });
+        if(isPage){
+	        page(data);
+        }
+	}
+}
+$('.information-search button').click(function(){
+	ajax(1,true);
+})
+function page(data){
+    laypage({
+        cont: 'informationPage',
+        pages: Math.ceil(data.total/10), //总页数
+        groups: 10, //连续显示分页数
+        skin: '#ee692c',
+        curr:pageNow,
+        jump: function(obj, first){
+            //得到了当前页，用于向服务端请求对应数据
+            var curr = obj.curr;
+            if (pageNow != curr){
+            	pageNow = curr;
+            	ajax(curr);
+            }
+        }
+    });
+}
+</script>
+</body>
+</html>

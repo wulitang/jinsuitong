@@ -13,7 +13,11 @@ function request(url,data,type){
 	    beforeSend:function(xhr){
 	    },
 	    success:function(data,textStatus,jqXHR){
-	    	datas = data;
+	    	if(data.code==416){
+	    		window.location.href='/login.html';
+	    	}else{
+	    		datas = data;
+	    	}
 	    },
 	    error:function(xhr,textStatus){
 	    },

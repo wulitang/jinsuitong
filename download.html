@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>下载列表</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+   	<script type="text/javascript">
+    	var navIndex = 4;
+    </script>
+</head>
+<body>
+<!--welcome-->
+<div class="welcome" id="welcomeBox"></div>
+<!--菜单-->
+<div class="index-top clearfix" id="menuNav"></div>
+<!--about-us-->
+<div class="about-center ke-grid">
+    <div class="download-img">
+        <div class="about-word">
+            <div id="software"></div>
+            <script id="softwaredata" type="text/html">
+                <div class="down-search clearfix">
+                    <span>分类选择：</span>
+                    <select onchange='jumpselect(this)'>
+                        <option value="">全部类别</option>
+                        {{# layui.each(d, function(index, item){ }}
+                        <option value="{{item.id}}">{{item.categoryName}}</option>
+                        {{# }); }}
+                    </select>
+                    <input class="software-word" placeholder="请输入软件名称">
+                    <button class="search-software"><i></i> 搜索</button>
+                </div>
+            </script>
+            <div id="indexdata"></div>
+            <script id="index" type="text/html">
+                <ul class="down-list">
+                    {{#  if(d.data.length === 0){ }}
+                    <p class="">无数据</p>
+                    {{#  } }}
+                    {{# layui.each(d.data, function(index, item){ }}
+                    <li class="clearfix download-item">
+                        {{#  if(item.softwareImg){ }}
+                        <img src="http://file.serv.cq196.cn:10000/{{item.softwareImg}}">
+                        {{#  } }}
+                        {{#  if(!item.softwareImg){ }}
+                        <img src="img/sui.png">
+                        {{#  } }}
+                        <div class="down-left">
+                            <h3 class="over">{{item.softwareName}}</h3>
+                            <!--<p class="over">{{d.softwareName}}</p>-->
+                        </div>
+                        <ul class="download-number">
+                            {{#  if(d.categoryName){ }}
+                            <li>软件分类：<em>{{item.categoryName}}</em></li>
+                            {{#  } }}
+                            <li>下载次数：<em>{{item.downloadNum}}次</em></li>
+                        </ul>
+                        <div class="new-time">
+                            更新时间：{{item.updateDate}}
+                        </div>
+                        <a class="download-href" id="{{item.id}}" href="{{item.softwareLink}}">下载</a>
+                    </li>
+                    {{# }); }}
+
+                </ul>
+            </script>
+            <ul class="page-number clearfix" id="page1"></ul>
+        </div>
+    </div>
+</div>
+<!--foot-->
+<div class="foot" id="footBox"></div>
+<!--弹窗-->
+<div class="windows">
+    <div class="window-min">
+        <div class="success">
+            <span>
+                <img src="img/x.png">
+            </span>
+            <img class="success-right" src="img/right.png">
+            <p>恭喜您，下载成功！</p>
+        </div>
+        <div class="success-title">猜你喜欢</div>
+        <ul class="would-like clearfix" id="successBox"></ul>
+        <script id="successData" type="text/html">
+            <li>
+                <a href="">
+                    <img src="img/dayinji.png">
+                    <h3 class="over">惠普-HP黑白多功能激光</h3>
+                    <p>￥1159.00</p>
+                </a>
+            </li>
+        </script>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="shop/js/jquerysession.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/head.js"></script>
+<script type="text/javascript" src="js/request.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script>
+    //分页方法
+    var dowcateId = getUrlParam("dowcateId")?getUrlParam("dowcateId"):'';
+    var keyword   = getUrlParam("keyword")?getUrlParam("keyword"):'';
+    var pageNow   = getUrlParam("pageNow")?getUrlParam("pageNow"):1;
+    var laytpl;
+    function page(data) {
+        laypage({
+            cont: 'page1',
+            pages: Math.ceil(data.total / 10), //总页数
+            groups: 10, //连续显示分页数
+            skin: '#fe5f01',
+            curr: pageNow,
+            jump: function (obj, first) {
+                //得到了当前页，用于向服务端请求对应数据
+                var curr = obj.curr;
+                if (pageNow != curr) {
+                	var url = '';
+                	if(dowcateId){
+                		url += url?'&dowcateId='+dowcateId:'dowcateId='+dowcateId;
+                	}
+                	if(keyword){
+                		url += url?'&keyword='+keyword:'keyword='+keyword;
+                	}
+                	if(pageNow){
+                		url += url?'&pageNow='+curr:'pageNow='+curr;
+                	}
+                    window.location.href = 'download.html'+(url?'?'+url:'');
+                }
+            }
+        });
+    }
+    //请求数据方法
+    function getdata () {
+    	var data = request('/api/cms/software_info.json',{'keyword':keyword,'dowcateId':dowcateId,'pageNow':pageNow,'pageSize':10},'GET');
+    	if(data){
+    		$(data.data).each(function (index, item) {
+                item.updateDate = getLocalTime(item.updateDate);
+            });
+            var getTpl = index.innerHTML;
+            laytpl(getTpl).render(data, function (html) {
+                indexdata.innerHTML = html;
+            });
+            page(data);
+    	} 
+    }
+    layui.use(['laytpl', 'laypage'], function () {
+        laytpl = layui.laytpl;
+        laypage = layui.laypage;
+        getdata();
+        var data = request('/api/cms/dowcate.json','','GET');
+        var getTpl = softwaredata.innerHTML;
+        laytpl(getTpl).render(data.data, function (html) {
+            software.innerHTML = html;
+        });
+    });
+    $("#software").on('click','.search-software',function () {
+        keyword = $(".software-word").val();
+        getdata();
+       // window.location.href = 'download.html?dowcateId=' + dowcateId + '&keyword=' + keyword + '&pageNow=1&pageSize=10'
+    });
+    $("#indexdata").on('click','a',function () {
+        $(".windows").show();
+        var data = request('/api/cms/user_down.json',{'softwareId':this.id},'GET');
+        var getTpl = successData.innerHTML;
+        laytpl(getTpl).render(data.data, function (html) {
+            successBox.innerHTML = html;
+        });
+    });//下载页关闭弹窗
+    $(".windows").on('click','span',function () {
+        $(".windows").hide();
+    });
+
+    function jumpselect (data) {
+        dowcateId = $(data).val();
+        getdata();
+        //window.location.href = 'download.html?dowcateId=' + dowcateId + '&keyword=' + keyword + '&pageNow=1&pageSize=10'
+    }
+</script>
+</body>
+</html>

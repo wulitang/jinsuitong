@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻详情页</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+    	var navIndex = 3;
+    </script>
+</head>
+<body>
+<!--welcome-->
+<div class="welcome" id="welcomeBox"></div>
+<!--菜单-->
+<div class="index-top clearfix" id="menuNav"></div>
+<!--about-us-->
+<div class="about-center ke-grid">
+    <div class="news-img">
+        <div id="indexdata"></div>
+        <script id="index" type="text/html">
+            <div class="about-word news-page">
+                <h1>{{d.newTitle}}</h1>
+                <p class="news-page-time">
+                    <!--<span>来源：法制日报—法制网</span>-->
+                    <span>发布时间：{{d.newDate}}</span>
+                </p>
+                <div class="news-page-min">
+                    {{d.newContent}}
+                </div>
+                <div class="next-page">
+                    {{#  if(d.sid){ }}
+                    <a style="float: left;width: 50%;overflow: hidden;" class="next-href" href="news-min.html?type={{d.newType}}&new_id={{d.sid}}">
+                        上一篇：{{d.snewTitle}}
+                    </a>
+                    {{#  } }}
+                    {{#  if(d.xid){ }}
+                    <a style="float: right;text-align: right;width: 50%;overflow: hidden;" class="next-href" href="news-min.html?type={{d.newType}}&new_id={{d.xid}}">
+                        下一篇：{{d.xnewTitle}}
+                    </a>
+                    {{#  } }}
+                </div>
+            </div>
+        </script>
+        <div class="shar-button">
+            <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+            <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"金税通","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+        </div>
+    </div>
+</div>
+<!--foot-->
+<div class="foot" id="footBox"></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="shop/js/jquerysession.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/head.js"></script>
+<script type="text/javascript" src="js/request.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script>
+    var new_id = getUrlParam("new_id");
+    var type   = getUrlParam("type");
+    var laytpl,laypage;
+    layui.use('laytpl', function () {
+        laytpl   = layui.laytpl;
+        var data = request('/api/cms/newInfodesc.json',{'new_id':new_id,'type':type},'get');
+        if(data){
+        	 $(data.data).each(function(index,item){
+                 item.newDate =getLocalTime(item.newDate);
+             });
+             var getTpl = index.innerHTML;
+             laytpl(getTpl).render(data.data, function(html){
+                 indexdata.innerHTML = html;
+             });
+        }
+    });
+</script>
+</body>
+</html>

@@ -2,12 +2,12 @@
 <html lang="cn">
 <head>
     <meta charset="UTF-8">
-    <title>新闻列表</title>
+    <title>招聘中心</title>
     <link href="css/common.css" rel="stylesheet" type="text/css">
     <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
     <script type="text/javascript">
-    	var navIndex = 3;
+    	var navIndex = 2;
     </script>
 </head>
 <body>
@@ -17,32 +17,34 @@
 <div class="index-top clearfix" id="menuNav"></div>
 <!--about-us-->
 <div class="about-center ke-grid">
-    <div class="news-img">
+    <div class="center-img">
         <div class="about-word">
             <ul class="menu-center">
                 <li>
-                    <a href="news.html">全部新闻</a>
+                    <a href="about.html">关于我们</a>
                     <em></em>
                 </li>
                 <li>
-                    <a href="news.html?newType=1">企业新闻</a>
+                    <a href="business.html">企业介绍</a>
                     <em></em>
                 </li>
                 <li>
-                    <a href="news.html?newType=2">税务新闻</a>
+                    <a href="information.html">服务介绍</a>
                     <em></em>
                 </li>
-                <li>
-                    <a href="news.html?newType=3">公司公告</a>
+                <li class="active">
+                    <a href="center.html">招聘信息</a>
                 </li>
             </ul>
             <div class="clearfix">
-                <ul class="news-list" id="indexdata"></ul>
+                <ul class="news-list" id="indexdata">
+
+                </ul>
                 <script id="index" type="text/html">
                     {{#  layui.each(d, function(index, item){ }}
                     <li>
-                        <a class="over" href="news-min.html?type={{item.newType}}&new_id={{item.id}}">{{item.newTitle}}</a>
-                        <span>{{item.newDate}}</span>
+                        <a class="over" href="center-min.html?RECRUIT_ID={{item.id}}">{{item.positionName}}</a>
+                        <span>{{item.createDate}}</span>
                     </li>
                     {{#  }); }}
                 </script>
@@ -61,12 +63,7 @@
 <script type="text/javascript" src="js/common.js"></script>
 <script>
     //格式化时间
-    //获取url上面的参数，有类似方法getQueryString
-    var newType  = getUrlParam("newType")?getUrlParam("newType"):0;
-    var pageNow  = getUrlParam("pageNow")?getUrlParam("pageNow"):1;
-    var pageSize = getUrlParam("pageSize")?getUrlParam("pageSize"):10;
-    var laytpl,laypage;
-    $(".menu-center li").eq(newType).addClass("active").siblings().removeClass('active');
+    var pageNow = 1,pageSize = 10,laytpl='',laypage='';
     //分页方法
     function page(data){
         laypage({
@@ -79,11 +76,8 @@
                 //得到了当前页，用于向服务端请求对应数据
                 var curr = obj.curr;
                 if (pageNow != curr){
-                	if(newType){
-	                    window.location.href = 'news.html?newType='+newType+'&pageNow='+curr;
-                	}else{
-                		window.location.href = 'news.html?pageNow='+curr;
-                	}
+                	pageNow  = curr;
+                	ajax();
                 }
             }
         });
@@ -91,19 +85,21 @@
     layui.use(['laytpl', 'laypage'], function () {
         laytpl = layui.laytpl;
         laypage = layui.laypage;
-        var data = request('/api/cms/newInfo.json',{'newType':newType,'pageNow':pageNow,'pageSize':10},'POST');
-        if(data){
-        	 $(data.data).each(function(index,item){
-                 item.newDate =getLocalTime(item.newDate);
-             });
-             var getTpl = index.innerHTML;
-             laytpl(getTpl).render(data.data, function(html){
-                 indexdata.innerHTML = html;
-             });
-             page(data);
-        }
+        ajax();
     });
+    function ajax(){
+    	var data = request('/index/recruit.json',{'pageNow':pageNow,'pageSize':10},'GET');
+    	$(data.data).each(function(index,item){
+            item.createDate =getLocalTime(item.createDate);
+        });
+        var getTpl = index.innerHTML;
+        laytpl(getTpl).render(data.data, function(html){
+            indexdata.innerHTML = html;
+        });
+        page(data);
+    }
     
+
 </script>
 </body>
 </html>

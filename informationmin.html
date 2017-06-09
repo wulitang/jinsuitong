@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>服务信息</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+    	var navIndex = 2;
+    </script>
+</head>
+<body>
+<!--welcome-->
+<div class="welcome" id="welcomeBox"></div>
+<!--菜单-->
+<div class="index-top clearfix" id="menuNav"></div>
+<!--about-us-->
+<div class="about-center ke-grid">
+    <div class="information-img">
+        <div class="about-word">
+        	<ul class="menu-center">
+                <li>
+                    <a href="about.html">关于我们</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="business.html">企业介绍</a>
+                    <em></em>
+                </li>
+                <li class="active">
+                    <a href="information.html">服务介绍</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="center.html">招聘信息</a>
+                </li>
+            </ul>
+            <div id="informationminView"></div>
+            <script id="informationmin" type="text/html">
+            <div class="information-name">
+                <h3>{{d.serviceName}}</h3>
+            </div>
+            <div class="information-min">
+                <p><b>服务人员姓名 ：</b>{{d.serviceStaname}}</p>
+                <p><b>服务人员联系电话：</b>{{d.telePhone}}</p>
+                <p><b>服务网点地址：</b>{{d.serviceAddress}}</p>
+                <p><b>服务网点电话：</b>{{d.networkTelephone}}</p>
+                <p><b>服务区域：</b>{{d.serviceArea}}</p>
+                <p><b>纳税人性质：</b>{{d.taxpayerNature==1?'一般纳税人':'小规模纳税人'}}</p>
+				<div>
+					<p><b>服务内容：</b></p>
+					<div>{{d.serviceConten}}</div>
+				</div>
+            </div>
+			</script>
+        </div>
+    </div>
+</div>
+<!--foot-->
+<div class="foot" id="footBox"></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="shop/js/jquerysession.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/head.js"></script>
+<script type="text/javascript" src="js/request.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+var laytpl='';
+layui.use(['laytpl'], function () {
+    laytpl = layui.laytpl;
+    ajax();
+});
+function ajax(){
+	var service_id = getUrlParam('serviceId');
+	var data = request('/index/service_infor_details.json',{'service_id':service_id},'GET');
+	if(data.data){
+		var getTpl = informationmin.innerHTML;
+	    laytpl(getTpl).render(data.data, function (html) {
+	    	informationminView.innerHTML = html;
+	    });
+	}
+	
+}
+</script>
+</body>
+</html>

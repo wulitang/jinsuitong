@@ -1803,15 +1803,16 @@ body {
     color: #333;
     font-size: 14px;
     text-align: right;
+    font-weight: bolder;
 }
 
 .person-person li input {
-    width: 240px;
+    width: 340px;
     height: 40px;
     line-height: 40px;
     padding: 0 10px;
-    border: 1px solid #f0f0f0;
-    border-radius: 4px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .person-person li label {
@@ -1900,8 +1901,8 @@ body {
     padding: 10px;
     font-size: 14px;
     color: #a6a6a6;
-    border: 1px solid #f0f0f0;
-    border-radius: 4px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 
 }
 
@@ -2755,6 +2756,7 @@ body {
     padding: 0 10px;
     background: #ee692c;
     color: #fff;
+    cursor: pointer;
 }
 
 .information-min {
@@ -2818,9 +2820,17 @@ body {
 }
 .information-min p{
     display: block;
-    line-height: 30px;
+    line-height: 40px;
+    border: 1px solid #ccc;
+    height: 40px;
+    margin: 0 0 5px 0;
+    text-indent: 10px;
+    overflow: hidden;
+    font-size: 14px;
 }
-<<<<<<< HEAD
+.information-min p b{
+	font-weight: bolder;
+}
 .order-center{
     background: #fff;
     padding: 10px 30px;
@@ -2872,5 +2882,3 @@ body {
 .orderType tr{
     border-top: 1px solid #fff;
 }
-=======
->>>>>>> ae9e8e219cd01c6051407903d5e97113554b2ff9
