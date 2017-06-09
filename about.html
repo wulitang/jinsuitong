@@ -6,10 +6,6 @@
     <link href="css/common.css" rel="stylesheet" type="text/css">
     <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
     <link href="css/pc.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="shop/js/jquerysession.js"></script>
-    <script type="text/javascript" src="layui/layui.js"></script>
-    <script type="text/javascript" src="js/pc.js"></script>
     <style>
     	 #allmap{width: 380px;height: 240px;float: left;}
     	 a{cursor: pointer;}
@@ -18,52 +14,8 @@
 <body>
 <!--welcome-->
 <div class="welcome" id="welcomeBox"></div>
-<script type="text/html" id="welcomeData">
-    <div class="ke-grid">
-        <p class="over">欢迎光临金<em><a href="index.html">穗通官网</a></em></p>
-        <div class="index-right fr">
-            {{# if(d.userName){}}
-            <a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
-            {{# } else { }}
-            <a href="login.html">登录</a>|<a href="register.html">注册</a>
-            {{# } }}
-        </div>
-    </div>
-</script>
 <!--菜单-->
-<div class="index-top clearfix">
-    <div class="ke-grid">
-        <div class="index-logo">
-            <a href="index.html">
-                <img src="img/logo.png">
-            </a>
-        </div>
-        <ul class="index-menu">
-            <li>
-                <a href="index.html">首页</a>
-            </li>
-            <li class="active">
-                <a href="about.html">关于我们</a>
-            </li>
-            <li>
-                <a href="news.html">新闻动态</a>
-            </li>
-            <li>
-                <a href="download.html?dowcateId=&keyword=&pageNow=1&pageSize=10">下载中心</a>
-            </li>
-            <li>
-                <a href="/shop/index.html">商城</a>
-            </li>
-            <li>
-                <a href="payment.html">服务缴费</a>
-            </li>
-        </ul>
-        <div class="top-phone">
-            服务热线:
-            <em>400-123-1234</em>
-        </div>
-    </div>
-</div>
+<div class="index-top clearfix" id="menuNav"></div>
 <!--about-us-->
 <div class="about-center ke-grid">
     <div class="about-img">
@@ -74,7 +26,7 @@
                     <em></em>
                 </li>
                 <li>
-                    <a href="qyjs.html">企业介绍</a>
+                    <a href="business.html">企业介绍</a>
                     <em></em>
                 </li>
                 <li>
@@ -113,50 +65,31 @@
 </div>
 <!--foot-->
 <div class="foot" id="footBox"></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="shop/js/jquerysession.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/head.js"></script>
+<script type="text/javascript" src="js/request.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&amp;ak=DC5RGUGEHxBAWUmGy203jC8b&amp;services=&amp;t=20170606131300"></script>
 <script>
     //获取url上面的参数，有类似方法getQueryString
     var type   = 1,laytpl='',imgUrl = 'http://file.serv.cq196.cn:10000/';
-    //$(".menu-center li").eq(num).addClass("active").siblings().removeClass('active');
     layui.use('laytpl', function () {
         laytpl = layui.laytpl;
         ajax(type);
     });
-   /*  $(".menu-center li").click(function(){
-    	type = $(this).attr('data-type');
-    	$('.menu-center .active').removeClass('active');
-    	$(this).addClass("active");
-    	ajax(type);
-    }) */
-   
     function ajax(type){
-    	$.ajax({
-            url: "http://192.168.0.102/index/about_us.json",
-            dataType: 'jsonp',
-            method: '',
-            data: {
-                method: 'get',
-                type: type,
-            },
-            jsonp: 'callback',
-            async: false,    //或false,是否异步
-            timeout: 5000,    //超时时间
-            success: function (data) {
-            	if(data){
-            		var getTpl = index.innerHTML;
-                    laytpl(getTpl).render(data.data, function (html) {
-                        indexdata.innerHTML = html;
-                    });
-                    if(type==1 && data.data){
-    	                allmap(data.data);
-                    }
-            	}
-            },
-            error: function () {
-                console.log('请求错误');
+    	var data = request('/index/about_us.json',{'type':type},'GET');
+    	if(data.code==200){
+    		var getTpl = index.innerHTML;
+            laytpl(getTpl).render(data.data, function (html) {
+                indexdata.innerHTML = html;
+            });
+            if(type==1 && data.data){
+                allmap(data.data);
             }
-        });
+    	}
     }
     function allmap(data){
     	var map = new BMap.Map("allmap");

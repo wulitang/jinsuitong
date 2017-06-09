@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>金税通主页</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <link href="css/swiper-3.4.2.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="shop/js/jquerysession.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/swiper-3.4.2.min.js"></script>
+    <script type="text/javascript" src="js/pc.js"></script>
+</head>
+<body>
+<!--welcome-->
+<div class="welcome" id="welcomeBox"></div>
+<script type="text/html" id="welcomeData">
+    <div class="ke-grid">
+        <p class="over">欢迎光临金<em><a href="index.html">穗通官网</a></em></p>
+        <div class="index-right fr">
+            {{# if(d.userName){}}
+            <a href="person.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|<a href="my-order.html">我的订单</a>|<a href="my-message.html?pageNow=1&pageSize=5">消息</a>
+            {{# } else { }}
+            <a href="login.html">登录</a>|<a href="register.html">注册</a>
+            {{# } }}
+        </div>
+    </div>
+</script>
+<!--菜单-->
+<div class="index-top clearfix">
+    <div class="ke-grid">
+        <div class="index-logo">
+            <a href="index.html">
+                <img src="img/logo.png">
+            </a>
+        </div>
+        <ul class="index-menu">
+            <li class="active">
+                <a href="index.html">首页</a>
+            </li>
+            <li>
+                <a href="about.html">关于我们</a>
+            </li>
+            <li>
+                <a href="news.html">新闻动态</a>
+            </li>
+            <li>
+                <a href="download.html">下载中心</a>
+            </li>
+            <li>
+                <a href="/shop/index.html">商城</a>
+            </li>
+            <li>
+                <a href="payment.html">服务缴费</a>
+            </li>
+        </ul>
+        <div class="top-phone">
+            服务热线:
+            <em>400-123-1234</em>
+        </div>
+    </div>
+</div>
+<script id="index" type="text/html">
+    <div class="ke-grid index-banner clearfix">
+        <div class="banner-left">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    {{# layui.each(d.data.homeAd, function(index, item){ }}
+                    <div class="swiper-slide">
+                        <a href="{{item.adLink}}">
+                            <img src="http://file.serv.cq196.cn:10000/{{item.adImg}}" alt="{{item.adTitle}}">
+                        </a>
+                    </div>
+                    {{# }); }}
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        {{# if(d.usermessage === ''){ }}
+        <div class="index-login">
+            <div class="login-name">
+                <span>快捷登录</span>
+            </div>
+            <div class="login-form">
+                <input class="login-phone" type="text" placeholder="请输入用户名或手机号码">
+                <input class="login-pass" type="password" placeholder="请输入登录密码">
+                <p>还没有金税通账号?<a class="check-in" href="register.html">立即注册</a><a class="fr" href="login.html">忘记密码？</a>
+                </p>
+                <button class="login-now">立即登录</button>
+            </div>
+        </div>
+         {{# } else { }}
+        <div class="person-center index-login fr clearfix" style="margin-top: 0">
+            <div class="person-title login-name">
+                <span>个人中心</span>
+            </div>
+            <div class="person-photo">
+                {{#  if(d.usermessage.memberHeadimg){ }}
+                <img src="http://file.serv.cq196.cn:10000/{{d.usermessage.memberHeadimg}}">
+                {{# } else { }}
+                <img src="./img/person.png">
+                {{#  } }}
+                <p class="user-name">{{d.usermessage.userName}}</p>
+            </div>
+            <div class="user-safe">
+                <span>账号安全:</span>
+                <div class="safe-tiao">
+                    <span style='width:{{d.usermessage.accountGrade}}%'></span>
+                </div>
+                <!--<em>中级</em>-->
+            </div>
+            <div class="user-sever">
+                <a href="">服务费查询</a>
+                <a href="">缴费续费</a>
+            </div>
+        </div>
+        <style>
+            .person-center img{
+                margin: 30px auto 0 auto;
+                display: block;
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+            }
+
+            .user-name{
+                text-align: center;
+                font-size: 16px;
+                color: #333333;
+                margin: 10px;
+            }
+            .user-safe{
+                text-align: center;
+            }
+            .user-safe span{
+                display: inline-block;
+                color: #666666;
+                font-size: 14px;
+            }
+            .safe-tiao{
+                display: inline-block;
+                width: 130px;
+                background: #f0f0f0;
+                border-radius: 10px;
+                height: 14px;
+                position: relative;
+            }
+            .safe-tiao span{
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: #ffbd00;
+                display: block;
+                height: 14px;
+                border-radius: 10px;
+            }
+            .user-safe em{
+                color: #ffbd00;
+            }
+            .user-sever{
+                text-align: center;
+                margin-top: 20px;
+            }
+            .user-sever a{
+                width: 110px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                background: #fafafa;
+                color: #666666;
+                font-size: 14px;
+                border: 1px solid #ececec;
+                border-radius: 4px;
+                display: inline-block;
+                margin-right: 10px;
+            }
+        </style>
+        {{#  } }}
+    </div>
+    </div>
+    <!--index-about-->
+    <div class="clearfix ke-grid index-about">
+        <div class="about-us">
+            <img src="http://file.serv.cq196.cn:10000/{{ d.data.enterpriseinfo.introduceLogo }}">
+            <div class="about-min">
+                <div class="login-name about-title">
+                    <span>关于我们</span>
+                </div>
+                <p>{{ d.data.enterpriseinfo.enterpriseIntroduce }}</p>
+            </div>
+        </div>
+        <div class="aboout-tab">
+            <ul class="about-top">
+                <li class="active"><span>企业新闻</span></li>
+                <li class="center"><span>税务新闻</span></li>
+                <li><span>公司公告</span></li>
+            </ul>
+            <ul class="news-item active">
+                {{# layui.each(d.data.newstrandenter, function(index, item){ }}
+                <li>
+                    <a class="over" href="news-min.html?type={{item.newType}}&new_id={{item.id}}">{{item.newTitle}}</a>
+                    <span>{{item.newDate}}</span>
+                </li>
+                {{# }); }}
+            </ul>
+            <ul class="news-item">
+                {{# layui.each(d.data.newstrandsuiwu, function(index, item){ }}
+                <li>
+                    <a class="over" href="news-min.html?type={{item.newType}}&new_id={{item.id}}">{{item.newTitle}}</a>
+                    <span>{{item.newDate}}</span>
+                </li>
+                {{# }); }}
+            </ul>
+            <ul class="news-item">
+                {{# layui.each(d.data.noticeList, function(index, item){ }}
+                <li>
+                    <a class="over" href="news-min.html?type={{item.newType}}&new_id={{item.id}}">{{item.newTitle}}</a>
+                    <span>{{item.newDate}}</span>
+                </li>
+                {{# }); }}
+            </ul>
+        </div>
+    </div>
+    <!--特色服务-->
+    <div class="server-top ke-grid">
+        <span>特色服务</span>
+        <div class="server-border ke-grid"></div>
+        <div></div>
+        <img src="img/server.png">
+    </div>
+    <div class="ke-grid clearfix">
+        <ul class="server-min">
+            <li class="server-item server-item-1">
+                <a href="download.html?dowcateId=&keyword=&pageNow=1&pageSize=10">
+                    <i></i>
+                    <h3 class="over">软件下载</h3>
+                    <p class="over">税务软件一应俱全</p>
+                </a>
+            </li>
+            <li class="server-item server-item-2">
+                <a href="payment.html">
+                    <i></i>
+                    <h3 class="over">自助缴费</h3>
+                    <p class="over">在线自助缴费通道</p>
+                </a>
+            </li>
+            <li class="server-item server-item-3">
+                <a target="_blank" href="http://12366.cqsw.gov.cn/">
+                    <i></i>
+                    <h3 class="over">税务服务</h3>
+                    <p class="over">各项税务服务说明</p>
+                </a>
+            </li>
+            <li class="server-item server-item-4">
+                <a href="/shop/content.html?helpclassId=2">
+                    <i></i>
+                    <h3 class="over">帮助中心</h3>
+                    <p class="over">帮助中心内容介绍</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--推荐商品-->
+    <div class="server-top ke-grid">
+        <span>推荐商品</span>
+        <a href="/jinsuitong/shop/list.html">查看更多></a>
+        <div class="server-border ke-grid"></div>
+        <img src="img/commodity.png">
+    </div>
+    <div class="ke-grid">
+        <ul class="goods-list">
+            {{# layui.each(d.data.indexproduct, function(index, item){ }}
+            {{#  if(index < 4){ }}
+            <li>
+                <a href="/shop/detail.html?shopId={{item.id}}">
+                    <div class="goods-image">
+                        <img src="http://file.serv.cq196.cn:10000/{{item.picturetImg}}">
+                    </div>
+                    <p class="over">{{item.productName}}</p>
+                    <span class="over">￥{{item.productPrice}}</span>
+
+                </a>
+            </li>
+            {{#  } }}
+            {{# }); }}
+        </ul>
+    </div>
+</script>
+<div id="indexdata"></div>
+<!--foot-->
+<div class="foot" id="footBox"></div>
+<script type="text/javascript" src="js/common.js"></script>
+<script>
+    //格式化时间
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/, ' ');
+    };
+    var laytpl;
+    layui.use(['laytpl', 'layer'], function () {
+        laytpl = layui.laytpl;
+        var layer = layui.layer;
+        $.ajax({
+            url: "http://192.168.0.102/index/intdex_homepage.json",
+            dataType: 'jsonp',
+            method: 'get',
+            data: {
+                method: 'get',
+            },
+            //jsonp: 'callback',
+            async: false,    //或false,是否异步
+            timeout: 5000,    //超时时间
+            success: function (data) {
+                $(data.data.newstrandenter).each(function (index, item) {
+                    item.newDate = getLocalTime(item.newDate);
+                });
+                $(data.data.newstrandsuiwu).each(function (index, item) {
+                    item.newDate = getLocalTime(item.newDate);
+
+                });
+                $(data.data.noticeList).each(function (index, item) {
+                    item.newDate = getLocalTime(item.newDate);
+                });
+                data['usermessage'] = '';
+                if ($.session.get('usermessage')){
+                    var usermessage;
+                    usermessage = JSON.parse($.session.get('usermessage'));
+                    data['usermessage'] = usermessage;
+                }
+
+                console.log(data);
+                var getTpl = index.innerHTML;
+                laytpl(getTpl).render(data, function (html) {
+                    indexdata.innerHTML = html;
+                    //首页轮播
+                    var mySwiper = new Swiper('.swiper-container', {
+                        autoplay: 5000,//可选选项，自动滑动
+                        pagination: '.swiper-pagination',
+                        paginationClickable: true,
+                    });
+                    //首页选项卡
+                    $(".about-top li").hover(function () {
+                        $(this).addClass("active").siblings().removeClass('active');
+                        $(".aboout-tab .news-item").eq($(this).index()).addClass("active").siblings().removeClass('active');
+                    });
+                });
+            },
+            error: function () {
+                console.log('请求错误');
+            }
+        });
+        $("#indexdata").on('click', '.login-now', function () {
+            var memberPhone = $(".login-phone").val();
+            var memberPwd = $(".login-pass").val();
+            if (memberPhone && memberPwd) {
+                $.ajax({
+                    url: "http://192.168.0.102/persion/member_login.json",
+                    dataType: 'jsonp',
+                    method: '',
+                    data: {
+                        method: 'get',
+                        memberPhone: memberPhone,
+                        memberPwd: memberPwd,
+                    },
+                    jsonp: 'callback',
+                    async: false,    //或false,是否异步
+                    timeout: 5000,    //超时时间
+                    success: function (data) {
+                        if (data.code == 200) {
+                            var user = JSON.stringify(data.data);
+                            $.session.set('usermessage', user);
+                            console.log("登陆成功");
+                            $.session.get('usermessage');
+                            console.log($.session.get('usermessage'));
+                            location.reload();
+                        } else {
+                            layer.msg(data.msg);
+                        }
+//                    setTimeout(function () {
+//                        location.href="index.html";
+//                    }, 1000)
+                    },
+                    error: function () {
+                        console.log('请求错误');
+                    }
+                });
+            } else {
+                layer.msg('账号或密码错误');
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>关于我们</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <style>
+    	 #allmap{width: 380px;height: 240px;float: left;}
+    	 a{cursor: pointer;}
+    </style>
+</head>
+<body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="shop/js/jquerysession.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/head.js"></script>
+<script type="text/javascript" src="js/request.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<!--about-us-->
+<div class="about-center ke-grid">
+    <div class="about-img">
+        <div class="about-word">
+            <ul class="menu-center">
+                <li>
+                    <a href="about.html">关于我们</a>
+                    <em></em>
+                </li>
+                <li class="active">
+                    <a href="qijs.html">企业介绍</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="">服务介绍</a>
+                    <em></em>
+                </li>
+                <li>
+                    <a href="center.html">招聘信息</a>
+                </li>
+            </ul>
+
+            <div class="about-page clearfix">
+                <div id="indexdata"></div>
+                <script id="index" type="text/html">
+                    {{#  if(d.introduceLogo){ }}
+                    <img src="{{imgUrl+d.introduceLogo}}">
+                    {{#  } else { }}
+					<div id="allmap"></div>
+					{{#  } }}
+                    <div class="page-word">
+                        {{#  if(d.enterpriseIntroduce){ }}
+                        <p>{{d.enterpriseIntroduce}}</p>
+                        {{#  } }}
+                        {{#  if(d.enterpriseDesc){ }}
+                        <p>{{d.enterpriseDesc}}</p>
+                        {{#  } }}
+                        <div class="page-address">
+                            <p>电话：{{d.enterpriseTelephone}}</p>
+                            <p>地址：{{d.enterpriseAddress}}</p>
+                        </div>
+                    </div>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<!--foot-->
+<div class="foot" id="footBox"></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="shop/js/jquerysession.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/head.js"></script>
+<script type="text/javascript" src="js/request.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&amp;ak=DC5RGUGEHxBAWUmGy203jC8b&amp;services=&amp;t=20170606131300"></script>
+<script>
+    //获取url上面的参数，有类似方法getQueryString
+    var type   = 2,laytpl='',imgUrl = 'http://file.serv.cq196.cn:10000/';
+    layui.use('laytpl', function () {
+        laytpl = layui.laytpl;
+        ajax(type);
+    });
+    function ajax(type){
+    	var data = request('/index/about_us.json',{'type':type},'GET');
+    	if(data.code==200){
+    		var getTpl = index.innerHTML;
+            laytpl(getTpl).render(data.data, function (html) {
+                indexdata.innerHTML = html;
+            });
+            if(type==1 && data.data){
+                allmap(data.data);
+            }
+    	}
+    }
+</script>
+</body>
+</html>
