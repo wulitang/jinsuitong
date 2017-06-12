@@ -13,7 +13,6 @@ layui.use(['laytpl','laypage'], function(){
 	  //使用方式跟独立组件完全一样
 	searchKey = $('.logo-right .search-input').val();
 	var postData = {
-			method: 'get',
 			type:2,
 	        pageNow:1,
 	        pageSize:20,
@@ -22,39 +21,26 @@ layui.use(['laytpl','laypage'], function(){
 	        cl1Id:cl1Id,
 	        searchKeyword:searchKey
 	}
-	$.ajax({
-        url: postUrl+"/product/search_product.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: postData,
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(data.data){
-        		if(data.data.prductListInfo){
-        			tplShopList(data.data.prductListInfo.list);
-        			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-        		}else{
-        			tplShopList([]);
-        			paeg(0,1);
-        		}
-        		if(data.data.producClassAndBandInfo){
-        			tplScreenWhere(data.data.producClassAndBandInfo);
-        		}else{
-        			tplScreenWhere([]);
-        		}
-            	
-        	}else{
-        		tplShopList([]);
-        		tplScreenWhere([]);
-            	paeg(0,1);
-        	}
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/search_product.json',postData,'get');
+	if(data.data){
+		if(data.data.prductListInfo){
+			tplShopList(data.data.prductListInfo.list);
+			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+		}else{
+			tplShopList([]);
+			paeg(0,1);
+		}
+		if(data.data.producClassAndBandInfo){
+			tplScreenWhere(data.data.producClassAndBandInfo);
+		}else{
+			tplScreenWhere([]);
+		}
+    	
+	}else{
+		tplShopList([]);
+		tplScreenWhere([]);
+    	paeg(0,1);
+	}
 }); 
 $('.sort').click(function(){
 	var _pthis = $(this).parent('.fl'),
@@ -102,32 +88,19 @@ $('.search-btn').click(function(){
 	        cl1Id:cl1Id,
 	        searchKeyword:searchKey
 	}
-	$.ajax({
-        url: postUrl+"/product/search_product.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: postData,
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(data.data){
-        		if(data.data.prductListInfo){
-        			tplShopList(data.data.prductListInfo.list);
-	            	paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-        		}else{
-        			tplShopList([]);
-	            	paeg(0,1);
-        		}
-        	}else{
-        		tplShopList([]);
-            	paeg(0,1);
-        	}
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/search_product.json',postData,'get');
+	if(data.data){
+		if(data.data.prductListInfo){
+			tplShopList(data.data.prductListInfo.list);
+        	paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+		}else{
+			tplShopList([]);
+        	paeg(0,1);
+		}
+	}else{
+		tplShopList([]);
+    	paeg(0,1);
+	}
 })
 $('#screenWhereView').on('click','.shopType a',function(){
 	searchKey = $('.logo-right .search-input').val();
@@ -144,38 +117,25 @@ $('#screenWhereView').on('click','.shopType a',function(){
 	        cl1Id:cl1Id,
 	        searchKeyword:searchKey
 	}
-	$.ajax({
-        url: postUrl+"/product/search_product.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: postData,
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(data.data){
-        		if(data.data.prductListInfo){
-        			tplShopList(data.data.prductListInfo.list);
-        			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-        		}else{
-        			tplShopList([]);
-        			paeg(0,1);
-        		}
-        		if(data.data.producClassAndBandInfo){
-        			tplScreenWhere(data.data.producClassAndBandInfo);
-        		}else{
-        			tplScreenWhere([]);
-        		}
-        	}else{
-        		tplShopList([]);
-        		tplScreenWhere([]);
-            	paeg(0,1);
-        	}
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/search_product.json',postData,'get');
+	if(data.data){
+		if(data.data.prductListInfo){
+			tplShopList(data.data.prductListInfo.list);
+			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+		}else{
+			tplShopList([]);
+			paeg(0,1);
+		}
+		if(data.data.producClassAndBandInfo){
+			tplScreenWhere(data.data.producClassAndBandInfo);
+		}else{
+			tplScreenWhere([]);
+		}
+	}else{
+		tplShopList([]);
+		tplScreenWhere([]);
+    	paeg(0,1);
+	}
 })
 $('#screenWhereView').on('click','.classType a',function(){
 	searchKey = $('.logo-right .search-input').val();
@@ -192,37 +152,24 @@ $('#screenWhereView').on('click','.classType a',function(){
 	        cl1Id:cl1Id,
 	        searchKeyword:searchKey
 	}
-	$.ajax({
-        url: postUrl+"/product/search_product.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: postData,
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(data.data){
-        		if(data.data.prductListInfo){
-        			if(data.data.prductListInfo){
-        				tplShopList(data.data.prductListInfo.list);
-            			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-        			}else{
-        				tplShopList([]);
-            			paeg(0,1);
-        			}
-        		}else{
-        			tplShopList([]);
-        			paeg(0,1);
-        		}
-        	}else{
-        		tplShopList([]);
-            	paeg(0,1);
-        	}
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/search_product.json',postData,'get');
+	if(data.data){
+		if(data.data.prductListInfo){
+			if(data.data.prductListInfo){
+				tplShopList(data.data.prductListInfo.list);
+    			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+			}else{
+				tplShopList([]);
+    			paeg(0,1);
+			}
+		}else{
+			tplShopList([]);
+			paeg(0,1);
+		}
+	}else{
+		tplShopList([]);
+    	paeg(0,1);
+	}
 })
 $('#screenWhereView').on('click','.reset',function(){
 	searchKey = $('.logo-right .search-input').val();
@@ -242,43 +189,30 @@ $('#screenWhereView').on('click','.reset',function(){
 	        cl1Id:cl1Id,
 	        searchKeyword:searchKey
 	}
-	$.ajax({
-        url: postUrl+"/product/search_product.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: postData,
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(data.data){
-        		if(data.data.prductListInfo){
-        			if(data.data.prductListInfo){
-        				tplShopList(data.data.prductListInfo.list);
-            			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-        			}else{
-        				tplShopList([]);
-            			paeg(0,1);
-        			}
-        			if(data.data.producClassAndBandInfo){
-            			tplScreenWhere(data.data.producClassAndBandInfo);
-            		}else{
-            			tplScreenWhere([]);
-            		}
-        		}else{
-        			tplShopList([]);
-        			paeg(0,1);
-        		}
-        	}else{
-        		tplShopList([]);
-        		tplScreenWhere([]);
-            	paeg(0,1);
-        	}
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/search_product.json',postData,'get');
+	if(data.data){
+		if(data.data.prductListInfo){
+			if(data.data.prductListInfo){
+				tplShopList(data.data.prductListInfo.list);
+    			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+			}else{
+				tplShopList([]);
+    			paeg(0,1);
+			}
+			if(data.data.producClassAndBandInfo){
+    			tplScreenWhere(data.data.producClassAndBandInfo);
+    		}else{
+    			tplScreenWhere([]);
+    		}
+		}else{
+			tplShopList([]);
+			paeg(0,1);
+		}
+	}else{
+		tplShopList([]);
+		tplScreenWhere([]);
+    	paeg(0,1);
+	}
 })
 
 function tplScreenWhere(data){  //查询条件
@@ -325,39 +259,26 @@ function ajaxData(pageNow,order){
 	        searchKeyword:searchKey
 	}
 	postData[obyKey]=obyVal;
-	$.ajax({
-        url: postUrl+"/product/search_product.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data:postData,
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(data.data){
-        		if(data.data.prductListInfo){
-        			tplShopList(data.data.prductListInfo.list);
-            		if(order){
-            			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-            		}
-        		}else{
-        			tplShopList([]);
-            		if(order){
-            			paeg(0,1);
-            		}
-        		}
-        		
-        	}else{
-        		tplShopList([]);
-        		if(order){
-        			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-        		}
-        	}
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/search_product.json',postData,'get');
+	if(data.data){
+		if(data.data.prductListInfo){
+			tplShopList(data.data.prductListInfo.list);
+    		if(order){
+    			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+    		}
+		}else{
+			tplShopList([]);
+    		if(order){
+    			paeg(0,1);
+    		}
+		}
+		
+	}else{
+		tplShopList([]);
+		if(order){
+			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+		}
+	}
 }
 function getUrlParam(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 

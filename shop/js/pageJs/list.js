@@ -18,33 +18,20 @@ layui.use(['laytpl','laypage'], function(){
 	if(searchKey){
 		postData['searchKeyword'] = searchKey;
 	}
-	$.ajax({
-        url: postUrl+"/product/search_product.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: postData,
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(data.data){
-        		if(data.data.prductListInfo){
-        			tplShopList(data.data.prductListInfo.list);
-                	paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-        		}else{
-        			tplShopList([]);
-                	paeg(0,1);
-        		}
-        		
-        	}else{
-        		tplShopList([]);
-            	paeg(0,1);
-        	}
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/search_product.json',postData,'get');
+	if(data.data){
+		if(data.data.prductListInfo){
+			tplShopList(data.data.prductListInfo.list);
+        	paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+		}else{
+			tplShopList([]);
+        	paeg(0,1);
+		}
+		
+	}else{
+		tplShopList([]);
+    	paeg(0,1);
+	}
 }); 
 $('.sort').click(function(){
 	var _pthis = $(this).parent('.fl'),
@@ -93,33 +80,20 @@ $('.search-btn').click(function(){
 		if(secKey){
 			postData['searchKeyword'] = searchKey;
 		}
-		$.ajax({
-	        url: postUrl+"/product/search_product.json",
-	        dataType: 'jsonp',
-	        method: 'get',
-	        data: postData,
-	        jsonp: 'callback',
-	        async: false,    //或false,是否异步
-	        timeout: 5000,    //超时时间
-	        success: function (data) {
-	        	if(data.data){
-	        		if(data.data.prductListInfo){
-	        			tplShopList(data.data.prductListInfo.list);
-		            	paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-	        		}else{
-	        			tplShopList([]);
-		            	paeg(0,1);
-	        		}
-	        		
-	        	}else{
-	        		tplShopList([]);
-	            	paeg(0,1);
-	        	}
-	        },
-	        error: function () {
-	            console.log('请求错误');
-	        }
-	    });
+		var data = request('/product/search_product.json',postData,'get');
+		if(data.data){
+    		if(data.data.prductListInfo){
+    			tplShopList(data.data.prductListInfo.list);
+            	paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+    		}else{
+    			tplShopList([]);
+            	paeg(0,1);
+    		}
+    		
+    	}else{
+    		tplShopList([]);
+        	paeg(0,1);
+    	}
 	}
 	
 })
@@ -161,39 +135,26 @@ function ajaxData(pageNow,order){
 	if(searchKey){
 		postData['searchKeyword'] = searchKey;
 	}
-	$.ajax({
-        url: postUrl+"/product/search_product.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data:postData,
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(data.data){
-        		if(data.data.prductListInfo){
-        			tplShopList(data.data.prductListInfo.list);
-            		if(order){
-            			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-            		}
-        		}else{
-        			tplShopList([]);
-            		if(order){
-            			paeg(0,1);
-            		}
-        		}
-        		
-        	}else{
-        		tplShopList([]);
-        		if(order){
-        			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
-        		}
-        	}
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/search_product.json',postData,'get');
+	if(data.data){
+		if(data.data.prductListInfo){
+			tplShopList(data.data.prductListInfo.list);
+    		if(order){
+    			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+    		}
+		}else{
+			tplShopList([]);
+    		if(order){
+    			paeg(0,1);
+    		}
+		}
+		
+	}else{
+		tplShopList([]);
+		if(order){
+			paeg(Math.ceil(data.data.prductListInfo.total/20),1);
+		}
+	}
 }
 function getUrlParam(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
