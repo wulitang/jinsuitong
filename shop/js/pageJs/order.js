@@ -98,6 +98,8 @@ $('#addressView').on('click','.check',function(){ //选择地址
 })
 
 $('.balance').on('click','.order-pay',function(){
+	$(this).removeClass('order-pay');
+	$('.balance .pay-btn').css({'background':'#ccc','cursor':'no-drop'});
     var invoiceType    = $('.category option:selected').val(),
         invoiceHeader  = $('input[name="invoiceHeader"]').val(),
         buyerMessage   = $('textarea[name="buyerMessage"]').val(),
@@ -150,6 +152,8 @@ $('.balance').on('click','.order-pay',function(){
             $("#orderPayForm form").submit();
             tipAlert();
         }
+	}else{
+		pay();
 	}
 })
 
