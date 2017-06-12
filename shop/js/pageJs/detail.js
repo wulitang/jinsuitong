@@ -14,70 +14,34 @@ var laytpl    = '',
 layui.use('laytpl', function(){
 	laytpl = layui.laytpl;
 	  //使用方式跟独立组件完全一样
-	$.ajax({
-        url: postUrl+"/product/item.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: {
-            method: 'get',
-            jst:'jstm.20170004502312366.yj',
-            product_id:productId
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(!data.data){  //数据不存在
-        		e404();
-        		return '';
-        	}
-        	if(data.data.pruductPsukInfo){
-        		$.each(data.data.pruductPsukInfo,function(i,v){
-        			suk[v.propertiesAttr] = {"price":v.prPrice,'id':v.sukId,'number':v.prNumber};
-        		})
-        	}
-        	tplCarousel(data.data.pictureTable);
-        	tplDetail(data.data);
-        	tplDelevantShop(data.data.relatedProducts);
-        	tpllookedShop(data.data.relatedProducts); //看了又看
-        	tplShopInf(data.data.productDescribe);
-        	tplcommentInfShop(data.data);
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/item.json',{jst:'jstm.20170004502312366.yj',product_id:productId},'GET');
+	if(!data.data){  //数据不存在
+		e404();
+		return '';
+	}
+	if(data.data.pruductPsukInfo){
+		$.each(data.data.pruductPsukInfo,function(i,v){
+			suk[v.propertiesAttr] = {"price":v.prPrice,'id':v.sukId,'number':v.prNumber};
+		})
+	}
+	tplCarousel(data.data.pictureTable);
+	tplDetail(data.data);
+	tplDelevantShop(data.data.relatedProducts);
+	tpllookedShop(data.data.relatedProducts); //看了又看
+	tplShopInf(data.data.productDescribe);
+	tplcommentInfShop(data.data);
 	
-	$.ajax({
-        url: postUrl+"/product/comment_info.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: {
-            method: 'get',
-            jst:'jstm.20170004502312366.yj',
-            product_id:productId,
-            pageNow:1,
-            pageSize:15
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(data.data){
-        		if(data.data){
-        			tplComment(data.data);
-        		}else{
-        			tplComment([]);
-        		}
-        	}
-        	if(Math.ceil(data.total/15)==1){
-        		$("#page").hide();
-        	}
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var xdata = request('/product/comment_info.json',{jst:'jstm.20170004502312366.yj',product_id:productId,pageNow:1,pageSize:15},'GET');
+	if(xdata.data){
+		if(xdata.data){
+			tplComment(xdata.data);
+		}else{
+			tplComment([]);
+		}
+	}
+	if(Math.ceil(xdata.total/15)==1){
+		$("#page").hide();
+	}
 }); 
 $('#page').click(function(){
 	var pageNow = $(this).attr('data-page');
@@ -137,31 +101,10 @@ $('#tplDetailView').on('click','.jrgwc',function(){ //加入购物车
 			return ;
 		}
 	}
-	$.ajax({
-        url: postUrl+"/cart/addcart.json",
-        dataType: 'jsonp',
-        method: 'POST',
-        data: {
-            method: 'POST',
-            jst:'jstm.20170004502312366.yj',
-            productId:productId,
-            member_id:7,
-            skuId:sukId,
-            productAtter:snk,
-            productNumber:numinput,
-            productName:goodsName,
-            priceImg:gooosImg
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	gwcDH();
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/cart/addcart.json',{jst:'jstm.20170004502312366.yj',productId:productId,member_id:member_id,skuId:sukId,productAtter:snk,productNumber:numinput,productName:goodsName,priceImg:gooosImg},'POST');
+	if(data.code==200){
+		gwcDH();
+	}
 })
 
 function gwcDH(){ //购物车动画
@@ -198,49 +141,30 @@ $('#tplDetailView').on('click','.number .add',function(){//添加
 	$('#tplDetailView .number .num-input').val(numinput+1);
 })
 function page(pageNow){
-	$.ajax({
-        url: postUrl+"/product/comment_info.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: {
-            method: 'get',
-            jst:'jstm.20170004502312366.yj',
-            product_id:productId,
-            pageNow:pageNow,
-            pageSize:15
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	if(data.data){
-        		var html = "";
-        		$.each(data.data,function(index,item){
-        			var star= '';
-        			for(var i=0;i<parseInt(item.connentNumber);i++){
-        				star +='<i class="star"></i>';
-        			}
-        			html +='<li>'+
-			                    '<img class="fl" src="'+(item.memberHeadimg?item.memberHeadimg:'img/touxiang.png')+'">'+
-			                    '<div class="eva-detail fl">'+
-			                        '<span class="user-name">'+item.nickName+'</span>'+
-			                        '<span class="star-box">'+star+'</span>'+
-			                        '<span>'+item.commentContent+'</span>'+
-			                    '</div>'+
-			                    '<span class="eva-time fr">评价时间：'+formatDate(item.createDate)+'</span>'+
-			                '</li>';
-        			$("#commentListView").append(html);
-        			$('#page').attr('data-page',pageNow);
-        		})
-        	}
-        	if(Math.ceil(data.total/15)==pageNow){
-        		$("#page").hide();
-        	}
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/comment_info.json',{jst:'jstm.20170004502312366.yj',product_id:productId,pageNow:pageNow,pageSize:15},'GET');
+	if(data.data){
+		var html = "";
+		$.each(data.data,function(index,item){
+			var star= '';
+			for(var i=0;i<parseInt(item.connentNumber);i++){
+				star +='<i class="star"></i>';
+			}
+			html +='<li>'+
+	                    '<img class="fl" src="'+(item.memberHeadimg?item.memberHeadimg:'img/touxiang.png')+'">'+
+	                    '<div class="eva-detail fl">'+
+	                        '<span class="user-name">'+item.nickName+'</span>'+
+	                        '<span class="star-box">'+star+'</span>'+
+	                        '<span>'+item.commentContent+'</span>'+
+	                    '</div>'+
+	                    '<span class="eva-time fr">评价时间：'+formatDate(item.createDate)+'</span>'+
+	                '</li>';
+			$("#commentListView").append(html);
+			$('#page').attr('data-page',pageNow);
+		})
+	}
+	if(Math.ceil(data.total/15)==pageNow){
+		$("#page").hide();
+	}
 }
 $('.search-btn').click(function(){
 	var key = $('.search-input').val();

@@ -5,25 +5,8 @@ var laytpl    = '',
 layui.use('laytpl', function(){
 	laytpl = layui.laytpl;
 	  //使用方式跟独立组件完全一样
-	$.ajax({
-        url: postUrl+"/cart/cartlist.json",
-        dataType: 'jsonp',
-        method: 'POST',
-        data: {
-            method: 'POST',
-            member_id:7
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	tplShopList(data.data);
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
-	
+	var data = request('/cart/cartlist.json',{member_id:member_id},'POST');
+	tplShopList(data.data);
 }); 
 
 $('.search-btn').click(function(){
@@ -52,26 +35,11 @@ $('#shopListView').on('click','.clearfix .num .reduce',function(){
 	var numinput = parseInt($(this).parent('.num').find('.num-input').val()),
 		cartId   = $(this).parents('.clearfix').find('i').attr('data-id');
 		if(numinput>1){
-			$.ajax({
-		        url: postUrl+"/cart/updatecartitem.json",
-		        dataType: 'jsonp',
-		        method: 'POST',
-		        data: {
-		            method: 'POST',
-		            cartId: cartId,
-		            productNumber:numinput-1
-		        },
-		        jsonp: 'callback',
-		        async: false,    //或false,是否异步
-		        timeout: 5000,    //超时时间
-		        success: function (data) {
-		        	_this.parent('.num').find('.num-input').val(numinput-1)
-		        	editGoodsNum(_this,numinput-1);
-		        },
-		        error: function () {
-		            console.log('请求错误');
-		        }
-		    });
+			var data = request('/cart/updatecartitem.json',{cartId: cartId,productNumber:numinput-1},'POST');
+			if(data.code==200){
+				_this.parent('.num').find('.num-input').val(numinput-1)
+	        	editGoodsNum(_this,numinput-1);
+			}
 		}
 })
 $('#shopListView').on('click','.clearfix .num .add',function(){
@@ -82,26 +50,11 @@ $('#shopListView').on('click','.clearfix .num .add',function(){
 	if(numinput==max || numinput>max){
 		return ;
 	}
-	$.ajax({
-        url: postUrl+"/cart/updatecartitem.json",
-        dataType: 'jsonp',
-        method: 'POST',
-        data: {
-            method: 'POST',
-            cartId: cartId,
-            productNumber:numinput+1
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	_this.parent('.num').find('.num-input').val(numinput+1)
-        	editGoodsNum(_this,numinput+1);
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/cart/updatecartitem.json',{cartId: cartId,productNumber:numinput+1},'POST');
+	if(data.code==200){
+		_this.parent('.num').find('.num-input').val(numinput+1)
+    	editGoodsNum(_this,numinput+1);
+	}
 })
 $('#shopListView').on('click','.operate',function(){ //删除购物车
 	delCart($(this).parents('li').find('i').attr('data-id'));	
@@ -119,24 +72,10 @@ function delCart(ids){
 	if(!ids){
 		return '';
 	}
-	$.ajax({
-        url: postUrl+"/cart/delcart.json",
-        dataType: 'jsonp',
-        method: 'POST',
-        data: {
-            method: 'POST',
-            cartIds: ids,
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	history.go(0);
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });  
+	var data = request('/cart/delcart.json',{cartIds: ids},'POST');
+	if(data.code==200){
+		history.go(0);
+	}
 }
 
 function editGoodsNum(obj,numinput){

@@ -5,36 +5,12 @@
     <title>详情页</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <!-- <link href="/layui/css/layui.css" rel="stylesheet" type="text/css"> -->
-    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="js/js.js"></script>
-    <script type="text/javascript" src="layui/layui.js"></script>
     <style>
     	.attr-name{display: initial !important;}
     </style>
 </head>
 <body>
-<!--顶部-->
-<div class="top clearfix">
-    <div class="con top-con">
-        <span class="fl">欢迎光临<em>金税通官网</em></span>
-        <span class="fr"><a href="">登录</a>|<a href="">注册</a></span>
-    </div>
-</div>
-<!--商城头部-->
-<div class="mall-top">
-    <div class="con clearfix">
-        <img src="img/logo.png" class="logo fl">
-        <div class="fr logo-right">
-            <input type="text" placeholder="请输入关键词" class="search-input">
-            <input type="submit" class="search-btn" value="">
-            <a class="shop-cart" href="cart.html">我的购物车（<span>0</span>）</a>
-        </div>
-    </div>
-    <div class="two-block con">
-        <span class="all-classify">全部分类</span>
-        <a href="">商城首页</a>
-    </div>
-</div>
+<div id="head"></div>
 <!--详情页-->
 <div class="con clearfix">
     <!--缩略图轮播-->
@@ -190,6 +166,11 @@
 </div>
 <!--footer-->
 <div id="footView"></div>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/js.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="/js/request.js"></script>
+<script type="text/javascript" src="js/pageJs/head.js"></script>
 <script type="text/javascript" src="js/pageJs/foot.js"></script>
 <script type="text/javascript" src="js/pageJs/detail.js"></script>
 </body>

@@ -6,32 +6,9 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <!-- layui -->
     <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="layui/layui.js"></script>
 </head>
 <body>
-<!--顶部-->
-<div class="top clearfix">
-    <div class="con top-con">
-        <span class="fl">欢迎光临<em>金税通官网</em></span>
-        <span class="fr"><a href="">登录</a>|<a href="">注册</a></span>
-    </div>
-</div>
-<!--商城头部-->
-<div class="mall-top">
-    <div class="con clearfix">
-        <img src="img/logo.png" class="logo fl">
-        <div class="fr logo-right">
-            <input type="text" placeholder="请输入关键词" class="search-input">
-            <input type="submit" class="search-btn" value="">
-            <a class="shop-cart" href="">我的购物车（0）</a>
-        </div>
-    </div>
-    <div class="two-block con">
-        <span class="all-classify">全部分类</span>
-        <a href="">商城首页</a>
-    </div>
-</div>
+<div id="head"></div>
 <!--商城相关问题-->
 <div class="con clearfix">
     <div class="con-left fl" id="menuBox"></div>
@@ -70,32 +47,21 @@
 </div>
 <!--footer-->
 <div id="footView"></div>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="/js/request.js"></script>
+<script type="text/javascript" src="js/pageJs/head.js"></script>
 <script type="text/javascript" src="js/pageJs/foot.js"></script>
 <script>
     layui.use(['layer', 'laytpl'], function () {
         var layer = layui.layer;
         var laytpl = layui.laytpl;
         function getMessage() {
-            $.ajax({
-                url: "http://192.168.0.102/hepl/help_index.json",
-                dataType: 'jsonp',
-                method: '',
-                data: {
-                    method: 'get',
-                },
-                jsonp: 'callback',
-                async: false,    //或false,是否异步
-                timeout: 5000,    //超时时间
-                success: function (data) {
-                    var getTpl = menuData.innerHTML;
-                    laytpl(getTpl).render(data, function (html) {
-                        menuBox.innerHTML = html;
-                    });
-                },
-                error: function () {
-                    console.log('请求错误');
-                }
-            });
+        	 var data = request('/hepl/help_index.json',{},'GET');
+        	 var getTpl = menuData.innerHTML;
+             laytpl(getTpl).render(data, function (html) {
+                 menuBox.innerHTML = html;
+             });
         };
         getMessage();
         //获取url上面的参数，有类似方法getQueryString
@@ -124,49 +90,17 @@
             getdetail(helpdetailId);
         }
         function getList(helpclassId) {
-            $.ajax({
-                url: "http://192.168.0.102/hepl/help_list.json",
-                dataType: 'jsonp',
-                method: '',
-                data: {
-                    method: 'get',
-                    helpclassId:helpclassId,
-                },
-                jsonp: 'callback',
-                async: false,    //或false,是否异步
-                timeout: 5000,    //超时时间
-                success: function (data) {
-                    var getTpl = menuListData.innerHTML;
-                    laytpl(getTpl).render(data, function (html) {
-                        menuListBox.innerHTML = html;
-                    });
-                },
-                error: function () {
-                    console.log('请求错误');
-                }
+        	var data = request('/hepl/help_list.json',{helpclassId:helpclassId},'GET');
+        	var getTpl = menuListData.innerHTML;
+            laytpl(getTpl).render(data, function (html) {
+                menuListBox.innerHTML = html;
             });
         };
         function getdetail(helpdetailId) {
-            $.ajax({
-                url: "http://192.168.0.102/hepl/help_info.json",
-                dataType: 'jsonp',
-                method: '',
-                data: {
-                    method: 'get',
-                    helpclassId:helpdetailId,
-                },
-                jsonp: 'callback',
-                async: false,    //或false,是否异步
-                timeout: 5000,    //超时时间
-                success: function (data) {
-                    var getTpl = menuDetailData.innerHTML;
-                    laytpl(getTpl).render(data, function (html) {
-                        menuDetailBox.innerHTML = html;
-                    });
-                },
-                error: function () {
-                    console.log('请求错误');
-                }
+        	var data = request('/hepl/help_info.json',{helpclassId:helpdetailId},'GET');
+        	var getTpl = menuDetailData.innerHTML;
+            laytpl(getTpl).render(data, function (html) {
+                menuDetailBox.innerHTML = html;
             });
         };
     });

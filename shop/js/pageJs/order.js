@@ -65,63 +65,28 @@ function tplComment(){//评论
             'cart_Ids':data.ids,
         }
         tplAddrView();
-        $.ajax({
-            url: postUrl+"/order/shopping_order.json",
-            dataType: 'jsonp',
-            method: 'POST',
-            data: {
-                method: 'POST',
-                jst:'jstm.20170004502312366.yj',
-                member_id:7,
-                cart_Ids:data.ids
-            },
-            jsonp: 'callback',
-            async: false,    //或false,是否异步
-            timeout: 5000,    //超时时间
-            success: function (data) {
-                if(!data.data){
-                    if(!data.data.shoppingCartByList){
-                        e404();return;
-                    }
-                }
-                tplCartPay(data.data.shoppingCartByList);
-            },
-            error: function () {
-                console.log('请求错误');
+        var data = request('/order/shopping_order.json',{jst:'jstm.20170004502312366.yj',member_id:member_id,cart_Ids:data.ids},'POST');
+        if(!data.data){
+            if(!data.data.shoppingCartByList){
+                e404();return;
             }
-        });
+        }
+        tplCartPay(data.data.shoppingCartByList);
     }
 }
 
 function tplAddrView(){
 	pay();
-    $.ajax({
-        url: postUrl+"/address/getEasyBuyList.json",
-        dataType: 'jsonp',
-        method: 'POST',
-        data: {
-            method: 'POST',
-            jst:'jstm.20170004502312366.yj',
-            member_id:7
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-            if(data.data){
-                addrId = data.data[0]['addressId'];
-                orderData['ordershippingId'] = addrId;
-                var getTpl = address.innerHTML;
-                laytpl(getTpl).render(data.data, function(html){
-                    addressView.innerHTML = html;
-                });
-                pay();
-            }
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/address/getEasyBuyList.json',{jst:'jstm.20170004502312366.yj',member_id:member_id},'POST');
+	if(data.data){
+        addrId = data.data[0]['addressId'];
+        orderData['ordershippingId'] = addrId;
+        var getTpl = address.innerHTML;
+        laytpl(getTpl).render(data.data, function(html){
+            addressView.innerHTML = html;
+        });
+        pay();
+    }
 }
 $('#addressView').on('click','.check',function(){ //选择地址
     $('#addressView .check').removeClass('checked');
@@ -141,99 +106,65 @@ $('.balance').on('click','.order-pay',function(){
     orderData['invoiceHeader'] = invoiceHeader?invoiceHeader:'';
     orderData['buyerMessage']  = buyerMessage?buyerMessage:'';
     orderData['channel']       = channel;
-    orderData['member_id']     = 7;
+    orderData['member_id']     = member_id;
     orderData['method']        = 'POST';
     orderData['jst']           = 'jstm.20170004502312366.yj';
-    $.ajax({
-        url: postUrl+"/order/order_Pay.json",
-        dataType: 'jsonp',
-        method: 'POST',
-        data: orderData,
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        beforeSend: function(){
-            layer.load(1,{shade: [0.5, '#393D49']});
-        },
-        success: function (data) {
-            $.session.remove(spm);
-            orderData = [];
-            if(channel=='wechat_csb'){ //微信
-                $("#code").empty();
-                var str = toUtf8(data.data.charge.credential.wechat_csb.qr_code);
-                $("#code").qrcode({
-                    render: "table",
-                    width: 300,
-                    height:300,
-                    text: str
-                });
-                wx = layer.open({
-                    type: 1,
-                    skin:'weixinPay',
-                    area: ['400px', '400px'],
-                    title:'微信扫码支付',
-                    content: $("#idCode").html(), //这里content是一个普通的String
-                    cancel: function(index, layero){
-                    	witch = 2;
-                    	tipAlert();
-                    }
-                });
-                timer(data.data.orderNumber); //定时器
-            }else if(channel=='alipay_web'){ //支付宝
-                newWin(data.data.charge.credential.alipay_web.orderInfo);
-                tipAlert();
-            }else if(channel=='lakala_web'){//拉卡拉
-                var form = data.data.charge.credential.lakala_web;
-                $("#orderPayForm").html(form);
-                $("#orderPayForm form").attr('target','_blank');
-                $("#orderPayForm form").submit();
-                tipAlert();
-            }else if(channel=='lakala_web_fast'){//快捷
-                var form = data.data.charge.credential.lakala_web_fast;
-                $("#orderPayForm").html(form);
-                $("#orderPayForm form").attr('target','_blank');
-                $("#orderPayForm form").submit();
-                tipAlert();
-            }
-        },
-        error: function () {
-            console.log('请求错误');
-        },
-        complete:function(){
-            layer.closeAll('loading');
+    var data = request('/order/order_Pay.json',orderData,'POST');
+	if(data.code==200){
+		$.session.remove(spm);
+        orderData = [];
+        if(channel=='wechat_csb'){ //微信
+            $("#code").empty();
+            var str = toUtf8(data.data.charge.credential.wechat_csb.qr_code);
+            $("#code").qrcode({
+                render: "table",
+                width: 300,
+                height:300,
+                text: str
+            });
+            wx = layer.open({
+                type: 1,
+                skin:'weixinPay',
+                area: ['400px', '400px'],
+                title:'微信扫码支付',
+                content: $("#idCode").html(), //这里content是一个普通的String
+                cancel: function(index, layero){
+                	witch = 2;
+                	tipAlert();
+                }
+            });
+            timer(data.data.orderNumber); //定时器
+        }else if(channel=='alipay_web'){ //支付宝
+            newWin(data.data.charge.credential.alipay_web.orderInfo);
+            tipAlert();
+        }else if(channel=='lakala_web'){//拉卡拉
+            var form = data.data.charge.credential.lakala_web;
+            $("#orderPayForm").html(form);
+            $("#orderPayForm form").attr('target','_blank');
+            $("#orderPayForm form").submit();
+            tipAlert();
+        }else if(channel=='lakala_web_fast'){//快捷
+            var form = data.data.charge.credential.lakala_web_fast;
+            $("#orderPayForm").html(form);
+            $("#orderPayForm form").attr('target','_blank');
+            $("#orderPayForm form").submit();
+            tipAlert();
         }
-    });
+	}
 })
 
 function timer(order){
     if(witch==1){
     	setTimeout(function() {
-            $.ajax({
-                url: postUrl+"/api/payorder/payweixin.json",
-                dataType: 'jsonp',
-                method: 'POST',
-                data: {
-                    method: 'POST',
-                    jst:'jstm.20170004502312366.yj',
-                    orderNumber:order
-                },
-                jsonp: 'callback',
-                async: false,    //或false,是否异步
-                timeout: 5000,    //超时时间
-                success: function (data) {
-                    if(data.code==200){
-                    	if(witch==1){
-                    		tipAlert();
-                    		witch = 2;
-                    	}
-                    }else{
-                        timer(order);
-                    }
-                },
-                error: function () {
-                    timer(order);
-                }
-            });
+    		var data = request('/api/payorder/payweixin.json',{jst:'jstm.20170004502312366.yj',orderNumber:order},'POST');
+    		if(data.code==200){
+    			if(witch==1){
+            		tipAlert();
+            		witch = 2;
+            	}
+    		}else{
+    			timer(order);
+    		}
         }, 2000);
     }
 }

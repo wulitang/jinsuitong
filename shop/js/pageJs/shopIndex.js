@@ -4,44 +4,14 @@ var laytpl    = '',
 layui.use('laytpl', function(){
 	laytpl = layui.laytpl;
 	  //使用方式跟独立组件完全一样
-	$.ajax({
-        url: postUrl+"/product/product_homepage.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: {
-            method: 'get',
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	tplNav(data.data.productClass);
-        	tplBanner(data.data.shopmallAd);
-        	tplNotice(data.data.noticeList);
-        	tplRecAd(data.data.recommendAd);
-        	tplRecShop(data.data.indexproduct);
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
-	$.ajax({
-        url: postUrl+"/product/product_list.json",
-        dataType: 'jsonp',
-        method: 'get',
-        data: {
-            method: 'get',
-        },
-        jsonp: 'callback',
-        async: false,    //或false,是否异步
-        timeout: 5000,    //超时时间
-        success: function (data) {
-        	tplShopClass(data.data);
-        },
-        error: function () {
-            console.log('请求错误');
-        }
-    });
+	var data = request('/product/product_homepage.json',{},'GET');
+		tplNav(data.data.productClass);
+		tplBanner(data.data.shopmallAd);
+		tplNotice(data.data.noticeList);
+		tplRecAd(data.data.recommendAd);
+		tplRecShop(data.data.indexproduct);
+	var datap = request('/product/product_list.json',{},'GET');
+		tplShopClass(datap.data);	
 }); 
 $('.search-btn').click(function(){
 	var key = $('.search-input').val();
