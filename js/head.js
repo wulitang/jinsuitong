@@ -18,8 +18,8 @@ function welcomeData(){
 			    '<div class="index-right fr">'+
 			        '{{# if(d.userName){}}'+
 			        '<a href="/person/index.html">{{d.userName}}</a>|<a class="login-out" href="javascript:outLogin()">退出</a>|'+
-			        '<a href="/person/my-order.html">我的订单</a>|'+
-			        '<a href="/person/my-message.html?pageNow=1&pageSize=5">消息</a>'+
+			        '<a href="/person/index.html">我的订单</a>|'+
+			        '<a href="/person/my-message.html">消息</a>'+
 			        '{{# } else { }}'+
 			        '<a href="login.html">登录</a>|<a href="register.html">注册</a>'+
 			        '{{# } }}'+
