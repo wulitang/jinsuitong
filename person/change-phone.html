@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <link href="/css/common.css" rel="stylesheet" type="text/css">
+    <link href="/css/pc.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+    	var pIndex=2,navIndex=5;
+    </script>
+</head>
+<body>
+<!--welcome-->
+<div class="welcome" id="welcomeBox"></div>
+<!--个人中心顶部-->
+<div class="person-top" id="personBox"></div>
+<!--个人中心min-->
+<div class="ke-grid clearfix person-center">
+    <div class="person-center-left fl"  id="personNav"></div>
+    <div class="my-order fr" style="border: none">
+        <div class="my-safe">
+            <div class="my-order-title">
+                <span>安全中心</span>
+            </div>
+            <div class="login-detail change-password clearfix">
+                <div>
+                    <em>新手机号码：</em>
+                    <input class="user-phone" placeholder="请输入新手机号码">
+                    <button class="get-phone-code">获取短信验证码</button>
+                </div>
+                <div class="">
+                    <em>短信验证码：</em>
+                    <input class="captchaCode" placeholder="请输入短信验证码">
+                </div>
+                <a href="javascript:;" class="save-psaaword" style="margin: 20px 0 57px 90px;">确认</a>
+            </div>
+        </div>
+        <div class="warm-message">
+            <h3>安全服务提示:</h3>
+            <p>1.请确认您是登陆的是金税通官网www.xxxxx.com,注意防范进入钓鱼网站，不要轻信各种即时通讯工具发送的商品或支付链接，谨防诈骗。</p>
+            <p>2.建议您安装杀毒软件，并定期更新操作系统等软件补丁，确保账户及交易安全。</p>
+        </div>
+    </div>
+</div>
+<!--foot-->
+<div class="person-foot clearfix" id="foot"></div>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/shop/js/jquerysession.js"></script>
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/js/request.js"></script>
+<script type="text/javascript" src="/js/person.js"></script>
+<script>
+    layui.use('layer', function () {
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        var layer = layui.layer;
+        var memberId, pass,memberPhone,canuser;
+        //倒计时
+        var dian = true;
+        // var intDiff = parseInt(60);//倒计时总秒数量
+        function setTime(time){
+            setInterval(function(){
+                if(time<=0){
+                    clearInterval(setTime);
+                    return;
+                }
+                time--;
+                if(time ==0){
+                    $(".get-phone-code").text('获取验证码');
+                    dian=true;
+                }else {
+                    $(".get-phone-code").text('剩余'+time+'s');
+                }
+            },1000);
+        }
+        //验证基本信息
+        function message(memberVerificationInfo,type,classname) {
+        	var data       = request('/persion/member_verificationinfo.json',{'memberVerificationInfo': memberVerificationInfo,'type':type},'GET');
+        	if (data.code == 200){
+                if(type == 2){
+                    canuser =true;
+                }
+                $(classname).addClass("pass");
+                pass =true;
+                //layer.msg(data.msg);
+            }else{
+                layer.msg(data.msg);
+            }
+        }
+        if ($.session.get('usermessage')) {
+            var data = JSON.parse($.session.get('usermessage'));
+            memberId = data.USER_ID;
+        };
+        //验证电话号码
+        $(".user-phone").blur(function(){
+            memberPhone =$(this).val();
+            if ( memberPhone=="" || !myreg.test(memberPhone) ){
+                layer.msg('请输入正确的手机号码');
+                pass =false;
+            }else{
+                message(memberPhone,2,".user-phone");
+            }
+        });
+        $(".get-phone-code").click(function () {
+            if(dian==false){
+                return ;
+            }
+            if(memberPhone && pass ){
+            	var data       = request('/api/common/getSMSCaptcha.json',{'memberPhone': memberPhone,'smsType':1,'codeType':2},'POST');
+            	layer.msg(data.msg);
+                if(data.code == 200){
+                     dian = false;
+                     setTime(100);
+                }
+            }else {
+                layer.msg('请输入正确的电话号码');
+            }
+        });
+        $(".save-psaaword").click(function () {
+            var captchaCode = $(".captchaCode").val();
+            if (pass && captchaCode){
+            	var data       = request('/persion/preCheckMobile.json',{'memberId': memberId,'memberPhone':memberPhone,'captchaCode':captchaCode},'POST');
+            	if(data.code == 200){
+                    location.href="safe-center.html";
+                }else {
+                    layer.msg(data.msg);
+                }
+            }else {
+                layer.msg('请输入正确的验证码');
+            }
+        });
+    });
+</script>
+</body>
+</html>

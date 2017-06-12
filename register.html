@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css">
+    <link href="css/pc.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/request.js"></script>
+</head>
+<body>
+<div class="register">
+    <div class="register-form clearfix">
+        <input class="user-name" type="text"  onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" placeholder="请输入用户名">
+        <input class="user-ni" type="text" placeholder="请输入用户昵称">
+        <input class="pass-one" type="password" placeholder="请设置登陆密码">
+        <input class="pass-two" type="password" placeholder="请确认登陆密码">
+        <input class="user-phone" type="phone" placeholder="请输入手机号码">
+        <div class="verification">
+            <input type="number" class="phone-code no" placeholder="请输入验证码">
+            <span class="getcode getsecond">获取验证码</span>
+        </div>
+        <div class="detail">
+            <i class="active"></i>
+            <p>我已经阅读并同意</p>
+            <a class="reader" href="javascript:;">《金税通注册协议》</a>
+        </div>
+        <a class="pass-button register-submit" href="javascript:;">确定</a>
+        <div class="have">
+            <p>已经有金税通账号？</p>
+            <a href="login.html">直接登陆</a>
+        </div>
+    </div>
+    <div class="reader-detail windows">
+        <div class="reader-min window-min">
+            <h3 class="reader-top"><span>金税通注册协议</span> <i><img src="img/x.png"></i></h3>
+            <div class="reader-reader"></div>
+            <div class="readered">同意并继续</div>
+        </div>
+    </div>
+    <div class="register-foot">
+        <div class="foot-bottom">
+            <p class="ke-grid">
+                Copyright©2012-2013 GOTax.cn 渝ICP备13003631号-6 渝公网备：50019002500539
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    var userName, nickName,memberPwdo,memberPwdt,memberPhone,captchaCode;
+    var pass = false;
+    var canuser =false;
+    var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        //验证基本信息
+        function message(memberVerificationInfo,type,classname) {
+        	var data       = request('/persion/member_verificationinfo.json',{memberVerificationInfo:memberVerificationInfo,type:type},'GET');
+        	if (data.code == 200){
+                if(type == 2){
+                    canuser =true;
+                }
+                $(classname).addClass("pass");
+                pass =true;
+                //layer.msg(data.msg);
+            }else{
+                layer.msg(data.msg);
+            }
+        }
+        //得到焦点移除对号
+        $(".register-form input").focus(function () {
+            $(this).removeClass("pass");
+        });
+        //验证用户名
+        $(".user-name").blur(function(){
+            userName = $(this).val();
+            if ( userName == "" ){
+                layer.msg('请输入您的用户名');
+            }else{
+                message(userName,1,".user-name");
+            }
+        });
+        //验证昵称
+        $(".user-ni").blur(function(){
+            nickName = $(this).val();
+            if ( nickName =="" ){
+                layer.msg('请输入您的昵称');
+                pass =false;
+            }else{
+                $(this).addClass("pass");
+                pass =true;
+            }
+        });
+        //验证密码
+        $(".pass-one").blur(function(){
+            memberPwdo =$(this).val();
+            if ( memberPwdo==""|| memberPwdo.length<6 ){
+                layer.msg('请输入长度大于6位的密码');
+                pass =false;
+            }else{
+                $(this).addClass("pass");
+                pass =true;
+            }
+        });
+        $(".pass-two").blur(function(){
+            memberPwdt = $(this).val();
+            memberPwdo = $(".pass-one").val();
+            if (memberPwdt =="" || memberPwdt != memberPwdo){
+                layer.msg('请输入正确的密码');
+            }else{
+                $(this).addClass("pass");
+                pass =true;
+            }
+        });
+        //验证电话号码
+        $(".user-phone").blur(function(){
+            memberPhone =$(this).val();
+            if ( memberPhone=="" || !myreg.test(memberPhone) ){
+                layer.msg('请输入正确的手机号码');
+                pass =false;
+            }else{
+                message(memberPhone,2,".user-phone");
+            }
+        });
+        //验证验证码phone-code
+        $(".phone-code").blur(function(){
+            captchaCode =$(this).val();
+            if ( captchaCode.length == 6  ){
+                pass =true;
+            }else{
+                layer.msg('请输入正确的验证码');
+                pass =false;
+            }
+        });
+        //倒计时
+        var dian = true;
+       // var intDiff = parseInt(60);//倒计时总秒数量
+        function setTime(time){
+            setInterval(function(){
+                if(time<=0){
+                    clearInterval(setTime);
+                    return;
+                }
+                time--;
+                if(time ==0){
+                    $(".getcode").text('获取验证码');
+                    dian=true;
+                }else {
+                    $(".getcode").text('剩余'+time+'s');
+                }
+            },1000);
+        }
+        $(".getcode").click(function () {
+            if(dian==false){
+                return ;
+            }
+            if(myreg.test(memberPhone) && canuser){
+            	var data       = request('/api/common/getSMSCaptcha.json',{memberPhone:memberPhone,smsType:1,codeType:1},'GET');
+            	if(data.code==200){
+            		dian = false;
+                    setTime(100);
+            	}else{
+            		layer.msg(data.msg);
+            	}
+            	
+            }else {
+            	layer.msg('请输入正确的电话号码');
+            }
+        });
+        var reader = true;
+        //阅读协议
+        $(".detail i").click(function () {
+            $(this).toggleClass("active");
+            reader = !reader
+        });
+        //关闭协议弹窗
+        $(".reader-min h3 i").click(function () {
+            $(".windows").hide();
+        });
+        //确认并关闭弹窗
+        $(".readered").click(function () {
+            $(".windows").hide();
+            $(".detail i").addClass("active");
+            reader=true;
+        });
+        $(".reader").click(function () {
+        	var data       = request('/api/common/getSysConfigerInfo.json',{type:'USER_BOND'},'GET');
+        	if(data.code==200){
+        		 $(".reader-reader").html(data.data.value);
+                 $(".windows").show();
+        	}else{
+        		layer.msg(data.msg);
+        	}
+        });
+        //注册
+        $(".register-submit").click(function () {
+            if(pass && reader && userName && nickName && memberPwdt && memberPhone && captchaCode){
+            	var pdata={
+                    userName:userName,
+                    nickName:nickName,
+                    memberPwd:memberPwdt,
+                    memberPhone:memberPhone,
+                    captchaCode:captchaCode,
+                };
+            	var data       = request('/api/common/getSysConfigerInfo.json',pdata,'GET');
+            	if(data.code==200){
+            		dian = false;
+                    layer.msg('信息提交成功');
+                    setTimeout(function () {
+                        location.href="login.html";
+                    }, 1000)
+            	}else{
+            		layer.msg(data.msg);
+            	}
+            }else if(reader !== true){
+                layer.msg('请同意注册协议');
+            }
+            else {
+                layer.msg('请填写完整信息');
+            }
+        });
+
+    });
+    //用户名是否为空
+
+
+</script>
+</body>
+</html>

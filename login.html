@@ -8,11 +8,12 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="shop/js/jquerysession.js"></script>
     <script type="text/javascript" src="js/request.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
 </head>
 <body>
 <div class="register">
     <div class="register-form">
-        <input class="user" type="text" placeholder="请输入用户名或手机号">
+        <input class="user" type="text"  onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" placeholder="请输入用户名或手机号">
         <input class="password" type="password" placeholder="请输入登陆密码">
         <a class="pass-button" href="javascript:;">确定</a>
         <div class="have">
@@ -30,6 +31,10 @@
     </div>
 </div>
 <script>
+var layer;
+layui.use('layer', function () {
+    layer = layui.layer;
+});
 $(".pass-button").click(function () {
     var memberPhone =$(".user").val();
     var memberPwd =$(".password").val();

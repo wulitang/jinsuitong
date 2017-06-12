@@ -212,6 +212,7 @@ body {
     height: 50px;
     border-radius: 5px;
     width: 100%;
+    cursor: pointer;
 }
 
 .aboout-tab {
@@ -1683,7 +1684,7 @@ body {
 
 .order-page {
     text-align: right;
-    margin-top: 30px;
+    margin: 20px 20px 40px 20px;
 }
 
 .order-page span {
@@ -1770,25 +1771,28 @@ body {
 }
 
 .person-person .up-photo {
-    width: 80px;
+    width: 120px;
 }
 
 .person-person .up-photo img {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
+    border-radius:50%;
+    cursor: pointer;
 }
 
 .person-person .up-photo button {
     font-size: 14px;
     color: #666666;
     display: block;
-    width: 78px;
+    width: 118px;
     border: 1px solid #f0f0f0;
     line-height: 30px;
     text-align: center;
     margin-top: 10px;
     background: #fafafa;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .person-person li {
@@ -1821,6 +1825,7 @@ body {
     font-size: 14px;
     display: inline-block;
     height: 40px;
+    cursor: pointer;
 }
 
 .person-person li label i {
@@ -1831,6 +1836,7 @@ body {
     border-radius: 50%;
     float: left;
     margin-top: 10px;
+    background: url(../img/checkede.png) no-repeat center;
 }
 
 .person-person li label em {
@@ -1903,11 +1909,10 @@ body {
     color: #a6a6a6;
     border: 1px solid #ccc;
     border-radius: 5px;
-
 }
 
 .person-person ul {
-    width: 790px;
+    width: 750px;
 }
 
 .message-sure {
@@ -2546,7 +2551,7 @@ body {
 }
 
 .my-address .set-list li input {
-    width: 300px;
+    width: 520px;
     height: 40px;
     padding: 0 10px;
     line-height: 40px;
@@ -2575,10 +2580,13 @@ body {
     display: inline-block;
     width: 20px;
     height: 20px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid #999;
     background: #fff;
     float: left;
     margin-right: 15px;
+}
+.set-address .active{
+    border: 1px solid #fff;
 }
 
 .set-address button {
@@ -2644,7 +2652,7 @@ body {
 }
 
 .person-person-right .pass {
-    background: url("../img/right.png") no-repeat 230px center #fff;
+    background: url("../img/right.png") no-repeat 335px center #fff;
     background-size: 20px;
 }
 

@@ -28,11 +28,11 @@ function welcomeData(){
 			    '<p class="over">欢迎光临金<em><a href="index.html">穗通官网</a></em></p>'+
 			    '<div class="index-right fr">'+
 			        '{{# if(d.userName){}}'+
-			        '<a href="/person/index.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|'+
-			        '<a href="/person/my-order.html">我的订单</a>|'+
-			        '<a href="/person/my-message.html?pageNow=1&pageSize=5">消息</a>'+
+			        '<a href="/person/index.html">{{d.userName}}</a>|<a class="login-out" href="javascript:outLogin()">退出</a>|'+
+			        '<a href="/person/index.html">我的订单</a>|'+
+			        '<a href="/person/my-message.html">消息</a>'+
 			        '{{# } else { }}'+
-			        '<a href="login.html">登录</a>|<a href="register.html">注册</a>'+
+			        '<a href="/login.html">登录</a>|<a href="/register.html">注册</a>'+
 			        '{{# } }}'+
 			    '</div>'+
 			'</div>';
@@ -66,7 +66,7 @@ function personNav(){
 				    	'<span>交易管理</span>'+
 					'</li>'+
 					'<li '+(navIndex==1?'class="active"':'')+'>'+
-					    '<a href="person.html">我的订单</a>'+
+					    '<a href="index.html">我的订单</a>'+
 					'</li>'+
 					'<li '+(navIndex==2?'class="active"':'')+'>'+
 					    '<a href="downloadhistory.html">下载记录</a>'+
@@ -123,4 +123,22 @@ function getUrlParam(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
 	var r = decodeURIComponent(window.location.search).substr(1).match(reg); 
 	if (r != null) return unescape(r[2]); return null; 
+}
+
+function formatDate(now) {
+	var now=new Date(now); 
+	var year=now.getFullYear();      //年
+	var month=now.getMonth()+1;  //月
+	var date=now.getDate();      //日
+	/*var hour=now.getHours();     //时
+	var minute=now.getMinutes(); //分 
+	var second=now.getSeconds(); //秒
+*/	return year+"-"+month+"-"+date;
+	//return "20"+year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
+}
+
+function outLogin(){
+	var data       = request('/persion/sign_out.json',{},'GET');
+	$.session.remove('usermessage');
+	window.location.href = '/';
 }

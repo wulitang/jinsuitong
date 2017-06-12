@@ -38,7 +38,7 @@
                 <span>快捷登录</span>
             </div>
             <div class="login-form">
-                <input class="login-phone" type="text" placeholder="请输入用户名或手机号码">
+                <input class="login-phone" type="text"  onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" placeholder="请输入用户名或手机号码">
                 <input class="login-pass" type="password" placeholder="请输入登录密码">
                 <p>还没有金税通账号?<a class="check-in" href="register.html">立即注册</a><a class="fr" href="login.html">忘记密码？</a>
                 </p>

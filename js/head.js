@@ -17,7 +17,7 @@ function welcomeData(){
 			    '<p class="over">欢迎光临金<em><a href="index.html">穗通官网</a></em></p>'+
 			    '<div class="index-right fr">'+
 			        '{{# if(d.userName){}}'+
-			        '<a href="/person/index.html">{{d.userName}}</a>|<a class="login-out" href="javascript:;">退出</a>|'+
+			        '<a href="/person/index.html">{{d.userName}}</a>|<a class="login-out" href="javascript:outLogin()">退出</a>|'+
 			        '<a href="/person/my-order.html">我的订单</a>|'+
 			        '<a href="/person/my-message.html?pageNow=1&pageSize=5">消息</a>'+
 			        '{{# } else { }}'+
@@ -55,4 +55,10 @@ function getUrlParam(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
 	var r = decodeURIComponent(window.location.search).substr(1).match(reg); 
 	if (r != null) return unescape(r[2]); return null; 
+}
+
+function outLogin(){
+	var data       = request('/persion/sign_out.json',{},'GET');
+	$.session.remove('usermessage');
+	window.location.href = '/';
 }

@@ -398,7 +398,7 @@ function getUrlParam(name) {
 }
 function formatDate(now) {
 	var now=new Date(now); 
-	var year=now.getYear();      //年
+	var year=now.getFullYear();      //年
 	var month=now.getMonth()+1;  //月
 	var date=now.getDate();      //日
 	var hour=now.getHours();     //时

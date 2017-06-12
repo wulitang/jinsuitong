@@ -20,6 +20,7 @@
     <div class="person-center-left fl" id="personNav"></div>
     <div id="personDataInfView"></div>
 </div>
+
 <script id=personDataInf type="text/html">
 <div class="my-order fr">
     <div class="my-order-title">
@@ -27,35 +28,41 @@
     </div>
     <div class="person-person clearfix layui-form">
          <div class="up-photo fl">
-           <img src="{{d.data.memberHeadimg?(imgUrl+d.data.memberHeadimg):'/img/person.png'}}">
-           <button>上传头像</button>
+			<input id="memberHeadimg" name="memberHeadimg" value="{{d.data.memberHeadimg?(d.data.memberHeadimg):''}}" type="hidden">
+			<img src="{{d.data.memberHeadimg?(imgUrl+d.data.memberHeadimg):'/img/person.png'}}" id="memberHeadimg_top" class="cross_upload_file" value="" aurl="http://file.serv.cq196.cn:10000/upload.htm" autopull="auto" pn="jst">
+            <button>上传头像</button>
          </div>
          <div class="person-person-right fl clearfix">
              <ul>
                 <li>
                    <span>纳税人识别号：</span>
-                   <input class="personNumber" value="{{d.data.taxidenNumber}}" placeholder="请输入纳税人识别号">
+                   <input name="taxidenNumber" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" class="taxidenNumber" value="{{d.data.taxidenNumber?d.data.taxidenNumber:''}}" placeholder="请输入纳税人识别号">
+                </li>
+				<li>
+                   <span>真实姓名：</span>
+                   <input name="fullName" class="fullName" value="{{d.data.fullName?d.data.fullName:''}}" placeholder="请输入真实姓名">
                 </li>
                 <li>
                    <span>昵称：</span>
-                   <input class="personNick" value="{{d.data.nickName}}" placeholder="请输入昵称">
+                   <input class="personNick" value="{{d.data.nickName?d.data.nickName:''}}" placeholder="请输入昵称">
                 </li>
 				<li>
                    <span>用户名：</span>
-                   <input class="personName" value="{{d.data.userName}}" placeholder="请输入用户名">
+                   <input class="personName" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"  value="{{d.data.userName?d.data.userName:''}}" placeholder="请输入用户名">
                 </li>
-                <li>
+               <li>
                     <span>手机：</span>
                     <input class="personPhone" value="{{d.data.memberPhone}}" disabled="disabled">
                </li>
                <li class="choose-men personSex">
                    <span>性别：</span>
-				   <label {{d.data.memberSex==1?' class="active"':''}}> <i></i> <em>男</em></label>
-                   <label {{d.data.memberSex!=1?' class="active"':''}}> <i></i> <em>女</em></label>
+				   <input type="hidden" name="memberSex" value="{{d.data.memberSex==1?1:0}}">
+				   <label {{d.data.memberSex==1?' class="active"':''}} data-id="1"> <i></i> <em>男</em></label>
+                   <label {{d.data.memberSex!=1?' class="active"':''}} data-id="0"> <i></i> <em>女</em></label>
                </li>
                <li class="birthday clearfix"">
                    <span class="fl">生日：</span>
-                   <input  style="width: 365px;" class="layui-input personBirthday" value="{{d.data.memberBirth}}" placeholder="请求选择出生日期" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD'})">
+                   <input  style="width: 365px;" class="layui-input personBirthday" value="{{formatDate(d.data.memberBirth)}}" placeholder="请求选择出生日期" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD'})">
                </li>
                 <li class="write-love clearfix">
                      <span class="fl">爱好：</span>
@@ -86,85 +93,62 @@
          laytpl(getTpl).render(data, function (html) {
         	 personDataInfView.innerHTML = html;
          });
+         $.getScript("/js/ifdupload.js"); 
     });
+    $('#personDataInfView').on('click','.choose-men label',function(){
+    	$('#personDataInfView .choose-men label').removeClass('active');
+    	$(this).addClass('active');
+    	var memberSex = $('input[name="memberSex"]').val();
+    	$('input[name="memberSex"]').val((memberSex==1?0:1));
+    })
+    
     function message(memberVerificationInfo,type,classname) {
-        $.ajax({
-            url: "http://192.168.0.102/persion/member_verificationinfo.json",
-            dataType: 'jsonp',
-            method: '',
-            data: {
-                method: 'get',
-                memberVerificationInfo:memberVerificationInfo,
-                type:type,
-            },
-            jsonp: 'callback',
-            async: false,    //或false,是否异步
-            timeout: 5000,    //超时时间
-            success: function (data) {
-                if (data.code == 200){
-                    $(classname).addClass("pass");
-                    pass =true;
-                    //layer.msg(data.msg);
-                }else{
-                    layer.msg(data.msg);
-                }
-            },
-            error: function () {
-                console.log('请求错误');
-            }
-        });
+    	var data       = request('/persion/member_verificationinfo.json',{memberVerificationInfo:memberVerificationInfo,type:type},'GET');
+    	if (data.code == 200){
+            $(classname).addClass("pass");
+            pass =true;
+            //layer.msg(data.msg);
+        }else{
+            layer.msg(data.msg);
+        }
     };
     //验证用户名
-    $("#personBox").on('blur','.personName',function () {
+    $("#personDataInfView").on('blur','.personName',function () {
         userName = $(this).val();
         pass = false;
         message(userName,3,".personName");
     });
     //验证纳税人识别号
-    $("#personBox").on('blur','.personNumber',function () {
+    $("#personDataInfView").on('blur','.taxidenNumber',function () {
         userName = $(this).val();
         pass = false;
-        message(userName,1,".personNumber");
+        message(userName,1,".taxidenNumber");
     });
     //提交信息
-    $("#personBox").on('click','.upMessage',function () {
+    $("#personDataInfView").on('click','.upMessage',function () {
         var nickName = $(".personNick").val();
         var userName = $(".personName").val();
         var memberBrith = $(".personBirthday").val();
-        var memberSex = $(".personSex").find('.active').index()-1;
-        var memberHeadimg = 1;
+        var memberSex = $('input[name="memberSex"]').val();
+        var memberHeadimg = $('input[name="memberHeadimg"]').val();
         var memberAutograph = $(".personLike").val();
-        var taxidenNumber = $(".personNumber").val();
-        if (pass){
-            $.ajax({
-                url: "http://192.168.0.102/persion/modify_info.json",
-                dataType: 'jsonp',
-                method: '',
-                data: {
-                    method: 'post',
-                    memberId: memberId,
-                    nickName:nickName,
-                    userName:userName,
-                    memberBrith:memberBrith,
-                    memberSex:memberSex,
-                    memberHeadimg:memberHeadimg,
-                    memberAutograph:memberAutograph,
-                    taxidenNumber:taxidenNumber,
-                },
-                jsonp: 'callback',
-                async: false,    //或false,是否异步
-                timeout: 5000,    //超时时间
-                success: function (data) {
-                    location.reload();
-                },
-                error: function () {
-                    console.log('请求错误');
-                }
-            });
-        }else{
-            layer.msg("请填写正确的信息");
-        }
-
+        var taxidenNumber = $(".taxidenNumber").val();
+        var fullName = $('.fullName').val();
+        var pdata= {
+            memberId: memberId,
+            nickName:nickName,
+            userName:userName,
+            memberBrith:memberBrith,
+            memberSex:memberSex,
+            memberHeadimg:memberHeadimg,
+            memberAutograph:memberAutograph,
+            taxidenNumber:taxidenNumber,
+            fullName:fullName
+        };
+    	var data       = request('/persion/modify_info.json',pdata,'POST');
+    	var user = JSON.stringify(data.data);
+        $.session.set('usermessage',user);
+    	location.reload();
     })
 </script>
 </body>
